@@ -264,9 +264,9 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyproj.crs.enums</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">This module contains enumerations used in pyproj.crs.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseEnum</span>
 
@@ -274,7 +274,7 @@
 <div class="viewcode-block" id="DatumType">
 <a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.DatumType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DatumType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Datum Types for creating datum with :meth:`pyproj.crs.Datum.from_name`</span>
@@ -286,20 +286,20 @@
 <span class="sd">    VERTICAL_REFERENCE_FRAME</span>
 <span class="sd">    DYNAMIC_VERTICAL_REFERENCE_FRAME</span>
 <span class="sd">    DATUM_ENSEMBLE</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;GEODETIC_REFERENCE_FRAME&quot;</span>
-    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_GEODETIC_REFERENCE_FRAME&quot;</span>
-    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;VERTICAL_REFERENCE_FRAME&quot;</span>
-    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">&quot;DYNAMIC_VERTICAL_REFERENCE_FRAME&quot;</span>
-    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">&quot;DATUM_ENSEMBLE&quot;</span></div>
+    <span class="n">GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"GEODETIC_REFERENCE_FRAME"</span>
+    <span class="n">DYNAMIC_GEODETIC_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"DYNAMIC_GEODETIC_REFERENCE_FRAME"</span>
+    <span class="n">VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"VERTICAL_REFERENCE_FRAME"</span>
+    <span class="n">DYNAMIC_VERTICAL_REFERENCE_FRAME</span> <span class="o">=</span> <span class="s2">"DYNAMIC_VERTICAL_REFERENCE_FRAME"</span>
+    <span class="n">DATUM_ENSEMBLE</span> <span class="o">=</span> <span class="s2">"DATUM_ENSEMBLE"</span></div>
 
 
 
 <div class="viewcode-block" id="CoordinateOperationType">
 <a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.CoordinateOperationType">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CoordinateOperationType</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Coordinate Operation Types for creating operation</span>
@@ -311,19 +311,19 @@
 <span class="sd">    TRANSFORMATION</span>
 <span class="sd">    CONCATENATED_OPERATION</span>
 <span class="sd">    OTHER_COORDINATE_OPERATION</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">&quot;CONVERSION&quot;</span>
-    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;TRANSFORMATION&quot;</span>
-    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;CONCATENATED_OPERATION&quot;</span>
-    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">&quot;OTHER_COORDINATE_OPERATION&quot;</span></div>
+    <span class="n">CONVERSION</span> <span class="o">=</span> <span class="s2">"CONVERSION"</span>
+    <span class="n">TRANSFORMATION</span> <span class="o">=</span> <span class="s2">"TRANSFORMATION"</span>
+    <span class="n">CONCATENATED_OPERATION</span> <span class="o">=</span> <span class="s2">"CONCATENATED_OPERATION"</span>
+    <span class="n">OTHER_COORDINATE_OPERATION</span> <span class="o">=</span> <span class="s2">"OTHER_COORDINATE_OPERATION"</span></div>
 
 
 
 <div class="viewcode-block" id="Cartesian2DCSAxis">
 <a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.Cartesian2DCSAxis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Cartesian2DCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Cartesian 2D Coordinate System Axis for creating axis with</span>
@@ -340,24 +340,24 @@
 <span class="sd">    NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</span>
 <span class="sd">    SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</span>
 <span class="sd">    WESTING_SOUTHING</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">EASTING_NORTHING</span> <span class="o">=</span> <span class="s2">&quot;EASTING_NORTHING&quot;</span>
-    <span class="n">NORTHING_EASTING</span> <span class="o">=</span> <span class="s2">&quot;NORTHING_EASTING&quot;</span>
-    <span class="n">EASTING_NORTHING_FT</span> <span class="o">=</span> <span class="s2">&quot;EASTING_NORTHING_FT&quot;</span>
-    <span class="n">NORTHING_EASTING_FT</span> <span class="o">=</span> <span class="s2">&quot;NORTHING_EASTING_FT&quot;</span>
-    <span class="n">EASTING_NORTHING_US_FT</span> <span class="o">=</span> <span class="s2">&quot;EASTING_NORTHING_US_FT&quot;</span>
-    <span class="n">NORTHING_EASTING_US_FT</span> <span class="o">=</span> <span class="s2">&quot;NORTHING_EASTING_US_FT&quot;</span>
-    <span class="n">NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</span> <span class="o">=</span> <span class="s2">&quot;NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH&quot;</span>
-    <span class="n">SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</span> <span class="o">=</span> <span class="s2">&quot;SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH&quot;</span>
-    <span class="n">WESTING_SOUTHING</span> <span class="o">=</span> <span class="s2">&quot;WESTING_SOUTHING&quot;</span></div>
+    <span class="n">EASTING_NORTHING</span> <span class="o">=</span> <span class="s2">"EASTING_NORTHING"</span>
+    <span class="n">NORTHING_EASTING</span> <span class="o">=</span> <span class="s2">"NORTHING_EASTING"</span>
+    <span class="n">EASTING_NORTHING_FT</span> <span class="o">=</span> <span class="s2">"EASTING_NORTHING_FT"</span>
+    <span class="n">NORTHING_EASTING_FT</span> <span class="o">=</span> <span class="s2">"NORTHING_EASTING_FT"</span>
+    <span class="n">EASTING_NORTHING_US_FT</span> <span class="o">=</span> <span class="s2">"EASTING_NORTHING_US_FT"</span>
+    <span class="n">NORTHING_EASTING_US_FT</span> <span class="o">=</span> <span class="s2">"NORTHING_EASTING_US_FT"</span>
+    <span class="n">NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH</span> <span class="o">=</span> <span class="s2">"NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH"</span>
+    <span class="n">SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH</span> <span class="o">=</span> <span class="s2">"SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH"</span>
+    <span class="n">WESTING_SOUTHING</span> <span class="o">=</span> <span class="s2">"WESTING_SOUTHING"</span></div>
 
 
 
 <div class="viewcode-block" id="Ellipsoidal2DCSAxis">
 <a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.Ellipsoidal2DCSAxis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Ellipsoidal2DCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Ellipsoidal 2D Coordinate System Axis for creating axis with</span>
@@ -367,17 +367,17 @@
 <span class="sd">    ----------</span>
 <span class="sd">    LONGITUDE_LATITUDE</span>
 <span class="sd">    LATITUDE_LONGITUDE</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">LONGITUDE_LATITUDE</span> <span class="o">=</span> <span class="s2">&quot;LONGITUDE_LATITUDE&quot;</span>
-    <span class="n">LATITUDE_LONGITUDE</span> <span class="o">=</span> <span class="s2">&quot;LATITUDE_LONGITUDE&quot;</span></div>
+    <span class="n">LONGITUDE_LATITUDE</span> <span class="o">=</span> <span class="s2">"LONGITUDE_LATITUDE"</span>
+    <span class="n">LATITUDE_LONGITUDE</span> <span class="o">=</span> <span class="s2">"LATITUDE_LONGITUDE"</span></div>
 
 
 
 <div class="viewcode-block" id="Ellipsoidal3DCSAxis">
 <a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.Ellipsoidal3DCSAxis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Ellipsoidal3DCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Ellipsoidal 3D Coordinate System Axis for creating axis with</span>
@@ -387,17 +387,17 @@
 <span class="sd">    ----------</span>
 <span class="sd">    LONGITUDE_LATITUDE_HEIGHT</span>
 <span class="sd">    LATITUDE_LONGITUDE_HEIGHT</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">LONGITUDE_LATITUDE_HEIGHT</span> <span class="o">=</span> <span class="s2">&quot;LONGITUDE_LATITUDE_HEIGHT&quot;</span>
-    <span class="n">LATITUDE_LONGITUDE_HEIGHT</span> <span class="o">=</span> <span class="s2">&quot;LATITUDE_LONGITUDE_HEIGHT&quot;</span></div>
+    <span class="n">LONGITUDE_LATITUDE_HEIGHT</span> <span class="o">=</span> <span class="s2">"LONGITUDE_LATITUDE_HEIGHT"</span>
+    <span class="n">LATITUDE_LONGITUDE_HEIGHT</span> <span class="o">=</span> <span class="s2">"LATITUDE_LONGITUDE_HEIGHT"</span></div>
 
 
 
 <div class="viewcode-block" id="VerticalCSAxis">
 <a class="viewcode-back" href="../../../api/crs/enums.html#pyproj.crs.enums.VerticalCSAxis">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">VerticalCSAxis</span><span class="p">(</span><span class="n">BaseEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.5.0</span>
 
 <span class="sd">    Vertical Coordinate System Axis for creating axis with</span>
@@ -414,17 +414,17 @@
 <span class="sd">    GRAVITY_HEIGHT</span>
 <span class="sd">    GRAVITY_HEIGHT_FT</span>
 <span class="sd">    GRAVITY_HEIGHT_US_FT</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">GRAVITY_HEIGHT</span> <span class="o">=</span> <span class="s2">&quot;GRAVITY_HEIGHT&quot;</span>
-    <span class="n">GRAVITY_HEIGHT_FT</span> <span class="o">=</span> <span class="s2">&quot;GRAVITY_HEIGHT_FT&quot;</span>
-    <span class="n">GRAVITY_HEIGHT_US_FT</span> <span class="o">=</span> <span class="s2">&quot;GRAVITY_HEIGHT_US_FT&quot;</span>
-    <span class="n">DEPTH</span> <span class="o">=</span> <span class="s2">&quot;DEPTH&quot;</span>
-    <span class="n">DEPTH_FT</span> <span class="o">=</span> <span class="s2">&quot;DEPTH_FT&quot;</span>
-    <span class="n">DEPTH_US_FT</span> <span class="o">=</span> <span class="s2">&quot;DEPTH_US_FT&quot;</span>
-    <span class="n">UP</span> <span class="o">=</span> <span class="s2">&quot;UP&quot;</span>
-    <span class="n">UP_FT</span> <span class="o">=</span> <span class="s2">&quot;UP_FT&quot;</span>
-    <span class="n">UP_US_FT</span> <span class="o">=</span> <span class="s2">&quot;UP_US_FT&quot;</span></div>
+    <span class="n">GRAVITY_HEIGHT</span> <span class="o">=</span> <span class="s2">"GRAVITY_HEIGHT"</span>
+    <span class="n">GRAVITY_HEIGHT_FT</span> <span class="o">=</span> <span class="s2">"GRAVITY_HEIGHT_FT"</span>
+    <span class="n">GRAVITY_HEIGHT_US_FT</span> <span class="o">=</span> <span class="s2">"GRAVITY_HEIGHT_US_FT"</span>
+    <span class="n">DEPTH</span> <span class="o">=</span> <span class="s2">"DEPTH"</span>
+    <span class="n">DEPTH_FT</span> <span class="o">=</span> <span class="s2">"DEPTH_FT"</span>
+    <span class="n">DEPTH_US_FT</span> <span class="o">=</span> <span class="s2">"DEPTH_US_FT"</span>
+    <span class="n">UP</span> <span class="o">=</span> <span class="s2">"UP"</span>
+    <span class="n">UP_FT</span> <span class="o">=</span> <span class="s2">"UP_FT"</span>
+    <span class="n">UP_US_FT</span> <span class="o">=</span> <span class="s2">"UP_US_FT"</span></div>
 
 </pre></div>
         </article>

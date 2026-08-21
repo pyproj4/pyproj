@@ -297,11 +297,11 @@ the capability to work with grid files that are not installed on the local machi
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 7.1.0.</span></p>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PROJ_DOWNLOAD_DIR</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyproj; print(pyproj.datadir.get_user_data_dir())&quot;</span><span class="k">)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PROJ_DOWNLOAD_DIR</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import pyproj; print(pyproj.datadir.get_user_data_dir())"</span><span class="k">)</span>
 </pre></div>
 </div>
 <p>To download to the main PROJ data directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PROJ_DOWNLOAD_DIR</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyproj; print(pyproj.datadir.get_data_dir())&quot;</span><span class="k">)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PROJ_DOWNLOAD_DIR</span><span class="o">=</span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import pyproj; print(pyproj.datadir.get_data_dir())"</span><span class="k">)</span>
 </pre></div>
 </div>
 <p>Download the files with either:</p>
@@ -360,11 +360,11 @@ The logs will show the grids PROJ searches for.</p>
 <span class="go">- transformers: 8</span>
 <span class="go">- unavailable_operations: 2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">transformers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">description</span>
-<span class="go">&#39;Inverse of NAD27 to WGS 84 (7) + Alaska Albers&#39;</span>
+<span class="go">'Inverse of NAD27 to WGS 84 (7) + Alaska Albers'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-<span class="go">&#39;Inverse of NAD27 to WGS 84 (85) + Alaska Albers&#39;</span>
+<span class="go">'Inverse of NAD27 to WGS 84 (85) + Alaska Albers'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">url</span>
-<span class="go">&#39;https://cdn.proj.org/us_noaa_alaska.tif&#39;</span>
+<span class="go">'https://cdn.proj.org/us_noaa_alaska.tif'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span><span class="o">.</span><span class="n">download_grids</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># pyproj 3+</span>
 <span class="go">Downloading: https://cdn.proj.org/us_noaa_alaska.tif</span>
 <span class="go">Downloading: https://cdn.proj.org/ca_nrc_ntv2_0.tif</span>

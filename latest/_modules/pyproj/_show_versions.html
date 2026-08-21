@@ -264,12 +264,12 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyproj._show_versions</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Utility methods to print system info for debugging</span>
 
 <span class="sd">adapted from :func:`sklearn.utils._show_versions`</span>
 <span class="sd">which was adapted from :func:`pandas.show_versions`</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
@@ -277,29 +277,29 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_sys_info</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;System information</span>
+<span class="w">    </span><span class="sd">"""System information</span>
 <span class="sd">    Return</span>
 <span class="sd">    ------</span>
 <span class="sd">    sys_info : dict</span>
 <span class="sd">        system and Python version information</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">blob</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)),</span>
-        <span class="p">(</span><span class="s2">&quot;executable&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;machine&quot;</span><span class="p">,</span> <span class="n">platform</span><span class="o">.</span><span class="n">platform</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s2">"python"</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">"executable"</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"machine"</span><span class="p">,</span> <span class="n">platform</span><span class="o">.</span><span class="n">platform</span><span class="p">()),</span>
     <span class="p">]</span>
 
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">blob</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_proj_info</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Information on system PROJ</span>
+<span class="w">    </span><span class="sd">"""Information on system PROJ</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    proj_info: dict</span>
 <span class="sd">        system PROJ information</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># pylint: disable=import-outside-toplevel</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">pyproj</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_database_metadata</span>
@@ -311,31 +311,31 @@
         <span class="n">data_dir</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">blob</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;pyproj&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__version__</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;PROJ (runtime)&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__proj_version__</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;PROJ (compiled)&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__proj_compiled_version__</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;data dir&quot;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;user_data_dir&quot;</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">datadir</span><span class="o">.</span><span class="n">get_user_data_dir</span><span class="p">()),</span>
-        <span class="p">(</span><span class="s2">&quot;PROJ DATA (recommended version)&quot;</span><span class="p">,</span> <span class="n">get_database_metadata</span><span class="p">(</span><span class="s2">&quot;PROJ_DATA.VERSION&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">"pyproj"</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__version__</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"PROJ (runtime)"</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__proj_version__</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"PROJ (compiled)"</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">__proj_compiled_version__</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"data dir"</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"user_data_dir"</span><span class="p">,</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">datadir</span><span class="o">.</span><span class="n">get_user_data_dir</span><span class="p">()),</span>
+        <span class="p">(</span><span class="s2">"PROJ DATA (recommended version)"</span><span class="p">,</span> <span class="n">get_database_metadata</span><span class="p">(</span><span class="s2">"PROJ_DATA.VERSION"</span><span class="p">)),</span>
         <span class="p">(</span>
-            <span class="s2">&quot;PROJ Database&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;DATABASE.LAYOUT.VERSION.MAJOR&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;DATABASE.LAYOUT.VERSION.MINOR&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"PROJ Database"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'DATABASE.LAYOUT.VERSION.MAJOR'</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'DATABASE.LAYOUT.VERSION.MINOR'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="s2">&quot;EPSG Database&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;EPSG.VERSION&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;EPSG.DATE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+            <span class="s2">"EPSG Database"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'EPSG.VERSION'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'EPSG.DATE'</span><span class="p">)</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="s2">&quot;ESRI Database&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;ESRI.VERSION&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;ESRI.DATE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+            <span class="s2">"ESRI Database"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'ESRI.VERSION'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'ESRI.DATE'</span><span class="p">)</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="s2">&quot;IGNF Database&quot;</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;IGNF.VERSION&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">&#39;IGNF.DATE&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+            <span class="s2">"IGNF Database"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'IGNF.VERSION'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">get_database_metadata</span><span class="p">(</span><span class="s1">'IGNF.DATE'</span><span class="p">)</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -343,13 +343,13 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_deps_info</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Overview of the installed version of main dependencies</span>
+<span class="w">    </span><span class="sd">"""Overview of the installed version of main dependencies</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    deps_info: dict</span>
 <span class="sd">        version information on relevant Python libraries</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;certifi&quot;</span><span class="p">,</span> <span class="s2">&quot;Cython&quot;</span><span class="p">,</span> <span class="s2">&quot;setuptools&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"certifi"</span><span class="p">,</span> <span class="s2">"Cython"</span><span class="p">,</span> <span class="s2">"setuptools"</span><span class="p">,</span> <span class="s2">"pip"</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_version</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -361,29 +361,29 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_print_info_dict</span><span class="p">(</span><span class="n">info_dict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the information dictionary&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Print the information dictionary"""</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">info_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="show_versions">
 <a class="viewcode-back" href="../../api/show_versions.html#pyproj.show_versions">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">show_versions</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.2.1</span>
 
 <span class="sd">    Print useful debugging information</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
-<span class="sd">    &gt; python -c &quot;import pyproj; pyproj.show_versions()&quot;</span>
+<span class="sd">    &gt; python -c "import pyproj; pyproj.show_versions()"</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pyproj info:&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"pyproj info:"</span><span class="p">)</span>
     <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_proj_info</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">System:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">System:"</span><span class="p">)</span>
     <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_sys_info</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Python deps:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Python deps:"</span><span class="p">)</span>
     <span class="n">_print_info_dict</span><span class="p">(</span><span class="n">_get_deps_info</span><span class="p">())</span></div>
 
 </pre></div>

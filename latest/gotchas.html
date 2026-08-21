@@ -311,7 +311,7 @@ in future major version of PROJ for storing CRS information.</p>
 in future versions of PROJ. Also, if you use the <cite>+init</cite> syntax,
 you may have problems initializing projections when the other syntax works.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;ESRI:54009&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CRS</span><span class="p">(</span><span class="s2">"ESRI:54009"</span><span class="p">)</span>
 <span class="go">&lt;Projected CRS: ESRI:54009&gt;</span>
 <span class="go">Name: World_Mollweide</span>
 <span class="go">Axis Info [cartesian]:</span>
@@ -327,7 +327,7 @@ you may have problems initializing projections when the other syntax works.</p>
 <span class="go">- Ellipsoid: WGS 84</span>
 <span class="go">- Prime Meridian: Greenwich</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+init=ESRI:54009&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CRS</span><span class="p">(</span><span class="s2">"+init=ESRI:54009"</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="go">pyproj.exceptions.CRSError: Invalid projection: +init=ESRI:54009 +type=crs: (Internal Proj Error: proj_create: cannot expand +init=ESRI:54009 +type=crs)</span>
 </pre></div>
@@ -343,7 +343,7 @@ shifts.</p>
 <p>You likely want to start from <cite>EPSG:4326</cite> (WGS84) for coordinates as
 latitude and longitude.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;WGS84&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"WGS84"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_4326</span>
 <span class="go">&lt;Geographic 2D CRS: EPSG:4326&gt;</span>
 <span class="go">Name: WGS 84</span>
@@ -361,7 +361,7 @@ latitude and longitude.</p>
 <p>Then, use the <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> to transform from latitude
 and longitude to your projection as you might have a projection with a different
 datum.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:28992&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:28992"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_proj</span>
 <span class="go">&lt;Projected CRS: EPSG:28992&gt;</span>
 <span class="go">Name: Amersfoort / RD New</span>
@@ -389,7 +389,7 @@ datum.</p>
 from the projected CRS with the same datum to do the transformation,
 which may not be what you want.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proj</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:28992&#39;</span><span class="p">)(</span><span class="mf">5.068913</span><span class="p">,</span> <span class="mf">52.067567</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Proj</span><span class="p">(</span><span class="s1">'epsg:28992'</span><span class="p">)(</span><span class="mf">5.068913</span><span class="p">,</span> <span class="mf">52.067567</span><span class="p">)</span>
 <span class="go">(133148.22970574044, 453192.24450392975)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transg</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="n">crs_proj</span><span class="o">.</span><span class="n">geodetic_crs</span><span class="p">,</span> <span class="n">crs_proj</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transg</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">52.067567</span><span class="p">,</span> <span class="mf">5.068913</span><span class="p">)</span>
@@ -403,8 +403,8 @@ which may not be what you want.</p>
 <p>The reason that the EPSG code does not appear with the CRS initialized with
 the <cite>init=</cite> syntax is that the CRS are different.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4544&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4544&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">"epsg:4544"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:4544"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">==</span> <span class="n">crs_deprecated</span>
 <span class="go">False</span>
 </pre></div>
@@ -460,12 +460,12 @@ they are not.</p>
 to the PROJ/WKT string, then you can reduce your min_confidence to a
 threshold you are comfortable with.</p>
 <p>Here is an example of that:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+init=epsg:4326&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"+init=epsg:4326"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_deprecated</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 <span class="go">4326</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+proj=latlon&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"+proj=latlon"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_latlon</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
 <span class="go">4326</span>
@@ -520,15 +520,15 @@ are deprecated.</p>
 <p>pyproj 1 style:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">transform</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_4326</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:4326&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_3857</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">&quot;epsg:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_4326</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">"epsg:4326"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj_3857</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="s2">"epsg:3857"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">proj_4326</span><span class="p">,</span> <span class="n">proj_3857</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>pyproj 2 style:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Transformer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="s2">"EPSG:3857"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 </pre></div>
 </div>

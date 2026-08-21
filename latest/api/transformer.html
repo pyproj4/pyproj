@@ -587,48 +587,48 @@ Default is <a class="reference internal" href="enums.html#pyproj.enums.Transform
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Transformer</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">2100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transformer</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span><span class="n">points</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
-<span class="go">&#39;2221638.801 2637034.372&#39;</span>
-<span class="go">&#39;2212924.125 2619851.898&#39;</span>
-<span class="go">&#39;2238294.779 2703763.736&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transformer</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span><span class="n">points</span><span class="p">):</span> <span class="s1">'</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">'2221638.801 2637034.372'</span>
+<span class="go">'2212924.125 2619851.898'</span>
+<span class="go">'2238294.779 2703763.736'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
-<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="gp">... </span>    <span class="s2">"+proj=pipeline +step +proj=longlat +ellps=WGS84 "</span>
+<span class="gp">... </span>    <span class="s2">"+step +proj=unitconvert +xy_in=rad +xy_out=deg"</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)]):</span>
-<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
-<span class="go">&#39;2.100 0.001&#39;</span>
+<span class="gp">... </span>    <span class="s1">'</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">'2.100 0.001'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">"proj"</span><span class="p">:</span><span class="s1">'geocent'</span><span class="p">,</span> <span class="s2">"ellps"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">,</span> <span class="s2">"datum"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">"EPSG:4326"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[(</span><span class="o">-</span><span class="mf">2704026.010</span><span class="p">,</span> <span class="o">-</span><span class="mf">4253051.810</span><span class="p">,</span> <span class="mf">3895878.820</span><span class="p">)],</span>
 <span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">):</span>
-<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
-<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
+<span class="gp">... </span>    <span class="s1">'</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">'-2.137 0.661 -20.531'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">"EPSG:4326"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">"proj"</span><span class="p">:</span><span class="s1">'geocent'</span><span class="p">,</span> <span class="s2">"ellps"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">,</span> <span class="s2">"datum"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">itransform</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="p">[(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.531</span><span class="p">)],</span>
 <span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span>
 <span class="gp">... </span><span class="p">):</span>
-<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
-<span class="go">&#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
+<span class="gp">... </span>    <span class="s1">'</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">'-2704214.394 -4254414.478 3894270.731'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transproj_eq</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s1">&#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'EPSG:4326'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">'+proj=longlat +datum=WGS84 +no_defs +type=crs'</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">transproj_eq</span><span class="o">.</span><span class="n">itransform</span><span class="p">([(</span><span class="o">-</span><span class="mf">2.137</span><span class="p">,</span> <span class="mf">0.661</span><span class="p">)]):</span>
-<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
-<span class="go">&#39;-2.137 0.661&#39;</span>
+<span class="gp">... </span>    <span class="s1">'</span><span class="si">{:.3f}</span><span class="s1"> </span><span class="si">{:.3f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">'-2.137 0.661'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -874,21 +874,21 @@ is not an array in C order with the double data type.</p></li>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Transformer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="s2">&quot;EPSG:3857&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="s2">"EPSG:3857"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">y3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;10909310.098  3895303.963&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">y3</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">'10909310.098  3895303.963'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_str</span> <span class="o">=</span> <span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
-<span class="gp">... </span>    <span class="s2">&quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="gp">... </span>    <span class="s2">"+proj=pipeline +step +proj=longlat +ellps=WGS84 "</span>
+<span class="gp">... </span>    <span class="s2">"+step +proj=unitconvert +xy_in=rad +xy_out=deg"</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipe_trans</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="n">pipeline_str</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xt</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="n">pipe_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;2.100  0.001&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">xt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yt</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">'2.100  0.001'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transproj</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">"proj"</span><span class="p">:</span><span class="s1">'geocent'</span><span class="p">,</span> <span class="s2">"ellps"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">,</span> <span class="s2">"datum"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">"EPSG:4326"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span> <span class="o">=</span> <span class="n">transproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
@@ -897,20 +897,20 @@ is not an array in C order with the double data type.</p></li>
 <span class="gp">... </span>    <span class="mf">3895878.820</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;-2.137 0.661 -20.531&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">xpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpj</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">'-2.137 0.661 -20.531'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transprojr</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;proj&quot;</span><span class="p">:</span><span class="s1">&#39;geocent&#39;</span><span class="p">,</span> <span class="s2">&quot;ellps&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s2">&quot;datum&quot;</span><span class="p">:</span><span class="s1">&#39;WGS84&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="s2">"EPSG:4326"</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">"proj"</span><span class="p">:</span><span class="s1">'geocent'</span><span class="p">,</span> <span class="s2">"ellps"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">,</span> <span class="s2">"datum"</span><span class="p">:</span><span class="s1">'WGS84'</span><span class="p">},</span>
 <span class="gp">... </span>    <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xpjr</span><span class="p">,</span> <span class="n">ypjr</span><span class="p">,</span> <span class="n">zpjr</span> <span class="o">=</span> <span class="n">transprojr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xpj</span><span class="p">,</span> <span class="n">ypj</span><span class="p">,</span> <span class="n">zpj</span><span class="p">,</span> <span class="n">radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">xpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ypjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zpjr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">'-2704026.010 -4253051.810 3895878.820'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transformer</span> <span class="o">=</span> <span class="n">Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">,</span> <span class="mi">4326</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xeq</span><span class="p">,</span> <span class="n">yeq</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">98</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;33  98&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">xeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">yeq</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">'33  98'</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1213,19 +1213,19 @@ for most projected CRS.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proj</span><span class="p">,</span> <span class="n">itransform</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 1: WGS84</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># (defined by epsg code 4326)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">'epsg:4326'</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># projection 2: GGRS87 / Greek Grid</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">&#39;epsg:2100&#39;</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="s1">'epsg:2100'</span><span class="p">,</span> <span class="n">preserve_units</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Three points with coordinates lon, lat in p1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">22.95</span><span class="p">,</span> <span class="mf">40.63</span><span class="p">),</span> <span class="p">(</span><span class="mf">22.81</span><span class="p">,</span> <span class="mf">40.53</span><span class="p">),</span> <span class="p">(</span><span class="mf">23.51</span><span class="p">,</span> <span class="mf">40.86</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># transform this point to projection 2 coordinates.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">points</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> <span class="s1">&#39;</span><span class="si">%6.3f</span><span class="s1"> </span><span class="si">%7.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pt</span>
-<span class="go">&#39;411050.470 4497928.574&#39;</span>
-<span class="go">&#39;399060.236 4486978.710&#39;</span>
-<span class="go">&#39;458553.243 4523045.485&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">points</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span> <span class="s1">'</span><span class="si">%6.3f</span><span class="s1"> </span><span class="si">%7.3f</span><span class="s1">'</span> <span class="o">%</span> <span class="n">pt</span>
+<span class="go">'411050.470 4497928.574'</span>
+<span class="go">'399060.236 4486978.710'</span>
+<span class="go">'458553.243 4523045.485'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">itransform</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="mi">4326</span><span class="p">,</span> <span class="p">[(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)]):</span>
-<span class="gp">... </span>    <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> </span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
-<span class="go">&#39;30 60&#39;</span>
+<span class="gp">... </span>    <span class="s1">'</span><span class="si">{:.0f}</span><span class="s1"> </span><span class="si">{:.0f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">pt</span><span class="p">)</span>
+<span class="go">'30 60'</span>
 </pre></div>
 </div>
 </dd></dl>

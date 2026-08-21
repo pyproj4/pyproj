@@ -264,16 +264,16 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for pyproj.transformer</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">The transformer module is for performing cartographic transformations.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;AreaOfInterest&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Transformer&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TransformerGroup&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;itransform&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+    <span class="s2">"AreaOfInterest"</span><span class="p">,</span>
+    <span class="s2">"Transformer"</span><span class="p">,</span>
+    <span class="s2">"TransformerGroup"</span><span class="p">,</span>
+    <span class="s2">"itransform"</span><span class="p">,</span>
+    <span class="s2">"transform"</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -308,41 +308,41 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerMaker</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Base class for generating new instances</span>
 <span class="sd">    of the Cython _Transformer class for</span>
 <span class="sd">    thread safety in the Transformer class.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _Transformer</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerUnsafe</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    Returns the original Cython _Transformer</span>
 <span class="sd">    and is not thread-safe.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">transformer</span><span class="p">:</span> <span class="n">_Transformer</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _Transformer</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span>
 
 
@@ -350,13 +350,13 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerFromCRS</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-instance-attributes</span>
     <span class="n">TransformerMaker</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
 
 <span class="sd">    .. versionadded:: 3.4.0 force_over</span>
 
 <span class="sd">    Generates a Cython _Transformer class from input CRS data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">crs_from</span><span class="p">:</span> <span class="nb">bytes</span>
     <span class="n">crs_to</span><span class="p">:</span> <span class="nb">bytes</span>
@@ -369,11 +369,11 @@
     <span class="n">only_best</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _Transformer</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_crs</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">crs_from</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">crs_to</span><span class="p">,</span>
@@ -389,54 +389,54 @@
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerFromPipeline</span><span class="p">(</span><span class="n">TransformerMaker</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 3.1.0</span>
 <span class="sd">    .. versionadded:: 3.8.0 always_xy</span>
 
 <span class="sd">    Generates a Cython _Transformer class from input pipeline data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">bytes</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Transformer</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _Transformer</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">_Transformer</span><span class="o">.</span><span class="n">from_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proj_pipeline</span><span class="p">,</span> <span class="n">always_xy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">always_xy</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert user input for a pivot CRS into an ``AUTH:CODE`` string.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert user input for a pivot CRS into an ``AUTH:CODE`` string."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">entry</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">entry</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
-                <span class="s2">&quot;pivot_crs entries must be non-empty strings or CRS objects.&quot;</span>
+                <span class="s2">"pivot_crs entries must be non-empty strings or CRS objects."</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">entry</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">entry</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">entry</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">entry</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">":"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">entry</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">entry</span>
     <span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="n">authority</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">authority</span> <span class="ow">or</span> <span class="n">authority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">authority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
-            <span class="s2">&quot;pivot_crs entries must resolve to an authority:code identifier.&quot;</span>
+            <span class="s2">"pivot_crs entries must resolve to an authority:code identifier."</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">authority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">authority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">authority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">authority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_pivot_crs_argument</span><span class="p">(</span>
     <span class="n">pivot_crs</span><span class="p">:</span> <span class="n">IntermediateCRSUse</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">CRS</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">CRS</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">IntermediateCRSUse</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return (mode, list) tuple mirroring PROJ&#39;s ``--pivot-crs`` semantics.</span>
+<span class="w">    </span><span class="sd">"""Return (mode, list) tuple mirroring PROJ's ``--pivot-crs`` semantics.</span>
 
 <span class="sd">    When a CRS list is provided, the mode is set to ALWAYS to match</span>
 <span class="sd">    projinfo behavior where --pivot-crs EPSG:4326 implies always using</span>
 <span class="sd">    intermediate CRS transformations.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">pivot_crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">,</span> <span class="n">IntermediateCRSUse</span><span class="p">):</span>
@@ -444,14 +444,14 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">pivot_crs</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span><span class="s2">&quot;pivot_crs string cannot be empty.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span><span class="s2">"pivot_crs string cannot be empty."</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">IntermediateCRSUse</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+            <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">entries</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
-                    <span class="s2">&quot;pivot_crs string must contain CRS codes or a keyword.&quot;</span>
+                    <span class="s2">"pivot_crs string must contain CRS codes or a keyword."</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
             <span class="n">normalized</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">)</span>
             <span class="c1"># Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)</span>
@@ -460,7 +460,7 @@
         <span class="n">normalized_list</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_coerce_pivot_crs_entry</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pivot_crs</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">normalized_list</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
-                <span class="s2">&quot;pivot_crs iterable must include at least one CRS definition.&quot;</span>
+                <span class="s2">"pivot_crs iterable must include at least one CRS definition."</span>
             <span class="p">)</span>
         <span class="c1"># Set ALWAYS mode when a CRS list is provided (matches projinfo behavior)</span>
         <span class="k">return</span> <span class="n">IntermediateCRSUse</span><span class="o">.</span><span class="n">ALWAYS</span><span class="p">,</span> <span class="n">normalized_list</span>
@@ -472,7 +472,7 @@
 <div class="viewcode-block" id="TransformerGroup">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerGroup</span><span class="p">(</span><span class="n">_TransformerGroup</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The TransformerGroup is a set of possible transformers from one CRS to another.</span>
 
 <span class="sd">    .. versionadded:: 2.3.0</span>
@@ -488,7 +488,7 @@
 <span class="sd">        area of use of the CRS), and by increasing accuracy. Operations</span>
 <span class="sd">        with unknown accuracy are sorted last, whatever their area.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="TransformerGroup.__init__">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.TransformerGroup.__init__">[docs]</a>
@@ -503,18 +503,18 @@
         <span class="n">allow_ballpark</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">allow_superseded</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">crs_extent_use</span><span class="p">:</span> <span class="n">CRSExtentUse</span>
-        <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="s2">&quot;intersection&quot;</span><span class="p">,</span> <span class="s2">&quot;smallest&quot;</span><span class="p">]</span>
+        <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"both"</span><span class="p">,</span> <span class="s2">"intersection"</span><span class="p">,</span> <span class="s2">"smallest"</span><span class="p">]</span>
         <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">pivot_crs</span><span class="p">:</span> <span class="n">IntermediateCRSUse</span> <span class="o">|</span> <span class="n">CRS</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">CRS</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">grid_check</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
-            <span class="s2">&quot;sort&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;discard_missing&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;none&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;known_available&quot;</span><span class="p">,</span>
+            <span class="s2">"sort"</span><span class="p">,</span>
+            <span class="s2">"discard_missing"</span><span class="p">,</span>
+            <span class="s2">"none"</span><span class="p">,</span>
+            <span class="s2">"known_available"</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all possible transformations from a :obj:`pyproj.crs.CRS`</span>
+<span class="w">        </span><span class="sd">"""Get all possible transformations from a :obj:`pyproj.crs.CRS`</span>
 <span class="sd">        or input used to create one.</span>
 
 <span class="sd">        .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark</span>
@@ -540,7 +540,7 @@
 <span class="sd">            authority_to_authority_preference database table related to the</span>
 <span class="sd">            authority of the source/target CRS themselves. If authority is set</span>
 <span class="sd">            to “any”, then coordinate operations from any authority will be</span>
-<span class="sd">            searched. If authority is a non-empty string different from &quot;any&quot;,</span>
+<span class="sd">            searched. If authority is a non-empty string different from "any",</span>
 <span class="sd">            then coordinate operations will be searched only in that authority</span>
 <span class="sd">            namespace (e.g. EPSG).</span>
 <span class="sd">        accuracy: float, optional</span>
@@ -554,37 +554,37 @@
 <span class="sd">            transformations in the candidate coordinate operations. Default is</span>
 <span class="sd">            to disallow.</span>
 <span class="sd">        crs_extent_use: pyproj.enums.CRSExtentUse |</span>
-<span class="sd">            Literal[&quot;none&quot;, &quot;both&quot;, &quot;intersection&quot;, &quot;smallest&quot;], optional</span>
+<span class="sd">            Literal["none", "both", "intersection", "smallest"], optional</span>
 <span class="sd">            Corresponds to the PROJ CLI ``--crs-extent-use`` flag controlling how</span>
 <span class="sd">            CRS areas of use are employed to filter candidate operations. May be</span>
 <span class="sd">            provided as a :class:`pyproj.enums.CRSExtentUse` enum member</span>
 <span class="sd">            or case-insensitive string. If not provided,</span>
-<span class="sd">            PROJ&#39;s internal default is used.</span>
+<span class="sd">            PROJ's internal default is used.</span>
 <span class="sd">        pivot_crs: pyproj.enums.IntermediateCRSUse | str | pyproj.crs.CRS |</span>
 <span class="sd">            Iterable[str | pyproj.crs.CRS], optional</span>
 <span class="sd">            Mirrors the PROJ CLI ``--pivot-crs`` flag. Provide</span>
-<span class="sd">            ``&quot;always&quot;``, ``&quot;if_no_direct_transformation&quot;``, or ``&quot;never&quot;``</span>
+<span class="sd">            ``"always"``, ``"if_no_direct_transformation"``, or ``"never"``</span>
 <span class="sd">            (case-insensitive) to control when PROJ may pivot through</span>
 <span class="sd">            intermediate CRS. Alternatively, pass one or more CRS definitions</span>
-<span class="sd">            (``&quot;AUTH:CODE&quot;`` strings, integers, or :class:`pyproj.crs.CRS`</span>
+<span class="sd">            (``"AUTH:CODE"`` strings, integers, or :class:`pyproj.crs.CRS`</span>
 <span class="sd">            objects) to force pivoting through the supplied list. When a list is</span>
 <span class="sd">            supplied, PROJ is instructed to prefer those pivots.</span>
-<span class="sd">        grid_check: Literal[&quot;sort&quot;,</span>
-<span class="sd">            &quot;discard_missing&quot;, &quot;none&quot;, &quot;known_available&quot;],</span>
+<span class="sd">        grid_check: Literal["sort",</span>
+<span class="sd">            "discard_missing", "none", "known_available"],</span>
 <span class="sd">            optional</span>
 <span class="sd">            Mirrors the PROJ CLI ``--grid-check`` flag. Controls how grid</span>
 <span class="sd">            availability affects candidate operations. Options:</span>
 
-<span class="sd">            - ``&quot;sort&quot;``: Grid availability used for sorting</span>
+<span class="sd">            - ``"sort"``: Grid availability used for sorting</span>
 <span class="sd">              (prefer operations with available grids).</span>
-<span class="sd">            - ``&quot;discard_missing&quot;``: Discard operations</span>
+<span class="sd">            - ``"discard_missing"``: Discard operations</span>
 <span class="sd">              that reference missing grids.</span>
-<span class="sd">            - ``&quot;none&quot;``: Ignore grid availability.</span>
-<span class="sd">            - ``&quot;known_available&quot;``: Only consider operations where all</span>
+<span class="sd">            - ``"none"``: Ignore grid availability.</span>
+<span class="sd">            - ``"known_available"``: Only consider operations where all</span>
 <span class="sd">              required grids are known to be available.</span>
 
-<span class="sd">            If not specified, defaults to PROJ&#39;s behavior (ignores grid availability).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            If not specified, defaults to PROJ's behavior (ignores grid availability).</span>
+<span class="sd">        """</span>
         <span class="n">pivot_crs_use</span><span class="p">,</span> <span class="n">pivot_crs_list</span> <span class="o">=</span> <span class="n">_normalize_pivot_crs_argument</span><span class="p">(</span><span class="n">pivot_crs</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">_crs</span><span class="p">,</span>
@@ -606,28 +606,28 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">transformers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;Transformer&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transformers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="s2">"Transformer"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        list[:obj:`Transformer`]:</span>
 <span class="sd">            List of available :obj:`Transformer`</span>
 <span class="sd">            associated with the transformation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformers</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">unavailable_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">CoordinateOperation</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        list[:obj:`pyproj.crs.CoordinateOperation`]:</span>
 <span class="sd">            List of :obj:`pyproj.crs.CoordinateOperation` that are not</span>
 <span class="sd">            available due to missing grids.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unavailable_operations</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">best_available</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        bool: If True, the best possible transformer is available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_best_available</span>
 
 <div class="viewcode-block" id="TransformerGroup.download_grids">
@@ -638,7 +638,7 @@
         <span class="n">open_license</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 3.0.0</span>
 
 <span class="sd">        Download missing grids that can be downloaded automatically.</span>
@@ -657,7 +657,7 @@
 <span class="sd">            If True, will only download grids with an open license.</span>
 <span class="sd">        verbose: bool, default=False</span>
 <span class="sd">            If True, will print information about grids downloaded.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">directory</span> <span class="o">=</span> <span class="n">get_user_data_dir</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># pylint: disable=not-an-iterable</span>
@@ -676,25 +676,25 @@
                         <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">elif</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">available</span> <span class="ow">and</span> <span class="n">verbose</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipped: </span><span class="si">{</span><span class="n">grid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Skipped: </span><span class="si">{</span><span class="n">grid</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&lt;TransformerGroup: best_available=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_available</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;- transformers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;- unavailable_operations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"&lt;TransformerGroup: best_available=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_available</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"- transformers: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformers</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"- unavailable_operations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unavailable_operations</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span></div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TransformerLocal</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">local</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Threading local instance for cython _Transformer class.</span>
 
 <span class="sd">    For more details, see:</span>
 <span class="sd">    https://github.com/pyproj4/pyproj/issues/782</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialises in each thread</span>
@@ -704,7 +704,7 @@
 <div class="viewcode-block" id="Transformer">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transformer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    The Transformer class is for facilitating reusing</span>
 <span class="sd">    transforms without needing to re-create them. The goal</span>
 <span class="sd">    is to make repeated transforms faster.</span>
@@ -713,7 +713,7 @@
 
 <span class="sd">    .. versionadded:: 2.1.0</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -722,7 +722,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformer_maker</span><span class="p">,</span> <span class="n">TransformerMaker</span><span class="p">):</span>
             <span class="n">_clear_proj_error</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">ProjError</span><span class="p">(</span>
-                <span class="s2">&quot;Transformer must be initialized using: &#39;from_crs&#39; or &#39;from_pipeline&#39;.&quot;</span>
+                <span class="s2">"Transformer must be initialized using: 'from_crs' or 'from_pipeline'."</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">TransformerLocal</span><span class="p">()</span>
@@ -730,7 +730,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span> <span class="o">=</span> <span class="n">transformer_maker</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;_transformer_maker&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"_transformer_maker"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
@@ -739,104 +739,104 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_transformer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        The Cython _Transformer object for this thread.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        _Transformer</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        str: Name of the projection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">id</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        str: Description of the projection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">description</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">definition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        str: Definition of the projection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">definition</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">has_inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        bool: True if an inverse mapping exists.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">has_inverse</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        float: Expected accuracy of the transformation. -1 if unknown.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">accuracy</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">area_of_use</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AreaOfUse</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 2.3.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        AreaOfUse:</span>
 <span class="sd">            The area of use object with associated attributes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">area_of_use</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">remarks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        str:</span>
 <span class="sd">            Remarks about object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">remarks</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">scope</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        str:</span>
 <span class="sd">            Scope of object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">scope</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CoordinateOperation</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 2.4.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple[CoordinateOperation]:</span>
 <span class="sd">            The operations in a concatenated operation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">operations</span>
 
 <div class="viewcode-block" id="Transformer.get_last_used_operation">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.get_last_used_operation">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_last_used_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_last_used_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Transformer"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 3.4.0</span>
 
 <span class="sd">        .. note:: Requires PROJ 9.1+</span>
@@ -847,7 +847,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Transformer:</span>
 <span class="sd">            The operation used in the transform call.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">TransformerUnsafe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">get_last_used_operation</span><span class="p">())</span>
         <span class="p">)</span></div>
@@ -855,26 +855,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_network_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 3.0.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        bool:</span>
 <span class="sd">            If the network is enabled.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">is_network_enabled</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">source_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CRS</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 3.3.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        CRS | None:</span>
 <span class="sd">            The source CRS of a CoordinateOperation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="kc">None</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">source_crs</span> <span class="ow">is</span> <span class="kc">None</span>
@@ -883,14 +883,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">target_crs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CRS</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 3.3.0</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        CRS | None:</span>
 <span class="sd">            The target CRS of a CoordinateOperation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="kc">None</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">target_crs</span> <span class="ow">is</span> <span class="kc">None</span>
@@ -905,8 +905,8 @@
         <span class="n">proj_to</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">area_of_interest</span><span class="p">:</span> <span class="n">AreaOfInterest</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Transformer"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Make a Transformer from a :obj:`pyproj.Proj` or input used to create one.</span>
 
 <span class="sd">        .. deprecated:: 3.4.1 :meth:`~Transformer.from_crs` is preferred.</span>
 
@@ -930,7 +930,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Transformer</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># pylint: disable=import-outside-toplevel</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">Proj</span>
 
@@ -960,8 +960,8 @@
         <span class="n">allow_ballpark</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">force_over</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">only_best</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Transformer"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.</span>
 
 <span class="sd">        See:</span>
 
@@ -992,7 +992,7 @@
 <span class="sd">            authority_to_authority_preference database table related to the</span>
 <span class="sd">            authority of the source/target CRS themselves. If authority is set</span>
 <span class="sd">            to “any”, then coordinate operations from any authority will be</span>
-<span class="sd">            searched. If authority is a non-empty string different from &quot;any&quot;,</span>
+<span class="sd">            searched. If authority is a non-empty string different from "any",</span>
 <span class="sd">            then coordinate operations will be searched only in that authority</span>
 <span class="sd">            namespace (e.g. EPSG).</span>
 <span class="sd">        accuracy: float, optional</span>
@@ -1021,7 +1021,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Transformer</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">TransformerFromCRS</span><span class="p">(</span>
                 <span class="n">cstrencode</span><span class="p">(</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="n">crs_from</span><span class="p">)</span><span class="o">.</span><span class="n">srs</span><span class="p">),</span>
@@ -1043,8 +1043,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">from_pipeline</span><span class="p">(</span>
         <span class="n">proj_pipeline</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Transformer&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a Transformer from a PROJ pipeline string.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Transformer"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Make a Transformer from a PROJ pipeline string.</span>
 
 <span class="sd">        :ref:`pipeline`</span>
 
@@ -1060,14 +1060,14 @@
 <span class="sd">          - a PROJ string</span>
 <span class="sd">          - a WKT string</span>
 <span class="sd">          - a PROJJSON string</span>
-<span class="sd">          - an object code (e.g. &quot;EPSG:1671&quot;</span>
-<span class="sd">            &quot;urn:ogc:def:coordinateOperation:EPSG::1671&quot;)</span>
-<span class="sd">          - an object name. e.g &quot;ITRF2014 to ETRF2014 (1)&quot;.</span>
+<span class="sd">          - an object code (e.g. "EPSG:1671"</span>
+<span class="sd">            "urn:ogc:def:coordinateOperation:EPSG::1671")</span>
+<span class="sd">          - an object name. e.g "ITRF2014 to ETRF2014 (1)".</span>
 <span class="sd">            In that case as uniqueness is not guaranteed,</span>
 <span class="sd">            heuristics are applied to determine the appropriate best match.</span>
 <span class="sd">          - a OGC URN combining references for concatenated operations</span>
-<span class="sd">            (e.g. &quot;urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895,</span>
-<span class="sd">            coordinateOperation:EPSG::1618&quot;)</span>
+<span class="sd">            (e.g. "urn:ogc:def:coordinateOperation,coordinateOperation:EPSG::3895,</span>
+<span class="sd">            coordinateOperation:EPSG::1618")</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1082,7 +1082,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Transformer</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Transformer</span><span class="p">(</span>
             <span class="n">TransformerFromPipeline</span><span class="p">(</span>
                 <span class="n">cstrencode</span><span class="p">(</span><span class="n">proj_pipeline</span><span class="p">),</span>
@@ -1140,7 +1140,7 @@
         <span class="n">direction</span><span class="o">=</span><span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
         <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Transform points between two coordinate systems.</span>
 
 <span class="sd">        See: :c:func:`proj_trans_generic`</span>
@@ -1192,21 +1192,21 @@
 <span class="sd">        --------</span>
 
 <span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
-<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;EPSG:4326&quot;, &quot;EPSG:3857&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857")</span>
 <span class="sd">        &gt;&gt;&gt; x3, y3 = transformer.transform(33, 98)</span>
-<span class="sd">        &gt;&gt;&gt; f&quot;{x3:.3f}  {y3:.3f}&quot;</span>
-<span class="sd">        &#39;10909310.098  3895303.963&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f"{x3:.3f}  {y3:.3f}"</span>
+<span class="sd">        '10909310.098  3895303.963'</span>
 <span class="sd">        &gt;&gt;&gt; pipeline_str = (</span>
-<span class="sd">        ...     &quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
-<span class="sd">        ...     &quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="sd">        ...     "+proj=pipeline +step +proj=longlat +ellps=WGS84 "</span>
+<span class="sd">        ...     "+step +proj=unitconvert +xy_in=rad +xy_out=deg"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
 <span class="sd">        &gt;&gt;&gt; xt, yt = pipe_trans.transform(2.1, 0.001)</span>
-<span class="sd">        &gt;&gt;&gt; f&quot;{xt:.3f}  {yt:.3f}&quot;</span>
-<span class="sd">        &#39;2.100  0.001&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f"{xt:.3f}  {yt:.3f}"</span>
+<span class="sd">        '2.100  0.001'</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
-<span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
-<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
+<span class="sd">        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},</span>
+<span class="sd">        ...     "EPSG:4326",</span>
 <span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; xpj, ypj, zpj = transproj.transform(</span>
@@ -1215,22 +1215,22 @@
 <span class="sd">        ...     3895878.820,</span>
 <span class="sd">        ...     radians=True,</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; f&quot;{xpj:.3f} {ypj:.3f} {zpj:.3f}&quot;</span>
-<span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f"{xpj:.3f} {ypj:.3f} {zpj:.3f}"</span>
+<span class="sd">        '-2.137 0.661 -20.531'</span>
 <span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_crs(</span>
-<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
-<span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
+<span class="sd">        ...     "EPSG:4326",</span>
+<span class="sd">        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},</span>
 <span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; xpjr, ypjr, zpjr = transprojr.transform(xpj, ypj, zpj, radians=True)</span>
-<span class="sd">        &gt;&gt;&gt; f&quot;{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}&quot;</span>
-<span class="sd">        &#39;-2704026.010 -4253051.810 3895878.820&#39;</span>
-<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(&quot;EPSG:4326&quot;, 4326)</span>
+<span class="sd">        &gt;&gt;&gt; f"{xpjr:.3f} {ypjr:.3f} {zpjr:.3f}"</span>
+<span class="sd">        '-2704026.010 -4253051.810 3895878.820'</span>
+<span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs("EPSG:4326", 4326)</span>
 <span class="sd">        &gt;&gt;&gt; xeq, yeq = transformer.transform(33, 98)</span>
-<span class="sd">        &gt;&gt;&gt; f&quot;{xeq:.0f}  {yeq:.0f}&quot;</span>
-<span class="sd">        &#39;33  98&#39;</span>
+<span class="sd">        &gt;&gt;&gt; f"{xeq:.0f}  {yeq:.0f}"</span>
+<span class="sd">        '33  98'</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># function optimized for point data; returns None for non-scalar input</span>
         <span class="n">point_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform_point</span><span class="p">(</span>
             <span class="n">inx</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span>
@@ -1286,7 +1286,7 @@
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Iterator/generator version of the function pyproj.Transformer.transform.</span>
 
 <span class="sd">        See: :c:func:`proj_trans_generic`</span>
@@ -1322,63 +1322,63 @@
 <span class="sd">        &gt;&gt;&gt; from pyproj import Transformer</span>
 <span class="sd">        &gt;&gt;&gt; transformer = Transformer.from_crs(4326, 2100)</span>
 <span class="sd">        &gt;&gt;&gt; points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]</span>
-<span class="sd">        &gt;&gt;&gt; for pt in transformer.itransform(points): &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
-<span class="sd">        &#39;2221638.801 2637034.372&#39;</span>
-<span class="sd">        &#39;2212924.125 2619851.898&#39;</span>
-<span class="sd">        &#39;2238294.779 2703763.736&#39;</span>
+<span class="sd">        &gt;&gt;&gt; for pt in transformer.itransform(points): '{:.3f} {:.3f}'.format(*pt)</span>
+<span class="sd">        '2221638.801 2637034.372'</span>
+<span class="sd">        '2212924.125 2619851.898'</span>
+<span class="sd">        '2238294.779 2703763.736'</span>
 <span class="sd">        &gt;&gt;&gt; pipeline_str = (</span>
-<span class="sd">        ...     &quot;+proj=pipeline +step +proj=longlat +ellps=WGS84 &quot;</span>
-<span class="sd">        ...     &quot;+step +proj=unitconvert +xy_in=rad +xy_out=deg&quot;</span>
+<span class="sd">        ...     "+proj=pipeline +step +proj=longlat +ellps=WGS84 "</span>
+<span class="sd">        ...     "+step +proj=unitconvert +xy_in=rad +xy_out=deg"</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; pipe_trans = Transformer.from_pipeline(pipeline_str)</span>
 <span class="sd">        &gt;&gt;&gt; for pt in pipe_trans.itransform([(2.1, 0.001)]):</span>
-<span class="sd">        ...     &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
-<span class="sd">        &#39;2.100 0.001&#39;</span>
+<span class="sd">        ...     '{:.3f} {:.3f}'.format(*pt)</span>
+<span class="sd">        '2.100 0.001'</span>
 <span class="sd">        &gt;&gt;&gt; transproj = Transformer.from_crs(</span>
-<span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
-<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
+<span class="sd">        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},</span>
+<span class="sd">        ...     "EPSG:4326",</span>
 <span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transproj.itransform(</span>
 <span class="sd">        ...     [(-2704026.010, -4253051.810, 3895878.820)],</span>
 <span class="sd">        ...     radians=True,</span>
 <span class="sd">        ... ):</span>
-<span class="sd">        ...     &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
-<span class="sd">        &#39;-2.137 0.661 -20.531&#39;</span>
+<span class="sd">        ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)</span>
+<span class="sd">        '-2.137 0.661 -20.531'</span>
 <span class="sd">        &gt;&gt;&gt; transprojr = Transformer.from_crs(</span>
-<span class="sd">        ...     &quot;EPSG:4326&quot;,</span>
-<span class="sd">        ...     {&quot;proj&quot;:&#39;geocent&#39;, &quot;ellps&quot;:&#39;WGS84&#39;, &quot;datum&quot;:&#39;WGS84&#39;},</span>
+<span class="sd">        ...     "EPSG:4326",</span>
+<span class="sd">        ...     {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'},</span>
 <span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transprojr.itransform(</span>
 <span class="sd">        ...     [(-2.137, 0.661, -20.531)],</span>
 <span class="sd">        ...     radians=True</span>
 <span class="sd">        ... ):</span>
-<span class="sd">        ...     &#39;{:.3f} {:.3f} {:.3f}&#39;.format(*pt)</span>
-<span class="sd">        &#39;-2704214.394 -4254414.478 3894270.731&#39;</span>
+<span class="sd">        ...     '{:.3f} {:.3f} {:.3f}'.format(*pt)</span>
+<span class="sd">        '-2704214.394 -4254414.478 3894270.731'</span>
 <span class="sd">        &gt;&gt;&gt; transproj_eq = Transformer.from_crs(</span>
-<span class="sd">        ...     &#39;EPSG:4326&#39;,</span>
-<span class="sd">        ...     &#39;+proj=longlat +datum=WGS84 +no_defs +type=crs&#39;,</span>
+<span class="sd">        ...     'EPSG:4326',</span>
+<span class="sd">        ...     '+proj=longlat +datum=WGS84 +no_defs +type=crs',</span>
 <span class="sd">        ...     always_xy=True,</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; for pt in transproj_eq.itransform([(-2.137, 0.661)]):</span>
-<span class="sd">        ...     &#39;{:.3f} {:.3f}&#39;.format(*pt)</span>
-<span class="sd">        &#39;-2.137 0.661&#39;</span>
+<span class="sd">        ...     '{:.3f} {:.3f}'.format(*pt)</span>
+<span class="sd">        '-2.137 0.661'</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">point_it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># point iterator</span>
         <span class="c1"># get first point to check stride</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">fst_pt</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">point_it</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iterable must contain at least one point&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"iterable must contain at least one point"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
         <span class="n">stride</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fst_pt</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">stride</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;points can contain up to 4 coordinates&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"points can contain up to 4 coordinates"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">time_3rd</span> <span class="ow">and</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;time_3rd&#39; is only valid for 3 coordinates.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'time_3rd' is only valid for 3 coordinates."</span><span class="p">)</span>
 
         <span class="c1"># create a coordinate sequence generator etc. x1,y1,z1,x2,y2,z2,....</span>
         <span class="c1"># chain so the generator returns the first point that was already acquired</span>
@@ -1389,7 +1389,7 @@
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="c1"># create a temporary buffer storage for</span>
             <span class="c1"># the next 64 points (64*stride*8 bytes)</span>
-            <span class="n">buff</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">islice</span><span class="p">(</span><span class="n">coord_gen</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span> <span class="o">*</span> <span class="n">stride</span><span class="p">))</span>
+            <span class="n">buff</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s2">"d"</span><span class="p">,</span> <span class="n">islice</span><span class="p">(</span><span class="n">coord_gen</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span> <span class="o">*</span> <span class="n">stride</span><span class="p">))</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">break</span>
 
@@ -1419,7 +1419,7 @@
         <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">direction</span><span class="p">:</span> <span class="n">TransformDirection</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TransformDirection</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        .. versionadded:: 3.1.0</span>
 
 <span class="sd">        See: :c:func:`proj_trans_bounds`</span>
@@ -1478,7 +1478,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        left, bottom, right, top: float</span>
 <span class="sd">            Outermost coordinates in target coordinate reference system.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">_transform_bounds</span><span class="p">(</span>
             <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span>
             <span class="n">bottom</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span>
@@ -1498,7 +1498,7 @@
         <span class="n">version</span><span class="p">:</span> <span class="n">ProjVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ProjVersion</span><span class="o">.</span><span class="n">PROJ_5</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the projection to a PROJ string.</span>
 
 <span class="sd">        .. versionadded:: 3.1.0</span>
@@ -1516,7 +1516,7 @@
 <span class="sd">        str:</span>
 <span class="sd">            The PROJ string.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_proj4</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span></div>
 
 
@@ -1527,7 +1527,7 @@
         <span class="n">version</span><span class="p">:</span> <span class="n">WktVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
 
 <span class="sd">        Version options:</span>
@@ -1551,14 +1551,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        str:</span>
 <span class="sd">            The WKT string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Transformer.to_json">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_json">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the projection to a JSON string.</span>
 
 <span class="sd">        .. versionadded:: 2.4.0</span>
@@ -1574,14 +1574,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        str:</span>
 <span class="sd">            The JSON string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">,</span> <span class="n">indentation</span><span class="o">=</span><span class="n">indentation</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Transformer.to_json_dict">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_json_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_json_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the projection to a JSON dictionary.</span>
 
 <span class="sd">        .. versionadded:: 2.4.0</span>
@@ -1590,7 +1590,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        dict:</span>
 <span class="sd">            The JSON dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span></div>
 
 
@@ -1599,9 +1599,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">type_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Description: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Area of Use:</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_use</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;- undefined&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">type_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"Description: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">"Area of Use:</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">area_of_use</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">'- undefined'</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1612,7 +1612,7 @@
 <div class="viewcode-block" id="Transformer.is_exact_same">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.is_exact_same">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_exact_same</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Check if the Transformer objects are the exact same.</span>
 <span class="sd">        If it is not a Transformer, then it returns False.</span>
 
@@ -1623,7 +1623,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Transformer</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">is_exact_same</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_transformer</span><span class="p">)</span></div>
@@ -1644,7 +1644,7 @@
     <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
 
 <span class="sd">    .. deprecated:: 2.6.1</span>
@@ -1660,10 +1660,10 @@
 
 <span class="sd">    z1 is optional, if it is not set it is assumed to be zero (and</span>
 <span class="sd">    only x2 and y2 are returned). If the optional keyword</span>
-<span class="sd">    &#39;radians&#39; is True (default is False), then all input and</span>
+<span class="sd">    'radians' is True (default is False), then all input and</span>
 <span class="sd">    output coordinates will be in radians instead of the default</span>
 <span class="sd">    of degrees for geographic input/output projections.</span>
-<span class="sd">    If the optional keyword &#39;errcheck&#39; is set to True an</span>
+<span class="sd">    If the optional keyword 'errcheck' is set to True an</span>
 <span class="sd">    exception is raised if the transformation is</span>
 <span class="sd">    invalid. By default errcheck=False and ``inf`` is returned for an</span>
 <span class="sd">    invalid transformation (and no exception is raised).</span>
@@ -1676,19 +1676,19 @@
 <span class="sd">    projection coordinates, this function can take care of datum</span>
 <span class="sd">    shifts (which cannot be done using the __call__ method of the</span>
 <span class="sd">    Proj instances). It also allows for one of the coordinate</span>
-<span class="sd">    systems to be geographic (proj = &#39;latlong&#39;).</span>
+<span class="sd">    systems to be geographic (proj = 'latlong').</span>
 
 <span class="sd">    x,y and z can be numpy or regular python arrays, python</span>
 <span class="sd">    lists/tuples or scalars. Arrays are fastest.  For projections in</span>
 <span class="sd">    geocentric coordinates, values of x and y are given in meters.</span>
 <span class="sd">    z is always meters.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
         <span class="p">(</span>
-            <span class="s2">&quot;This function is deprecated. &quot;</span>
-            <span class="s2">&quot;See: https://pyproj4.github.io/pyproj/stable/&quot;</span>
-            <span class="s2">&quot;gotchas.html#upgrading-to-pyproj-2-from-pyproj-1&quot;</span>
+            <span class="s2">"This function is deprecated. "</span>
+            <span class="s2">"See: https://pyproj4.github.io/pyproj/stable/"</span>
+            <span class="s2">"gotchas.html#upgrading-to-pyproj-2-from-pyproj-1"</span>
         <span class="p">),</span>
         <span class="ne">FutureWarning</span><span class="p">,</span>
         <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -1711,7 +1711,7 @@
     <span class="n">errcheck</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">always_xy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    .. versionadded:: 2.2.0 always_xy</span>
 
 <span class="sd">    .. deprecated:: 2.6.1</span>
@@ -1733,12 +1733,12 @@
 <span class="sd">        - a Nx3 or Nx2 2d numpy array where N is the point number</span>
 <span class="sd">        - a generator of coordinates (xi,yi) for 2d points or (xi,yi,zi) for 3d</span>
 
-<span class="sd">    If optional keyword &#39;switch&#39; is True (default is False) then x, y or lon,lat</span>
+<span class="sd">    If optional keyword 'switch' is True (default is False) then x, y or lon,lat</span>
 <span class="sd">    coordinates of points are switched to y, x or lat, lon.</span>
-<span class="sd">    If the optional keyword &#39;radians&#39; is True (default is False),</span>
+<span class="sd">    If the optional keyword 'radians' is True (default is False),</span>
 <span class="sd">    then all input and output coordinates will be in radians instead</span>
 <span class="sd">    of the default of degrees for geographic input/output projections.</span>
-<span class="sd">    If the optional keyword &#39;errcheck&#39; is set to True an</span>
+<span class="sd">    If the optional keyword 'errcheck' is set to True an</span>
 <span class="sd">    exception is raised if the transformation is</span>
 <span class="sd">    invalid. By default errcheck=False and ``inf`` is returned for an</span>
 <span class="sd">    invalid transformation (and no exception is raised).</span>
@@ -1753,26 +1753,26 @@
 <span class="sd">    &gt;&gt;&gt; from pyproj import Proj, itransform</span>
 <span class="sd">    &gt;&gt;&gt; # projection 1: WGS84</span>
 <span class="sd">    &gt;&gt;&gt; # (defined by epsg code 4326)</span>
-<span class="sd">    &gt;&gt;&gt; p1 = Proj(&#39;epsg:4326&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; p1 = Proj('epsg:4326', preserve_units=False)</span>
 <span class="sd">    &gt;&gt;&gt; # projection 2: GGRS87 / Greek Grid</span>
-<span class="sd">    &gt;&gt;&gt; p2 = Proj(&#39;epsg:2100&#39;, preserve_units=False)</span>
+<span class="sd">    &gt;&gt;&gt; p2 = Proj('epsg:2100', preserve_units=False)</span>
 <span class="sd">    &gt;&gt;&gt; # Three points with coordinates lon, lat in p1</span>
 <span class="sd">    &gt;&gt;&gt; points = [(22.95, 40.63), (22.81, 40.53), (23.51, 40.86)]</span>
 <span class="sd">    &gt;&gt;&gt; # transform this point to projection 2 coordinates.</span>
-<span class="sd">    &gt;&gt;&gt; for pt in itransform(p1,p2,points, always_xy=True): &#39;%6.3f %7.3f&#39; % pt</span>
-<span class="sd">    &#39;411050.470 4497928.574&#39;</span>
-<span class="sd">    &#39;399060.236 4486978.710&#39;</span>
-<span class="sd">    &#39;458553.243 4523045.485&#39;</span>
+<span class="sd">    &gt;&gt;&gt; for pt in itransform(p1,p2,points, always_xy=True): '%6.3f %7.3f' % pt</span>
+<span class="sd">    '411050.470 4497928.574'</span>
+<span class="sd">    '399060.236 4486978.710'</span>
+<span class="sd">    '458553.243 4523045.485'</span>
 <span class="sd">    &gt;&gt;&gt; for pt in itransform(4326, 4326, [(30, 60)]):</span>
-<span class="sd">    ...     &#39;{:.0f} {:.0f}&#39;.format(*pt)</span>
-<span class="sd">    &#39;30 60&#39;</span>
+<span class="sd">    ...     '{:.0f} {:.0f}'.format(*pt)</span>
+<span class="sd">    '30 60'</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
         <span class="p">(</span>
-            <span class="s2">&quot;This function is deprecated. &quot;</span>
-            <span class="s2">&quot;See: https://pyproj4.github.io/pyproj/stable/&quot;</span>
-            <span class="s2">&quot;gotchas.html#upgrading-to-pyproj-2-from-pyproj-1&quot;</span>
+            <span class="s2">"This function is deprecated. "</span>
+            <span class="s2">"See: https://pyproj4.github.io/pyproj/stable/"</span>
+            <span class="s2">"gotchas.html#upgrading-to-pyproj-2-from-pyproj-1"</span>
         <span class="p">),</span>
         <span class="ne">FutureWarning</span><span class="p">,</span>
         <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>

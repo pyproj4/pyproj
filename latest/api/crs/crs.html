@@ -338,9 +338,9 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">area_of_use</span><span class="o">.</span><span class="n">bounds</span>
 <span class="go">(-96.0, 25.61, -90.0, 84.0)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">ellipsoid</span>
-<span class="go">ELLIPSOID[&quot;GRS 1980&quot;,6378137,298.257222101,</span>
-<span class="go">    LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">    ID[&quot;EPSG&quot;,7019]]</span>
+<span class="go">ELLIPSOID["GRS 1980",6378137,298.257222101,</span>
+<span class="go">    LENGTHUNIT["metre",1],</span>
+<span class="go">    ID["EPSG",7019]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">inverse_flattening</span>
 <span class="go">298.257222101</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_major_metre</span>
@@ -348,92 +348,92 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">semi_minor_metre</span>
 <span class="go">6356752.314140356</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">prime_meridian</span>
-<span class="go">PRIMEM[&quot;Greenwich&quot;,0,</span>
-<span class="go">    ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">    ID[&quot;EPSG&quot;,8901]]</span>
+<span class="go">PRIMEM["Greenwich",0,</span>
+<span class="go">    ANGLEUNIT["degree",0.0174532925199433],</span>
+<span class="go">    ID["EPSG",8901]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">prime_meridian</span><span class="o">.</span><span class="n">unit_name</span>
-<span class="go">&#39;degree&#39;</span>
+<span class="go">'degree'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">prime_meridian</span><span class="o">.</span><span class="n">unit_conversion_factor</span>
 <span class="go">0.017453292519943295</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">prime_meridian</span><span class="o">.</span><span class="n">longitude</span>
 <span class="go">0.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">datum</span>
-<span class="go">DATUM[&quot;North American Datum 1983&quot;,</span>
-<span class="go">    ELLIPSOID[&quot;GRS 1980&quot;,6378137,298.257222101,</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1]],</span>
-<span class="go">    ID[&quot;EPSG&quot;,6269]]</span>
+<span class="go">DATUM["North American Datum 1983",</span>
+<span class="go">    ELLIPSOID["GRS 1980",6378137,298.257222101,</span>
+<span class="go">        LENGTHUNIT["metre",1]],</span>
+<span class="go">    ID["EPSG",6269]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs_utm</span><span class="o">.</span><span class="n">coordinate_system</span>
 <span class="go">CS[Cartesian,2],</span>
-<span class="go">    AXIS[&quot;(E)&quot;,east,</span>
+<span class="go">    AXIS["(E)",east,</span>
 <span class="go">        ORDER[1],</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1,</span>
-<span class="go">            ID[&quot;EPSG&quot;,9001]]],</span>
-<span class="go">    AXIS[&quot;(N)&quot;,north,</span>
+<span class="go">        LENGTHUNIT["metre",1,</span>
+<span class="go">            ID["EPSG",9001]]],</span>
+<span class="go">    AXIS["(N)",north,</span>
 <span class="go">        ORDER[2],</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1,</span>
-<span class="go">            ID[&quot;EPSG&quot;,9001]]]</span>
+<span class="go">        LENGTHUNIT["metre",1,</span>
+<span class="go">            ID["EPSG",9001]]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs_utm</span><span class="o">.</span><span class="n">coordinate_operation</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="go">CONVERSION[&quot;UTM zone 15N&quot;,</span>
-<span class="go">    METHOD[&quot;Transverse Mercator&quot;,</span>
-<span class="go">        ID[&quot;EPSG&quot;,9807]],</span>
-<span class="go">    PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
-<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8801]],</span>
-<span class="go">    PARAMETER[&quot;Longitude of natural origin&quot;,-93,</span>
-<span class="go">        ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8802]],</span>
-<span class="go">    PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,</span>
-<span class="go">        SCALEUNIT[&quot;unity&quot;,1],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8805]],</span>
-<span class="go">    PARAMETER[&quot;False easting&quot;,500000,</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8806]],</span>
-<span class="go">    PARAMETER[&quot;False northing&quot;,0,</span>
-<span class="go">        LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">        ID[&quot;EPSG&quot;,8807]],</span>
-<span class="go">    ID[&quot;EPSG&quot;,16015]]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">&#39;utm&#39;</span><span class="p">,</span> <span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ellps</span><span class="o">=</span><span class="s1">&#39;WGS84&#39;</span><span class="p">)</span>
+<span class="go">CONVERSION["UTM zone 15N",</span>
+<span class="go">    METHOD["Transverse Mercator",</span>
+<span class="go">        ID["EPSG",9807]],</span>
+<span class="go">    PARAMETER["Latitude of natural origin",0,</span>
+<span class="go">        ANGLEUNIT["degree",0.0174532925199433],</span>
+<span class="go">        ID["EPSG",8801]],</span>
+<span class="go">    PARAMETER["Longitude of natural origin",-93,</span>
+<span class="go">        ANGLEUNIT["degree",0.0174532925199433],</span>
+<span class="go">        ID["EPSG",8802]],</span>
+<span class="go">    PARAMETER["Scale factor at natural origin",0.9996,</span>
+<span class="go">        SCALEUNIT["unity",1],</span>
+<span class="go">        ID["EPSG",8805]],</span>
+<span class="go">    PARAMETER["False easting",500000,</span>
+<span class="go">        LENGTHUNIT["metre",1],</span>
+<span class="go">        ID["EPSG",8806]],</span>
+<span class="go">    PARAMETER["False northing",0,</span>
+<span class="go">        LENGTHUNIT["metre",1],</span>
+<span class="go">        ID["EPSG",8807]],</span>
+<span class="go">    ID["EPSG",16015]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="s1">'utm'</span><span class="p">,</span> <span class="n">zone</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ellps</span><span class="o">=</span><span class="s1">'WGS84'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">crs</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="go">PROJCRS[&quot;unknown&quot;,</span>
-<span class="go">    BASEGEOGCRS[&quot;unknown&quot;,</span>
-<span class="go">        DATUM[&quot;Unknown based on WGS84 ellipsoid&quot;,</span>
-<span class="go">            ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span>
-<span class="go">                LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">                ID[&quot;EPSG&quot;,7030]]],</span>
-<span class="go">        PRIMEM[&quot;Greenwich&quot;,0,</span>
-<span class="go">            ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">            ID[&quot;EPSG&quot;,8901]]],</span>
-<span class="go">    CONVERSION[&quot;UTM zone 10N&quot;,</span>
-<span class="go">        METHOD[&quot;Transverse Mercator&quot;,</span>
-<span class="go">            ID[&quot;EPSG&quot;,9807]],</span>
-<span class="go">        PARAMETER[&quot;Latitude of natural origin&quot;,0,</span>
-<span class="go">            ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">            ID[&quot;EPSG&quot;,8801]],</span>
-<span class="go">        PARAMETER[&quot;Longitude of natural origin&quot;,-123,</span>
-<span class="go">            ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span>
-<span class="go">            ID[&quot;EPSG&quot;,8802]],</span>
-<span class="go">        PARAMETER[&quot;Scale factor at natural origin&quot;,0.9996,</span>
-<span class="go">            SCALEUNIT[&quot;unity&quot;,1],</span>
-<span class="go">            ID[&quot;EPSG&quot;,8805]],</span>
-<span class="go">        PARAMETER[&quot;False easting&quot;,500000,</span>
-<span class="go">            LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">            ID[&quot;EPSG&quot;,8806]],</span>
-<span class="go">        PARAMETER[&quot;False northing&quot;,0,</span>
-<span class="go">            LENGTHUNIT[&quot;metre&quot;,1],</span>
-<span class="go">            ID[&quot;EPSG&quot;,8807]],</span>
-<span class="go">        ID[&quot;EPSG&quot;,16010]],</span>
+<span class="go">PROJCRS["unknown",</span>
+<span class="go">    BASEGEOGCRS["unknown",</span>
+<span class="go">        DATUM["Unknown based on WGS84 ellipsoid",</span>
+<span class="go">            ELLIPSOID["WGS 84",6378137,298.257223563,</span>
+<span class="go">                LENGTHUNIT["metre",1],</span>
+<span class="go">                ID["EPSG",7030]]],</span>
+<span class="go">        PRIMEM["Greenwich",0,</span>
+<span class="go">            ANGLEUNIT["degree",0.0174532925199433],</span>
+<span class="go">            ID["EPSG",8901]]],</span>
+<span class="go">    CONVERSION["UTM zone 10N",</span>
+<span class="go">        METHOD["Transverse Mercator",</span>
+<span class="go">            ID["EPSG",9807]],</span>
+<span class="go">        PARAMETER["Latitude of natural origin",0,</span>
+<span class="go">            ANGLEUNIT["degree",0.0174532925199433],</span>
+<span class="go">            ID["EPSG",8801]],</span>
+<span class="go">        PARAMETER["Longitude of natural origin",-123,</span>
+<span class="go">            ANGLEUNIT["degree",0.0174532925199433],</span>
+<span class="go">            ID["EPSG",8802]],</span>
+<span class="go">        PARAMETER["Scale factor at natural origin",0.9996,</span>
+<span class="go">            SCALEUNIT["unity",1],</span>
+<span class="go">            ID["EPSG",8805]],</span>
+<span class="go">        PARAMETER["False easting",500000,</span>
+<span class="go">            LENGTHUNIT["metre",1],</span>
+<span class="go">            ID["EPSG",8806]],</span>
+<span class="go">        PARAMETER["False northing",0,</span>
+<span class="go">            LENGTHUNIT["metre",1],</span>
+<span class="go">            ID["EPSG",8807]],</span>
+<span class="go">        ID["EPSG",16010]],</span>
 <span class="go">    CS[Cartesian,2],</span>
-<span class="go">        AXIS[&quot;(E)&quot;,east,</span>
+<span class="go">        AXIS["(E)",east,</span>
 <span class="go">            ORDER[1],</span>
-<span class="go">            LENGTHUNIT[&quot;metre&quot;,1,</span>
-<span class="go">                ID[&quot;EPSG&quot;,9001]]],</span>
-<span class="go">        AXIS[&quot;(N)&quot;,north,</span>
+<span class="go">            LENGTHUNIT["metre",1,</span>
+<span class="go">                ID["EPSG",9001]]],</span>
+<span class="go">        AXIS["(N)",north,</span>
 <span class="go">            ORDER[2],</span>
-<span class="go">            LENGTHUNIT[&quot;metre&quot;,1,</span>
-<span class="go">                ID[&quot;EPSG&quot;,9001]]]]</span>
+<span class="go">            LENGTHUNIT["metre",1,</span>
+<span class="go">                ID["EPSG",9001]]]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">geod</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">get_geod</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;+a=</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">a</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> +f=</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">f</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="go">&#39;+a=6378137 +f=0.00335281&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">"+a=</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">a</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> +f=</span><span class="si">{</span><span class="n">geod</span><span class="o">.</span><span class="n">f</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">"</span>
+<span class="go">'+a=6378137 +f=0.00335281'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">is_projected</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span><span class="o">.</span><span class="n">is_geographic</span>
@@ -970,20 +970,20 @@ the source CRS is vertical if it is a bound CRS.</p>
 <p>Return the authority names and codes best matching the CRS.</p>
 <p>Example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4328&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:4328"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">()</span>
-<span class="go">[AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4326&#39;, confidence=100)]</span>
+<span class="go">[AuthorityMatchInfo(auth_name='EPSG', code='4326', confidence=100)]</span>
 </pre></div>
 </div>
 <p>If the CRS is bound, you can get an authority from
 the source CRS:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+proj=geocent +datum=WGS84 +towgs84=0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"+proj=geocent +datum=WGS84 +towgs84=0,0,0"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">()</span>
 <span class="go">[]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">list_authority</span><span class="p">()</span>
-<span class="go">[AuthorityMatchInfo(auth_name=&#39;EPSG&#39;, code=&#39;4978&#39;, confidence=70)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_authorty</span><span class="p">(</span><span class="s1">&#39;EPSG&#39;</span><span class="p">,</span> <span class="s1">&#39;4978&#39;</span><span class="p">)</span>
+<span class="go">[AuthorityMatchInfo(auth_name='EPSG', code='4978', confidence=70)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_authorty</span><span class="p">(</span><span class="s1">'EPSG'</span><span class="p">,</span> <span class="s1">'4978'</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
 </div>
@@ -1150,19 +1150,19 @@ or the source CRS of a CoordinateOperation.</p>
 or None if it a match is not found.</p>
 <p>Example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4328&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:4328"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
-<span class="go">(&#39;EPSG&#39;, &#39;4328&#39;)</span>
+<span class="go">('EPSG', '4328')</span>
 </pre></div>
 </div>
 <p>If the CRS is bound, you can get an authority from
 the source CRS:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+proj=geocent +datum=WGS84 +towgs84=0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"+proj=geocent +datum=WGS84 +towgs84=0,0,0"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_authority</span><span class="p">()</span>
-<span class="go">(&#39;EPSG&#39;, &#39;4978&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_authorty</span><span class="p">(</span><span class="s1">&#39;EPSG&#39;</span><span class="p">,</span> <span class="s1">&#39;4978&#39;</span><span class="p">)</span>
+<span class="go">('EPSG', '4978')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">==</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_authorty</span><span class="p">(</span><span class="s1">'EPSG'</span><span class="p">,</span> <span class="s1">'4978'</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
 </div>
@@ -1239,7 +1239,7 @@ another format. See: <a class="reference external" href="https://proj.org/faq.ht
 or None if it a match is not found.</p>
 <p>Example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;EPSG:4328&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"EPSG:4328"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
 <span class="go">4328</span>
 </pre></div>
@@ -1247,7 +1247,7 @@ or None if it a match is not found.</p>
 <p>If the CRS is bound, you can attempt to get an epsg code from
 the source CRS:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">&quot;+proj=geocent +datum=WGS84 +towgs84=0,0,0&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"+proj=geocent +datum=WGS84 +towgs84=0,0,0"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ccs</span><span class="o">.</span><span class="n">source_crs</span><span class="o">.</span><span class="n">to_epsg</span><span class="p">()</span>
 <span class="go">4978</span>
