@@ -120,7 +120,7 @@ You can build the documentation locally to see how your changes will look.
 * Build the docs: ``make docs``
 * Or, to build and open in a browser: ``make docs-browser``
 
-**On Windows:** Use ``make html`` instead of ``make docs``. Also ensure you have installed the documentation requirements with ``pip install -r requirements-docs.txt`` before building.
+**On Windows:** Use ``make -C docs html`` instead of ``make docs``. Also ensure you have installed the documentation requirements with ``pip install --group docs`` before building.
 
 ## Tests
 Unit tests are the lifeblood of the project, as it ensures that we can continue to add and
