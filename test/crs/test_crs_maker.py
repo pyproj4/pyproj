@@ -32,6 +32,8 @@ def assert_maker_inheritance_valid(new_crs, class_type):
     assert isinstance(new_crs.source_crs, (type(None), CRS))
     assert isinstance(new_crs.target_crs, (type(None), CRS))
     assert isinstance(new_crs.to_3d(), CRS)
+    assert isinstance(new_crs.to_2d(), CRS)
+    assert isinstance(new_crs.to_3d().to_2d(), CRS)
     for sub_crs in new_crs.sub_crs_list:
         assert isinstance(sub_crs, CRS)
 
@@ -343,3 +345,22 @@ def test_custom_constructor_crs():
             super().__init__(name)
 
     assert isinstance(MyCustomInit.from_epsg(4326), MyCustomInit)
+
+
+@pytest.mark.parametrize(
+    "crs_3d",
+    [
+        GeographicCRS(name="TEST", ellipsoidal_cs=Ellipsoidal3DCS()),
+        ProjectedCRS.from_json(
+            ProjectedCRS(conversion=UTMConversion(12), name="TEST").to_3d().to_json()
+        ),
+    ],
+)
+def test_custom_constructor_crs__to_2d(crs_3d):
+    assert len(crs_3d.axis_info) == 3
+    crs_2d = crs_3d.to_2d()
+    # must match what the equivalent pyproj.CRS instance returns
+    assert crs_2d == CRS(crs_3d.to_wkt()).to_2d()
+    assert len(crs_2d.axis_info) == 2
+    assert crs_2d.name == "TEST"
+    assert crs_3d.to_2d(name="OTHER").name == "OTHER"
