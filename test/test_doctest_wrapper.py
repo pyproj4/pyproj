@@ -29,9 +29,8 @@ def test_doctests():
     try:
         import shapely.geometry  # noqa: F401 pylint: disable=unused-import
     except (ImportError, OSError):
-        # missing shapely; these are the examples in Geod.geometry_length and
-        # Geod.geometry_area_perimeter that need a shapely geometry
-        expected_failure_count = 8
+        # missing shapely
+        expected_failure_count = 6
 
     # if the below line fails, doctests have failed
     assert failure_count == expected_failure_count, (
