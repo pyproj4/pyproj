@@ -14,6 +14,7 @@ Latest
 - ENH: Added :class:`pyproj.enums.GridAvailabilityUse` enum for TransformerGroup ``grid_check`` kwarg
 - ENH: Added always_xy kwarg to :meth:`pyproj.transformer.Transformer.from_pipeline`
 - DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
+- DOC: Describe the size limit and negative results of :meth:`pyproj.Geod.geometry_area_perimeter` concretely (issue #1592)
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
 - BUG: Fix :meth:`pyproj.crs.CRS.to_2d` raising on :class:`pyproj.crs.CustomConstructorCRS` subclasses

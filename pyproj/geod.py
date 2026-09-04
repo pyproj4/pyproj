@@ -1029,9 +1029,16 @@ class Geod(_Geod):
 
         .. note:: lats should be in the range [-90 deg, 90 deg].
 
-        .. note:: | There are a few limitations :
-                  | - only works with areas up to half the size of the globe ;
-                  | - certain large polygons may return negative values.
+        .. note:: The area is *signed*: it is the area to the left of the
+                  boundary as it is traversed, so a clockwise ring gives a
+                  negative value (see the warning below on orientation). Two
+                  things can make the sign surprising. The edges are geodesics
+                  and each is taken the short way round the ellipsoid, so a ring
+                  can be clockwise on the ellipsoid even when its
+                  longitude/latitude coordinates look counter-clockwise -- for
+                  example when an edge spans the antimeridian. And the magnitude
+                  is at most half the ellipsoid's total area, so a region larger
+                  than that half is reported as the negated area of the rest.
 
         .. warning:: The area returned is signed with counter-clockwise (CCW) traversal
                      being treated as positive. For polygons, holes should use the
