@@ -3,7 +3,6 @@ import os
 import threading
 import warnings
 
-from cpython.pythread cimport PyThread_tss_create, PyThread_tss_get, PyThread_tss_set
 from libc.stdlib cimport free, malloc
 
 from pyproj._compat cimport cstrencode
@@ -22,8 +21,6 @@ cdef str _INTERNAL_PROJ_ERROR = None
 # global variables
 cdef bint _NETWORK_ENABLED = strtobool(os.environ.get("PROJ_NETWORK", "OFF"))
 cdef char* _CA_BUNDLE_PATH = ""
-# The key to get the context in each thread
-cdef Py_tss_t CONTEXT_THREAD_KEY
 
 
 def set_use_global_context(active=None):
@@ -177,7 +174,6 @@ cdef class ContextManager:
 
     def __dealloc__(self):
         if self.context != NULL:
-            PyThread_tss_set(&CONTEXT_THREAD_KEY, NULL)
             proj_context_destroy(self.context)
             self.context = NULL
 
@@ -207,17 +203,14 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     global _CONTEXT_MANAGER_LOCAL
 
-    if PyThread_tss_create(&CONTEXT_THREAD_KEY) != 0:
-        raise MemoryError("Unable to create key for PROJ context in thread.")
-    cdef const void *thread_pyproj_context = PyThread_tss_get(&CONTEXT_THREAD_KEY)
+    cdef ContextManager context_manager = _CONTEXT_MANAGER_LOCAL.context_manager
     cdef PJ_CONTEXT* pyproj_context = NULL
-    if thread_pyproj_context == NULL:
+    if context_manager is None:
         pyproj_context = proj_context_create()
         pyproj_context_initialize(pyproj_context)
-        PyThread_tss_set(&CONTEXT_THREAD_KEY, pyproj_context)
         _CONTEXT_MANAGER_LOCAL.context_manager = ContextManager.create(pyproj_context)
     else:
-        pyproj_context = <PJ_CONTEXT*>thread_pyproj_context
+        pyproj_context = context_manager.context
     return pyproj_context
 
 
