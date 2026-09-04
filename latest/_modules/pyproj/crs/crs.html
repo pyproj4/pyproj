@@ -2153,6 +2153,26 @@
 <span class="sd">        CRS</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_3d</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="CustomConstructorCRS.to_2d">
+<a class="viewcode-back" href="../../../api/crs/crs.html#pyproj.crs.CustomConstructorCRS.to_2d">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"CRS"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        .. versionadded:: 3.6.0</span>
+
+<span class="sd">        Convert the current CRS to the 2D version if it makes sense.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str, optional</span>
+<span class="sd">            CRS name. Defaults to use the name of the original CRS.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CRS</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">CRS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crs</span><span class="o">.</span><span class="n">to_2d</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 </div>
 
 
