@@ -1744,6 +1744,7 @@ def test_inheritance__from_methods():
         assert isinstance(new_crs.source_crs, (type(None), ChildCRS))
         assert isinstance(new_crs.target_crs, (type(None), ChildCRS))
         assert isinstance(new_crs.to_3d(), ChildCRS)
+        assert isinstance(new_crs.to_2d(), ChildCRS)
         for sub_crs in new_crs.sub_crs_list:
             assert isinstance(sub_crs, ChildCRS)
 

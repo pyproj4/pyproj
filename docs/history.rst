@@ -16,6 +16,7 @@ Latest
 - DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
 - BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
 - BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
+- BUG: Fix :meth:`pyproj.crs.CRS.to_2d` raising on :class:`pyproj.crs.CustomConstructorCRS` subclasses
 - BLD: update build-time dependencies
 - PERF: Optimize single point transformations and remove typecast warning (issue #1309)
 
