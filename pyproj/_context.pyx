@@ -203,12 +203,6 @@ cdef PJ_CONTEXT* pyproj_context_create() except *:
     """
     global _CONTEXT_MANAGER_LOCAL
 
-    # The context is looked up through threading.local alone, so the
-    # lookup and the ContextManager that destroys the context share one
-    # lifetime (the PyThreadState). A previous TSS-based lookup lived in
-    # a separate lifetime (the OS thread) and could be left pointing at
-    # an already-destroyed context.
-    # see: https://github.com/pyproj4/pyproj/issues/1622
     cdef ContextManager context_manager = _CONTEXT_MANAGER_LOCAL.context_manager
     cdef PJ_CONTEXT* pyproj_context = NULL
     if context_manager is None:
