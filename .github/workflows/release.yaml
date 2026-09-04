@@ -141,10 +141,6 @@ jobs:
         uses: pypa/cibuildwheel@v4.2.0
         env:
           CIBW_ARCHS: ${{ matrix.arch }}
-          # Skip free-threaded Python builds due to segfault in Cython extension during tests
-          # Affects both Linux aarch64 and macOS x86_64 - likely Cython free-threading issue
-          # See: https://github.com/cython/cython/issues/6221
-          CIBW_SKIP: "*t-*"
           CIBW_ENVIRONMENT_LINUX:
             PROJ_WHEEL=true
             PROJ_NETWORK=ON
