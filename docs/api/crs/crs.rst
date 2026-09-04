@@ -83,6 +83,12 @@ CustomConstructorCRS
     :special-members: __init__
 
 
+guess_wkt_version
+-----------------
+
+.. autofunction:: pyproj.crs.guess_wkt_version
+
+
 is_wkt
 -----------------
 

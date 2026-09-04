@@ -15,6 +15,7 @@ from pyproj.crs import (
     Datum,
     Ellipsoid,
     PrimeMeridian,
+    guess_wkt_version,
 )
 from pyproj.crs.enums import CoordinateOperationType, DatumType
 from pyproj.enums import ProjVersion, WktVersion
@@ -998,6 +999,24 @@ def test_to_wkt_enum__invalid():
     crs = CRS.from_epsg(4326)
     with pytest.raises(ValueError, match="Invalid value"):
         crs.to_wkt("WKT_INVALID")
+
+
+@pytest.mark.parametrize(
+    "wkt_version",
+    [
+        WktVersion.WKT2_2019,
+        WktVersion.WKT2_2015,
+        WktVersion.WKT1_GDAL,
+        WktVersion.WKT1_ESRI,
+    ],
+)
+def test_guess_wkt_version(wkt_version):
+    crs = CRS.from_epsg(4326)
+    assert guess_wkt_version(crs.to_wkt(wkt_version)) == wkt_version
+
+
+def test_guess_wkt_version__not_wkt():
+    assert guess_wkt_version("+proj=longlat +datum=WGS84 +no_defs +type=crs") is None
 
 
 @pytest.mark.parametrize(
