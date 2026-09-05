@@ -19,7 +19,6 @@ from pyproj.enums import CRSExtentUse, IntermediateCRSUse, TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
-    PROJ_GTE_980,
     grids_available,
     proj_env,
     proj_network_env,
@@ -977,14 +976,7 @@ def test_transformer_group__get_transform_crs():
     if grids_available(
         "nl_nsgi_nlgeo2018.tif", "nl_nsgi_rdtrans2018.tif", check_all=True
     ):
-        if PROJ_GTE_980:
-            # Newer proj includes additional transformations
-            assert len(tg.transformers) == 3
-        else:
-            assert len(tg.transformers) == 2
-    elif PROJ_GTE_980:
-        # Newer proj includes additional transformations
-        assert len(tg.transformers) == 3
+        assert len(tg.transformers) == 2
     else:
         assert len(tg.transformers) == 1
 
@@ -1376,30 +1368,18 @@ def test_transformer_accuracy_filter():
 
 
 def test_transformer_allow_ballpark_filter():
-    if PROJ_GTE_980:
-        transformer = Transformer.from_crs(
+    with pytest.raises(ProjError):
+        Transformer.from_crs(
             "EPSG:4326", "EPSG:4258", authority="PROJ", allow_ballpark=False
         )
-        assert "Ballpark" not in transformer.description
-    else:
-        with pytest.raises(ProjError):
-            Transformer.from_crs(
-                "EPSG:4326", "EPSG:4258", authority="PROJ", allow_ballpark=False
-            )
 
 
 def test_transformer_authority_filter():
     transformer = Transformer.from_crs("EPSG:4326", "EPSG:4258", authority="PROJ")
-    if PROJ_GTE_980:
-        assert transformer.description in {
-            "unavailable until proj_trans is called",
-            "Ballpark geographic offset from WGS 84 to ETRS89",
-        }
-    else:
-        assert (
-            transformer.description
-            == "Ballpark geographic offset from WGS 84 to ETRS89"
-        )
+    assert transformer.description in {
+        "unavailable until proj_trans is called",
+        "Ballpark geographic offset from WGS 84 to ETRS89",
+    }
 
 
 @pytest.mark.parametrize(
@@ -1412,16 +1392,9 @@ def test_transformer_authority_filter():
 def test_transformer_from_pipeline__input_types(input_string):
     # PROJ 9.7.1+ renamed this operation from "RGF93 v1 to WGS 84 (1)"
     # to "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
-    if PROJ_GTE_980:
-        assert (
-            Transformer.from_pipeline(input_string).description
-            == "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
-        )
-    else:
-        assert (
-            Transformer.from_pipeline(input_string).description
-            == "RGF93 v1 to WGS 84 (1)"
-        )
+    assert (
+        Transformer.from_pipeline(input_string).description == "RGF93 v1 to WGS 84 (1)"
+    )
 
 
 @pytest.mark.parametrize(
@@ -1440,10 +1413,7 @@ def test_transformer_from_pipeline__wkt_json(method_name):
             method_name,
         )()
     ).description
-    if PROJ_GTE_980:
-        assert description == "ETRS89-FRA [RGF93 v1] to WGS 84 (1)"
-    else:
-        assert description == "RGF93 v1 to WGS 84 (1)"
+    assert description == "RGF93 v1 to WGS 84 (1)"
 
 
 @pytest.mark.parametrize(
@@ -1857,14 +1827,7 @@ def test_transformer_group_allow_ballpark_filter():
     group = TransformerGroup(
         "EPSG:4326", "EPSG:4258", authority="PROJ", allow_ballpark=False
     )
-    if PROJ_GTE_980:
-        assert len(group.transformers) == 1
-        assert all(
-            "Ballpark" not in transformer.description
-            for transformer in group.transformers
-        )
-    else:
-        assert not group.transformers
+    assert not group.transformers
     assert not group.unavailable_operations
 
 
@@ -1973,10 +1936,7 @@ def test_transformer_group_pivot_crs_integer_code():
 
 def test_transformer_group_authority_filter():
     group = TransformerGroup("EPSG:4326", "EPSG:4258", authority="PROJ")
-    if PROJ_GTE_980:
-        assert len(group.transformers) == 2
-    else:
-        assert len(group.transformers) == 1
+    assert len(group.transformers) == 1
     assert not group.unavailable_operations
     assert any(
         transformer.description == "Ballpark geographic offset from WGS 84 to ETRS89"
