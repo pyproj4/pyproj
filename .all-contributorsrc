@@ -726,7 +726,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/6092328?v=4",
       "profile": "https://github.com/dgburr",
       "contributions": [
-        "bug"
+        "bug",
+        "code"
       ]
     },
     {
@@ -744,7 +745,99 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/14075922?v=4",
       "profile": "https://github.com/neutrinoceros",
       "contributions": [
-        "maintenance"
+        "maintenance",
+        "code"
+      ]
+    },
+    {
+      "login": "phaarnes",
+      "name": "Per Helge Aarnes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/110827889?v=4",
+      "profile": "https://github.com/phaarnes",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "steveberardi",
+      "name": "Steve Berardi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6608085?v=4",
+      "profile": "https://steveberardi.com/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "kratzert",
+      "name": "Frederik Kratzert",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13069767?v=4",
+      "profile": "https://kratzert.github.io/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "schwehr",
+      "name": "Kurt Schwehr",
+      "avatar_url": "https://avatars.githubusercontent.com/u/389869?v=4",
+      "profile": "https://vislab-ccom.unh.edu/~schwehr/papers/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "jack-volantautonomy",
+      "name": "Jack Broom",
+      "avatar_url": "https://avatars.githubusercontent.com/u/139783432?v=4",
+      "profile": "https://github.com/jack-volantautonomy",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "HugoFara",
+      "name": "Hugo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/72709893?v=4",
+      "profile": "https://hugofara.net/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "cclauss",
+      "name": "Christian Clauss",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3709715?v=4",
+      "profile": "https://github.com/cclauss",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "latent-9",
+      "name": "Recoordinate",
+      "avatar_url": "https://avatars.githubusercontent.com/u/296084221?v=4",
+      "profile": "https://github.com/latent-9",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Troppy2",
+      "name": "Inah James",
+      "avatar_url": "https://avatars.githubusercontent.com/u/138890479?v=4",
+      "profile": "https://github.com/Troppy2",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dylanpulver",
+      "name": "Dylan Pulver",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35541198?v=4",
+      "profile": "https://www.linkedin.com/in/dylanryanpulver",
+      "contributions": [
+        "code"
       ]
     }
   ],
