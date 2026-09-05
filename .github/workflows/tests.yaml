@@ -74,8 +74,8 @@ jobs:
         run: |
           python${{ matrix.python-version }} -m venv testenv
           . testenv/bin/activate
-          python -m pip install --upgrade pip
-          python -m pip install -e . --group dev
+          python -m pip install uv
+          uv pip install -e . --group dev
 
       - name: Test
         shell: bash

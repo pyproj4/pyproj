@@ -79,11 +79,11 @@ lint = [
 test = [
     "numpy",
     "packaging",
-    "pandas",
+    "pandas;python_version<'3.15'",
     "pytest>3.6",
     "pytest-cov",
-    "shapely",
-    "xarray",
+    "shapely;python_version<'3.15'",
+    "xarray;python_version<'3.15'",
 ]
 typing = [
     "mypy",
