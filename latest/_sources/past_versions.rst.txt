@@ -1,8 +1,8 @@
 Documentation Archive
 =====================
 
+- `3.8.0 <https://pyproj4.github.io/pyproj/3.8.0/>`_
 - `3.7.2 <https://pyproj4.github.io/pyproj/3.7.2/>`_
-- `3.7.1 <https://pyproj4.github.io/pyproj/3.7.1/>`_
 - `3.6.1 <https://pyproj4.github.io/pyproj/3.6.1/>`_
 - `3.5.0 <https://pyproj4.github.io/pyproj/3.5.0/>`_
 - `3.4.1 <https://pyproj4.github.io/pyproj/3.4.1/>`_
