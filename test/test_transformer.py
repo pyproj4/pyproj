@@ -977,14 +977,7 @@ def test_transformer_group__get_transform_crs():
     if grids_available(
         "nl_nsgi_nlgeo2018.tif", "nl_nsgi_rdtrans2018.tif", check_all=True
     ):
-        if PROJ_GTE_990:
-            # Newer proj includes additional transformations
-            assert len(tg.transformers) == 3
-        else:
-            assert len(tg.transformers) == 2
-    elif PROJ_GTE_990:
-        # Newer proj includes additional transformations
-        assert len(tg.transformers) == 3
+        assert len(tg.transformers) == 2
     else:
         assert len(tg.transformers) == 1
 
