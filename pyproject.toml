@@ -32,10 +32,10 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: GIS",
@@ -44,7 +44,7 @@ classifiers = [
     "Typing :: Typed",
     "Programming Language :: Python :: Free Threading :: 2 - Beta",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "certifi",
 ]
@@ -79,11 +79,11 @@ lint = [
 test = [
     "numpy",
     "packaging",
-    "pandas",
+    "pandas;python_version<'3.15'",
     "pytest>3.6",
     "pytest-cov",
-    "shapely",
-    "xarray",
+    "shapely;python_version<'3.15'",
+    "xarray;python_version<'3.15'",
 ]
 typing = [
     "mypy",
@@ -196,6 +196,6 @@ ignore = [
 
 [tool.mypy]
 files = ["pyproj"]
-python_version = "3.11"
+python_version = "3.12"
 ignore_errors = false
 enable_error_code = "ignore-without-code"
