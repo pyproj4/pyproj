@@ -5,6 +5,7 @@ Latest
 ------
 - WHL: Wheels contain PROJ 9.7.1 (pull #1573)
 - WHL: Upgrade from MacOS 13 to MacOS 15 (X86_64) wheels (issue #1532 & #1543)
+- DEP: Minimum supported Python version 3.12 (issue #1482)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
 - ENH: Added crs_extent_use kwarg to :class:`pyproj.transformer.TransformerGroup` aligning with PROJ CLI --crs-extent-use
 - ENH: Added :class:`pyproj.enums.CRSExtentUse` enum for TransformerGroup ``crs_extent_use`` kwarg
