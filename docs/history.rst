@@ -1,25 +1,27 @@
 Change Log
 ==========
 
-Latest
+3.8.0
 ------
 - WHL: Wheels contain PROJ 9.8.1 (pull #1630)
 - WHL: Upgrade from MacOS 13 to MacOS 15 (X86_64) wheels (issue #1532 & #1543)
 - DEP: Minimum supported Python version 3.12 (issue #1482)
 - ENH: Add :meth:`database.query_geodetic_crs_from_datum` (pull #1390)
-- ENH: Added crs_extent_use kwarg to :class:`pyproj.transformer.TransformerGroup` aligning with PROJ CLI --crs-extent-use
-- ENH: Added :class:`pyproj.enums.CRSExtentUse` enum for TransformerGroup ``crs_extent_use`` kwarg
-- ENH: Added pivot_crs kwarg to :class:`pyproj.transformer.TransformerGroup` mirroring PROJ CLI ``--pivot-crs``
-- ENH: Added :class:`pyproj.enums.IntermediateCRSUse` to support TransformerGroup ``pivot_crs`` kwarg
-- ENH: Added grid_check kwarg to :class:`pyproj.transformer.TransformerGroup` mirroring PROJ CLI ``--grid-check``
-- ENH: Added :class:`pyproj.enums.GridAvailabilityUse` enum for TransformerGroup ``grid_check`` kwarg
-- ENH: Added always_xy kwarg to :meth:`pyproj.transformer.Transformer.from_pipeline`
-- DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
-- BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
-- BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
-- BUG: Fix :meth:`pyproj.crs.CRS.to_2d` raising on :class:`pyproj.crs.CustomConstructorCRS` subclasses
-- BLD: update build-time dependencies
+- ENH: Added crs_extent_use kwarg to :class:`pyproj.transformer.TransformerGroup` aligning with PROJ CLI --crs-extent-use (pull #1538)
+- ENH: Added :class:`pyproj.enums.CRSExtentUse` enum for TransformerGroup ``crs_extent_use`` kwarg (pull #1538)
+- ENH: Added pivot_crs kwarg to :class:`pyproj.transformer.TransformerGroup` mirroring PROJ CLI ``--pivot-crs`` (pull #1538)
+- ENH: Added :class:`pyproj.enums.IntermediateCRSUse` to support TransformerGroup ``pivot_crs`` kwarg (pull #1538)
+- ENH: Added grid_check kwarg to :class:`pyproj.transformer.TransformerGroup` mirroring PROJ CLI ``--grid-check`` (pull #1555)
+- ENH: Added :class:`pyproj.enums.GridAvailabilityUse` enum for TransformerGroup ``grid_check`` kwarg (pull #1555)
+- ENH: Added always_xy kwarg to :meth:`pyproj.transformer.Transformer.from_pipeline` (pull #1566)
 - PERF: Optimize single point transformations and remove typecast warning (issue #1309)
+- BUG: Default skew angle for CF grid mapping oblique mercator to 90 (issue #1506)
+- BUG: Clear CONTEXT_THREAD_KEY when destroying PJ_CONTEXT (pull #1541)
+- BUG: Fix use-after-free when ContextManager frees a context on another thread (pull #1626)
+- BUG: Fix :meth:`pyproj.crs.CRS.to_2d` raising on :class:`pyproj.crs.CustomConstructorCRS` subclasses (pull #1625)
+- BLD: update build-time dependencies (pull #1575)
+- MNT: * Use dependency-groups (PEP 735) instead of requirements files (pull #1602)
+- DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
 
 3.7.2
 -----
