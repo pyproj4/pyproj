@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJ_VERSION: "9.9.0"
+  PROJ_VERSION: "9.9.0RC1"
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
