@@ -124,10 +124,42 @@ def _sphere_radius_from_spherification(
         return (
             2 * semi_major_axis * semi_minor_axis / (semi_major_axis + semi_minor_axis)
         )
-    # The remaining variants are evaluated at a latitude. PROJ parses that
-    # latitude with proj_dmstor and so also accepts DMS strings; only decimal
-    # degrees are supported here.
-    raw_latitude = lat_0 if key == "R_C" else requested[key]
+    # The remaining variants are evaluated at a latitude.
+    return _sphere_radius_at_latitude(
+        key,
+        lat_0 if key == "R_C" else requested[key],
+        semi_major_axis,
+        eccentricity_squared,
+    )
+
+
+def _sphere_radius_at_latitude(
+    key: str,
+    raw_latitude: str | float,
+    semi_major_axis: float,
+    eccentricity_squared: float,
+) -> float:
+    """
+    Radius of the sphere requested by a latitude-dependent spherification
+    parameter (``+R_lat_a``, ``+R_lat_g`` or ``+R_C``).
+
+    Parameter
+    ---------
+    key: str
+        The spherification parameter being evaluated.
+    raw_latitude: str | float
+        The latitude in decimal degrees. PROJ parses it with proj_dmstor and
+        so also accepts DMS strings; only decimal degrees are supported here.
+    semi_major_axis: float
+        The semi-major axis of the ellipsoid to spherify.
+    eccentricity_squared: float
+        The eccentricity squared of the ellipsoid to spherify.
+
+    Returns
+    -------
+    float
+
+    """
     try:
         latitude = float(raw_latitude)
     except (TypeError, ValueError) as error:
