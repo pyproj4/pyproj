@@ -1013,3 +1013,15 @@ def test_geod__spherification__invalid_latitude(spherification):
 def test_geod__spherification__invalid_latitude_value():
     with pytest.raises(GeodError, match="Only decimal degrees"):
         Geod("+ellps=WGS84 +R_lat_a=45d30'")
+
+
+def test_geod__spherification__degenerate_ellipsoid__r_h():
+    with pytest.raises(GeodError, match=r"\+R_h: a \+ b is zero"):
+        Geod(a=6370997, b=-6370997, R_h=True)
+
+
+@pytest.mark.parametrize("spherification", ["+R_lat_a=90", "+R_C +lat_0=90"])
+def test_geod__spherification__degenerate_ellipsoid__at_latitude(spherification):
+    # e=1 at the pole makes the ellipsoid radius factor vanish
+    with pytest.raises(GeodError, match="Invalid eccentricity"):
+        Geod(f"+a=6370997 +b=0 {spherification}")
