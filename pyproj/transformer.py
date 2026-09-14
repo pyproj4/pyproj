@@ -1247,7 +1247,17 @@ class Transformer:
         Returns
         -------
         str:
-            The WKT string.
+            The WKT string, or None if the transformer does not represent
+            a single coordinate operation (see note below).
+
+        Notes
+        -----
+        A :class:`Transformer` built from :meth:`~Transformer.from_crs`
+        without an ``area_of_interest`` is "late-binding": it may represent
+        several candidate coordinate operations rather than one, so there
+        is no single WKT representation and this returns ``None``. Pass an
+        ``area_of_interest`` (or use :meth:`~Transformer.from_pipeline`) to
+        get a transformer for one specific operation.
         """
         return self._transformer.to_wkt(version=version, pretty=pretty)
 
@@ -1267,7 +1277,17 @@ class Transformer:
         Returns
         -------
         str:
-            The JSON string.
+            The JSON string, or None if the transformer does not represent
+            a single coordinate operation (see note below).
+
+        Notes
+        -----
+        A :class:`Transformer` built from :meth:`~Transformer.from_crs`
+        without an ``area_of_interest`` is "late-binding": it may represent
+        several candidate coordinate operations rather than one, so there
+        is no single JSON representation and this returns ``None``. Pass an
+        ``area_of_interest`` (or use :meth:`~Transformer.from_pipeline`) to
+        get a transformer for one specific operation.
         """
         return self._transformer.to_json(pretty=pretty, indentation=indentation)
 
@@ -1281,6 +1301,17 @@ class Transformer:
         -------
         dict:
             The JSON dictionary.
+
+        Notes
+        -----
+        A :class:`Transformer` built from :meth:`~Transformer.from_crs`
+        without an ``area_of_interest`` is "late-binding": it may represent
+        several candidate coordinate operations rather than one, so there
+        is no single JSON representation to convert. In that case,
+        ``to_json()`` returns ``None`` and this raises a ``TypeError``.
+        Pass an ``area_of_interest`` (or use
+        :meth:`~Transformer.from_pipeline`) to get a transformer for one
+        specific operation.
         """
         return self._transformer.to_json_dict()
 
