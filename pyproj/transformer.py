@@ -728,7 +728,7 @@ class Transformer:
             accessible (either locally or through network).
             Note that the default value for this option can be also set with the
             :envvar:`PROJ_ONLY_BEST_DEFAULT` environment variable, or with the
-            ``only_best_default`` setting of :ref:`proj-ini`.
+            ``only_best_default`` setting of :ref:`proj:proj-ini`.
             The only_best kwarg overrides the default value if set.
             Requires PROJ 9.2+.
 

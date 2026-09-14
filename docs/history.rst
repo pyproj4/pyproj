@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- DOC: Add concepts and glossary pages and make Getting Started friendlier to newcomers (issue #1507)
 
 3.8.0
 ------
