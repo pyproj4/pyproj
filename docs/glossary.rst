@@ -26,7 +26,7 @@ maintains its own :doc:`glossary <proj:glossary>`.
    Axis order
       The order in which a CRS lists its coordinates. Many geographic CRSes,
       including ``EPSG:4326``, define latitude first and longitude second,
-      whereas most software assumes x/y (longitude/latitude). Check
+      whereas many software packages assume x/y (longitude/latitude). Check
       :attr:`pyproj.crs.CRS.axis_info` or use ``always_xy=True`` when
       creating a :class:`pyproj.transformer.Transformer`. See also the
       :ref:`gotchas` page.
@@ -146,9 +146,12 @@ maintains its own :doc:`glossary <proj:glossary>`.
       :class:`pyproj.crs.CRS` accepts both forms.
 
    UTM
-      Universal Transverse Mercator: a family of 120 :term:`projected CRSes
-      <Projected CRS>` that divide the Earth into 6° wide longitude zones,
-      each with a north and south half, with coordinates in meters. Use
+      Universal Transverse Mercator: a projection system that divides the
+      Earth into 60 longitude zones, each 6° wide, with a northern and
+      southern hemisphere variant of each zone. Each zone/hemisphere/datum
+      combination is a separate :term:`projected CRS <Projected CRS>` with
+      coordinates in meters, for example ``EPSG:26917`` (NAD83 / UTM zone
+      17N) and ``EPSG:32617`` (WGS 84 / UTM zone 17N). Use
       :func:`pyproj.database.query_utm_crs_info` to find the zone for a
       location.
 

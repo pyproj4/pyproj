@@ -52,8 +52,8 @@ Geographic CRS
 
 A :term:`geographic CRS` describes positions as angles on the ellipsoid:
 longitude and latitude, usually in degrees. No projection is involved. The
-best-known example is WGS 84 (``EPSG:4326``), which is what most GPS
-receivers, many web APIs, and GeoJSON files use.
+best-known example is WGS 84 (``EPSG:4326``), the datum used by GPS receivers
+and many web APIs.
 
 Projected CRS
 ~~~~~~~~~~~~~
@@ -75,11 +75,11 @@ supported projection with pictures in :ref:`proj:projections`.
 Why it matters
 ~~~~~~~~~~~~~~
 
-The same numbers in two different CRSes are two different places. Two datasets
-that both report "longitude and latitude" may still disagree by tens of meters
-if they use different datums. Combining data from different sources therefore
-always means knowing the CRS of each source and transforming the coordinates
-into one common CRS before comparing them.
+The same numbers can refer to different places in different CRSes. Two
+datasets that both report "longitude and latitude" may still disagree by tens
+of meters if they use different datums. When combining data from different
+sources, make sure the CRS of each source is known and compatible, transforming
+the coordinates into one common CRS where necessary.
 
 
 How a CRS is written down
@@ -182,7 +182,8 @@ Axis order
 
 One surprise for newcomers is :term:`axis order`. Many CRS definitions,
 including ``EPSG:4326``, officially list latitude *first* and longitude
-second, while most software and file formats assume longitude/latitude (x/y).
+second, while many software packages and file formats (GeoJSON, for example)
+assume longitude/latitude (x/y).
 pyproj follows the official definition by default, so
 ``transformer.transform(lat, lon)`` is correct for ``EPSG:4326`` input. If you
 prefer to always work in x/y (longitude/latitude) order, create the
