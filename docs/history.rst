@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- BUG: Honour the ``+R_A``, ``+R_V``, ``+R_a``, ``+R_g``, ``+R_h``, ``+R_lat_a``, ``+R_lat_g`` and ``+R_C`` spherification parameters in :class:`pyproj.Geod` (issue #1157)
 
 3.8.0
 ------
