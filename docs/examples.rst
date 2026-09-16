@@ -3,38 +3,67 @@
 Getting Started
 ===============
 
-There are examples of usage within the API documentation and tests. This
-section is to demonstrate recommended usage.
+This section demonstrates recommended usage of the three main classes in
+pyproj:
+
+- :class:`pyproj.crs.CRS` describes a
+  :term:`Coordinate Reference System (CRS)`: the model of the Earth, the
+  axes, and the map projection (if any) that give meaning to a set of
+  coordinates.
+- :class:`pyproj.transformer.Transformer` converts coordinates from one CRS
+  to another.
+- :class:`pyproj.Geod` calculates distances and areas on the curved surface
+  of the Earth.
+
+New to coordinate reference systems, EPSG codes, or PROJ? Read the
+:ref:`concepts` page first. Unfamiliar terms are defined in the
+:ref:`glossary`. There are also more examples of usage within the API
+documentation and tests.
 
 Also see: :ref:`gotchas`
 
 
-Using Coordinate Reference Systems (CRS)
-----------------------------------------
-For more usage examples and documentation see :class:`pyproj.crs.CRS`.
+Using the CRS class
+-------------------
 
-Initializing CRS
-~~~~~~~~~~~~~~~~
+A :class:`pyproj.crs.CRS` object holds the definition of a
+:term:`Coordinate Reference System (CRS)`. For more usage examples and
+documentation see :class:`pyproj.crs.CRS`.
 
-The :class:`pyproj.crs.CRS` class can be initialized in many different ways.
-Here are some examples of initialization.
+Creating a CRS
+~~~~~~~~~~~~~~
+
+The :class:`pyproj.crs.CRS` class can be initialized from any of the
+common ways of describing a CRS. Here are some examples; all four produce
+the same CRS, WGS 84 longitude/latitude.
 
 
 .. code:: python
 
     >>> from pyproj import CRS
-    >>> crs = CRS.from_epsg(4326)
-    >>> crs = CRS.from_string("EPSG:4326")
-    >>> crs = CRS.from_proj4("+proj=latlon")
-    >>> crs = CRS.from_user_input(4326)
+    >>> crs = CRS.from_epsg(4326)  # EPSG code as an integer
+    >>> crs = CRS.from_string("EPSG:4326")  # authority string "AUTHORITY:CODE"
+    >>> crs = CRS.from_proj4("+proj=latlon")  # PROJ string
+    >>> crs = CRS.from_user_input(4326)  # any of the above (and more)
+
+``4326`` is an :term:`authority code` in the :term:`EPSG` registry and
+``+proj=latlon`` is a :term:`PROJ string`; see
+:ref:`concepts` for what these mean. :meth:`pyproj.crs.CRS.from_user_input`
+lists every kind of input that is accepted, including
+:term:`Well-Known Text (WKT)` and PROJ JSON, and is what the ``CRS(...)``
+constructor and most other pyproj functions use to interpret CRS arguments.
 
 
 Converting CRS to a different format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+A CRS can be exported as an :term:`authority code`,
+:term:`Well-Known Text (WKT)` in several versions, a :term:`PROJ string`,
+or a `CF <https://cfconventions.org/>`__ grid mapping dictionary.
+
 .. warning:: You will likely lose important projection
     information when converting to a PROJ string from
-    another format. See: https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
+    another format. See: https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems
 
 
 .. code:: python
@@ -128,7 +157,9 @@ Extracting attributes from CRS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 There are many attributes you can pull from the :class:`pyproj.crs.CRS`.
-This is just a small subset of what is available.
+This is just a small subset of what is available. The example below uses an
+:term:`OGC` :term:`URN` that combines two EPSG codes (a projected CRS and a
+vertical CRS) into a single :term:`compound CRS`.
 
 
 .. code:: python
@@ -230,6 +261,10 @@ Find UTM CRS by Latitude and Longitude
 
 Transformations from CRS to CRS
 -------------------------------
+
+A :class:`pyproj.transformer.Transformer` converts coordinates from one CRS
+to another, including any change of :term:`datum` between them. See
+:ref:`concepts` for background on what happens during a transformation.
 
 Step 1: Inspect CRS definition to ensure proper area of use and axis order
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -389,8 +424,10 @@ Step 2: Create Transformer to convert from geodetic CRS to CRS
 
 Geodesic calculations
 ---------------------
-This is useful if you need to calculate the distance between two
-points or the area of a geometry on Earth's surface.
+
+:term:`Geodesic` calculations are useful if you need to calculate the
+distance between two points or the area of a geometry on Earth's surface
+without projecting it onto a plane.
 
 For more examples of usage and documentation, see :class:`pyproj.Geod`.
 

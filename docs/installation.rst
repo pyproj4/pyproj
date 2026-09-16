@@ -91,7 +91,7 @@ Setup PROJ
 
 PROJ is required when building from source.
 
-:ref:`PROJ Installation Instructions <install>`
+:ref:`PROJ Installation Instructions <proj:install>`
 
 You can also download PROJ from:
 
