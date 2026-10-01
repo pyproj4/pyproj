@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- BUG: :meth:`pyproj.crs.CRS.to_cf` convert angular parameter values in grads or radians to degrees (issue #1641)
 
 3.8.0
 ------
