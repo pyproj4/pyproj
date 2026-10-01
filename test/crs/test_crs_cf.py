@@ -3,7 +3,7 @@ import pytest
 from numpy.testing import assert_almost_equal
 from packaging import version
 
-from pyproj import CRS
+from pyproj import CRS, Transformer
 from pyproj.crs import ProjectedCRS
 from pyproj.crs._cf1x8 import _try_list_if_string
 from pyproj.crs.coordinate_operation import (
@@ -66,6 +66,36 @@ def test_cf_from_numpy_dtypes():
             "x_0": 0,
             "y_0": 0,
         }
+
+
+def test_to_cf__grad_units__converts_to_degrees():
+    crs = CRS("EPSG:27572")
+    cf_dict = crs.to_cf()
+    assert cf_dict["longitude_of_prime_meridian"] == pytest.approx(2.33722917)
+    assert cf_dict["standard_parallel"] == pytest.approx(46.8)
+
+
+def test_to_cf__grad_prime_meridian__converts_to_degrees():
+    crs = CRS("+proj=longlat +pm=paris +ellps=clrk80ign")
+    assert crs.to_cf()["longitude_of_prime_meridian"] == pytest.approx(2.33722917)
+
+
+def test_cf_round_trip__grad_units():
+    crs = CRS("EPSG:27572")
+    cf_dict = crs.to_cf()
+    cf_dict.pop("crs_wkt")
+    round_tripped = CRS.from_cf(cf_dict)
+    for param in round_tripped.coordinate_operation.params:
+        if param.name == "Latitude of natural origin":
+            assert param.unit_name == "degree"
+            assert param.value == pytest.approx(46.8)
+    transformer = Transformer.from_crs(4326, crs, always_xy=True)
+    round_trip_transformer = Transformer.from_crs(4326, round_tripped, always_xy=True)
+    expected = transformer.transform(2.5, 47)
+    actual = round_trip_transformer.transform(2.5, 47)
+    # Residual difference comes from to_cf not writing the
+    # scale factor at natural origin for this projection.
+    assert actual == pytest.approx(expected, abs=10)
 
 
 def test_to_cf_transverse_mercator():
