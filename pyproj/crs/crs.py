@@ -26,12 +26,12 @@ from pyproj._crs import (
     is_wkt,
 )
 from pyproj.crs._cf1x8 import (
-    _to_degrees,
     _GEOGRAPHIC_GRID_MAPPING_NAME_MAP,
     _GRID_MAPPING_NAME_MAP,
     _INVERSE_GEOGRAPHIC_GRID_MAPPING_NAME_MAP,
     _INVERSE_GRID_MAPPING_NAME_MAP,
     _horizontal_datum_from_params,
+    _to_degrees,
     _try_list_if_string,
 )
 from pyproj.crs.coordinate_operation import ToWGS84Transformation
