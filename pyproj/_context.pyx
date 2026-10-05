@@ -20,7 +20,7 @@ cdef const char* _USER_DATA_DIR = proj_context_get_user_writable_directory(NULL,
 cdef str _INTERNAL_PROJ_ERROR = None
 # global variables
 cdef bint _NETWORK_ENABLED = strtobool(os.environ.get("PROJ_NETWORK", "OFF"))
-cdef char* _CA_BUNDLE_PATH = ""
+cdef bytes _CA_BUNDLE_PATH = b""
 
 
 def set_use_global_context(active=None):
@@ -238,8 +238,7 @@ cpdef _set_context_ca_bundle_path(str ca_bundle_path):
     """
     global _CA_BUNDLE_PATH
 
-    b_ca_bundle_path = cstrencode(ca_bundle_path)
-    _CA_BUNDLE_PATH = b_ca_bundle_path
+    _CA_BUNDLE_PATH = cstrencode(ca_bundle_path)
     proj_context_set_ca_bundle_path(pyproj_context_create(), _CA_BUNDLE_PATH)
 
 
