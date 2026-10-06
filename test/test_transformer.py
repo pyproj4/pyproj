@@ -19,6 +19,7 @@ from pyproj.enums import CRSExtentUse, IntermediateCRSUse, TransformDirection
 from pyproj.exceptions import ProjError
 from pyproj.transformer import AreaOfInterest, TransformerGroup
 from test.conftest import (
+    PROJ_GTE_980,
     PROJ_GTE_990,
     grids_available,
     proj_env,
@@ -1361,6 +1362,24 @@ def test_transformer_multithread__crs():
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         for result in executor.map(transform, range(10)):
             pass
+
+
+@pytest.mark.skipif(not PROJ_GTE_980, reason="PROJ 9.8+ clones every flag")
+def test_transformer_multithread__clone():
+    # Other threads clone the transformer instead of creating it again
+    trans = Transformer.from_crs("EPSG:4267", "EPSG:4269", always_xy=True)
+    expected = trans.transform(-79.4, 43.65)
+
+    def transform(num):
+        return trans.transform(-79.4, 43.65)
+
+    with patch(
+        "pyproj.transformer.TransformerFromCRS.__call__",
+        side_effect=AssertionError("Transformer created again"),
+    ):
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            results = list(executor.map(transform, range(10)))
+    assert results == [expected] * 10
 
 
 def test_transformer_accuracy_filter():
