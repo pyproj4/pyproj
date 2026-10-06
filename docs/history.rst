@@ -3,7 +3,7 @@ Change Log
 
 Latest
 ------
-- PERF: Clone the transformer for other threads instead of creating it again (issue #XXXX)
+- PERF: Clone the transformer for other threads instead of creating it again (issue #1649)
 
 3.8.0
 ------
