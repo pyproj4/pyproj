@@ -93,9 +93,11 @@ def test_cf_round_trip__grad_units():
     round_trip_transformer = Transformer.from_crs(4326, round_tripped, always_xy=True)
     expected = transformer.transform(2.5, 47)
     actual = round_trip_transformer.transform(2.5, 47)
-    # Residual difference comes from to_cf not writing the
-    # scale factor at natural origin for this projection.
-    assert actual == pytest.approx(expected, abs=10)
+    # Residual difference (in projected metres) comes from to_cf
+    # not writing the scale factor at natural origin for this
+    # projection: about 2.7 m here, growing with distance from
+    # the natural origin.
+    assert actual == pytest.approx(expected, abs=5)
 
 
 def test_to_cf_transverse_mercator():
