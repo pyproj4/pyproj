@@ -1526,7 +1526,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="n">WktVersion</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">WktVersion</span><span class="o">.</span><span class="n">WKT2_2019</span><span class="p">,</span>
         <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the projection to a WKT string.</span>
 
@@ -1549,15 +1549,26 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        str:</span>
-<span class="sd">            The WKT string.</span>
+<span class="sd">        str | None:</span>
+<span class="sd">            The WKT string, or None if the transformer does not represent</span>
+<span class="sd">            a single coordinate operation (see note below).</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        A :class:`Transformer` built from :meth:`~Transformer.from_crs`</span>
+<span class="sd">        may be "late-binding" and represent</span>
+<span class="sd">        several candidate coordinate operations rather than one, so there</span>
+<span class="sd">        is no single WKT representation and this returns ``None``. Passing</span>
+<span class="sd">        an ``area_of_interest`` narrows the candidate operations but does</span>
+<span class="sd">        not guarantee a single one; use :meth:`~Transformer.from_pipeline`</span>
+<span class="sd">        if you need a transformer for one specific operation.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_wkt</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Transformer.to_json">
 <a class="viewcode-back" href="../../api/transformer.html#pyproj.transformer.Transformer.to_json">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pretty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">indentation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the projection to a JSON string.</span>
 
@@ -1572,8 +1583,19 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        str:</span>
-<span class="sd">            The JSON string.</span>
+<span class="sd">        str | None:</span>
+<span class="sd">            The JSON string, or None if the transformer does not represent</span>
+<span class="sd">            a single coordinate operation (see note below).</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        A :class:`Transformer` built from :meth:`~Transformer.from_crs`</span>
+<span class="sd">        may be "late-binding" and represent</span>
+<span class="sd">        several candidate coordinate operations rather than one, so there</span>
+<span class="sd">        is no single JSON representation and this returns ``None``. Passing</span>
+<span class="sd">        an ``area_of_interest`` narrows the candidate operations but does</span>
+<span class="sd">        not guarantee a single one; use :meth:`~Transformer.from_pipeline`</span>
+<span class="sd">        if you need a transformer for one specific operation.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="n">pretty</span><span class="p">,</span> <span class="n">indentation</span><span class="o">=</span><span class="n">indentation</span><span class="p">)</span></div>
 
@@ -1590,6 +1612,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        dict:</span>
 <span class="sd">            The JSON dictionary.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        A :class:`Transformer` built from :meth:`~Transformer.from_crs`</span>
+<span class="sd">        may be "late-binding" and represent</span>
+<span class="sd">        several candidate coordinate operations rather than one, so there</span>
+<span class="sd">        is no single JSON representation to convert. In that case,</span>
+<span class="sd">        ``to_json()`` returns ``None`` and this raises a ``TypeError``.</span>
+<span class="sd">        Passing an ``area_of_interest`` narrows the candidate operations</span>
+<span class="sd">        but does not guarantee a single one; use</span>
+<span class="sd">        :meth:`~Transformer.from_pipeline` if you need a transformer for</span>
+<span class="sd">        one specific operation.</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer</span><span class="o">.</span><span class="n">to_json_dict</span><span class="p">()</span></div>
 
