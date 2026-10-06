@@ -1253,7 +1253,7 @@ class Transformer:
         Notes
         -----
         A :class:`Transformer` built from :meth:`~Transformer.from_crs`
-        without an ``area_of_interest`` is "late-binding": it may represent
+        may be "late-binding" and represent
         several candidate coordinate operations rather than one, so there
         is no single WKT representation and this returns ``None``. Passing
         an ``area_of_interest`` narrows the candidate operations but does
@@ -1284,7 +1284,7 @@ class Transformer:
         Notes
         -----
         A :class:`Transformer` built from :meth:`~Transformer.from_crs`
-        without an ``area_of_interest`` is "late-binding": it may represent
+        may be "late-binding" and represent
         several candidate coordinate operations rather than one, so there
         is no single JSON representation and this returns ``None``. Passing
         an ``area_of_interest`` narrows the candidate operations but does
@@ -1307,7 +1307,7 @@ class Transformer:
         Notes
         -----
         A :class:`Transformer` built from :meth:`~Transformer.from_crs`
-        without an ``area_of_interest`` is "late-binding": it may represent
+        may be "late-binding" and represent
         several candidate coordinate operations rather than one, so there
         is no single JSON representation to convert. In that case,
         ``to_json()`` returns ``None`` and this raises a ``TypeError``.
