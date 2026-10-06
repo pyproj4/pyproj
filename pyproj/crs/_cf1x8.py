@@ -34,12 +34,12 @@ from pyproj.crs.coordinate_operation import (
 from pyproj.crs.datum import CustomDatum, CustomEllipsoid, CustomPrimeMeridian
 from pyproj.exceptions import CRSError
 
-_ANGULAR_UNIT_NAMES = frozenset({"degree", "grad", "radian"})
+_ANGULAR_UNIT_NAMES = frozenset({"grad", "radian"})
 
 
 def _to_degrees(value, unit_name, unit_conversion_factor):
     """Convert an angular value to degrees for CF grid mapping output."""
-    if unit_name.lower() not in _ANGULAR_UNIT_NAMES - {"degree"}:
+    if unit_name.lower() not in _ANGULAR_UNIT_NAMES:
         return value
     return value * unit_conversion_factor * 180 / math.pi
 
