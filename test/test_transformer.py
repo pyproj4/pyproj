@@ -1382,6 +1382,28 @@ def test_transformer_multithread__clone():
     assert results == [expected] * 10
 
 
+def test_transformer_multithread__before_proj_980():
+    # Before PROJ 9.8 other threads create the transformer again
+    trans = Transformer.from_crs("EPSG:4267", "EPSG:4269", always_xy=True)
+    expected = trans.transform(-79.4, 43.65)
+
+    def transform(num):
+        return trans.transform(-79.4, 43.65)
+
+    with (
+        patch("pyproj.transformer.PROJ_VERSION", (9, 7, 0)),
+        patch(
+            "pyproj.transformer.TransformerFromCRS.__call__",
+            autospec=True,
+            side_effect=pyproj.transformer.TransformerFromCRS.__call__,
+        ) as maker,
+    ):
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            results = list(executor.map(transform, range(10)))
+    assert results == [expected] * 10
+    assert maker.called
+
+
 def test_transformer_accuracy_filter():
     with pytest.raises(ProjError):
         Transformer.from_crs("EPSG:4326", "EPSG:4258", accuracy=0.05)
