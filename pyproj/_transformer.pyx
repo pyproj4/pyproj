@@ -126,7 +126,11 @@ cdef PJ* _coordinate_metadata_create(
     """
     cdef PJ* coordinate_metadata = proj_coordinate_metadata_create(ctx, crs, epoch)
     if coordinate_metadata == NULL:
-        raise ProjError(f"Invalid {epoch_name}: {epoch}")
+        # PROJ only logs the reason at debug level, so it is not in the error.
+        raise ProjError(
+            f"Invalid {epoch_name}: {epoch}. A coordinate epoch can only be set "
+            "for a dynamic CRS or a CRS with a point motion operation."
+        )
     return coordinate_metadata
 
 
