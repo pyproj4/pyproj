@@ -462,15 +462,9 @@ class Transformer:
 
     def _initialize(self) -> None:
         self._local = TransformerLocal()
-        self._local.transformer = self._transformer_maker()
-        # Other threads clone this untouched copy instead of searching for the
-        # operations again. PROJ 9.8 is the first to clone every flag.
-        self._original = None
+        self._original = self._transformer_maker()
+        self._local.transformer = self._original
         self._original_lock = threading.Lock()
-        if PROJ_VERSION >= (9, 8, 0) and not isinstance(
-            self._transformer_maker, TransformerUnsafe
-        ):
-            self._original = self._local.transformer._clone()
 
     @property
     def _transformer(self):
@@ -482,8 +476,12 @@ class Transformer:
         _Transformer
         """
         if self._local.transformer is None:
-            with self._original_lock:
-                clone = self._original and self._original._clone()
+            clone = None
+            # Other threads clone the original instead of searching for the
+            # operations again. PROJ 9.8 is the first to clone every flag.
+            if PROJ_VERSION >= (9, 8, 0):
+                with self._original_lock:
+                    clone = self._original._clone()
             self._local.transformer = clone or self._transformer_maker()
         return self._local.transformer
 
