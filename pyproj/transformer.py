@@ -89,6 +89,8 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
 
     .. versionadded:: 3.4.0 force_over
 
+    .. versionadded:: 4.0.0 source_epoch, target_epoch
+
     Generates a Cython _Transformer class from input CRS data.
     """
 
@@ -101,6 +103,8 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
     allow_ballpark: bool | None
     force_over: bool = False
     only_best: bool | None = None
+    source_epoch: float | None = None
+    target_epoch: float | None = None
 
     def __call__(self) -> _Transformer:
         """
@@ -118,6 +122,8 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
             allow_ballpark=self.allow_ballpark,
             force_over=self.force_over,
             only_best=self.only_best,
+            source_epoch=self.source_epoch,
+            target_epoch=self.target_epoch,
         )
 
 
@@ -243,6 +249,8 @@ class TransformerGroup(_TransformerGroup):
             "known_available",
         ]
         | None = None,
+        source_epoch: float | None = None,
+        target_epoch: float | None = None,
     ) -> None:
         """Get all possible transformations from a :obj:`pyproj.crs.CRS`
         or input used to create one.
@@ -250,6 +258,7 @@ class TransformerGroup(_TransformerGroup):
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.6.0 allow_superseded
         .. versionadded:: 3.8.0 crs_extent_use, pivot_crs, grid_check
+        .. versionadded:: 4.0.0 source_epoch, target_epoch
 
         Parameters
         ----------
@@ -314,6 +323,14 @@ class TransformerGroup(_TransformerGroup):
               required grids are known to be available.
 
             If not specified, defaults to PROJ's behavior (ignores grid availability).
+        source_epoch: float, optional
+            Epoch of the coordinates in the source CRS, as decimal year
+            (e.g. 2010.5). Only applies to a dynamic CRS or a CRS with a
+            point motion operation. Mirrors the cs2cs ``--s_epoch`` option.
+        target_epoch: float, optional
+            Epoch of the coordinates in the target CRS, as decimal year
+            (e.g. 2020.0). Only applies to a dynamic CRS or a CRS with a
+            point motion operation. Mirrors the cs2cs ``--t_epoch`` option.
         """
         pivot_crs_use, pivot_crs_list = _normalize_pivot_crs_argument(pivot_crs)
         super().__init__(
@@ -329,6 +346,8 @@ class TransformerGroup(_TransformerGroup):
             pivot_crs_use=pivot_crs_use,
             pivot_crs_list=pivot_crs_list,
             grid_check=grid_check,
+            source_epoch=None if source_epoch is None else float(source_epoch),
+            target_epoch=None if target_epoch is None else float(target_epoch),
         )
         for iii, transformer in enumerate(self._transformers):
             # pylint: disable=unsupported-assignment-operation
@@ -675,6 +694,8 @@ class Transformer:
         allow_ballpark: bool | None = None,
         force_over: bool = False,
         only_best: bool | None = None,
+        source_epoch: float | None = None,
+        target_epoch: float | None = None,
     ) -> "Transformer":
         """Make a Transformer from a :obj:`pyproj.crs.CRS` or input used to create one.
 
@@ -688,6 +709,7 @@ class Transformer:
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.4.0 force_over
         .. versionadded:: 3.5.0 only_best
+        .. versionadded:: 4.0.0 source_epoch, target_epoch
 
         Parameters
         ----------
@@ -731,6 +753,14 @@ class Transformer:
             ``only_best_default`` setting of :ref:`proj-ini`.
             The only_best kwarg overrides the default value if set.
             Requires PROJ 9.2+.
+        source_epoch: float, optional
+            Epoch of the coordinates in the source CRS, as decimal year
+            (e.g. 2010.5). Only applies to a dynamic CRS or a CRS with a
+            point motion operation. Mirrors the cs2cs ``--s_epoch`` option.
+        target_epoch: float, optional
+            Epoch of the coordinates in the target CRS, as decimal year
+            (e.g. 2020.0). Only applies to a dynamic CRS or a CRS with a
+            point motion operation. Mirrors the cs2cs ``--t_epoch`` option.
 
         Returns
         -------
@@ -748,6 +778,8 @@ class Transformer:
                 allow_ballpark=allow_ballpark,
                 force_over=force_over,
                 only_best=only_best,
+                source_epoch=None if source_epoch is None else float(source_epoch),
+                target_epoch=None if target_epoch is None else float(target_epoch),
             )
         )
 

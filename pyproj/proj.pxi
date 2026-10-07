@@ -433,6 +433,9 @@ cdef extern from "proj.h" nogil:
     PJ *proj_concatoperation_get_step(PJ_CONTEXT *ctx,
                                       const PJ *concatoperation,
                                       int i_step)
+    PJ *proj_coordinate_metadata_create(PJ_CONTEXT *ctx,
+                                        const PJ *crs,
+                                        double epoch)
     ctypedef enum PJ_CATEGORY:
         PJ_CATEGORY_ELLIPSOID
         PJ_CATEGORY_PRIME_MERIDIAN

@@ -115,6 +115,21 @@ cdef PJ_DIRECTION get_pj_direction(object direction) except *:
     raise KeyError(f"{direction} is not a valid TransformDirection")
 
 
+cdef PJ* _coordinate_metadata_create(
+    PJ_CONTEXT* ctx,
+    const PJ* crs,
+    double epoch,
+    str epoch_name,
+) except NULL:
+    """
+    Attach a coordinate epoch to a CRS (same as cs2cs --s_epoch/--t_epoch).
+    """
+    cdef PJ* coordinate_metadata = proj_coordinate_metadata_create(ctx, crs, epoch)
+    if coordinate_metadata == NULL:
+        raise ProjError(f"Invalid {epoch_name}: {epoch}")
+    return coordinate_metadata
+
+
 cdef class _TransformerGroup:
     def __cinit__(self):
         self.context = NULL
@@ -137,6 +152,8 @@ cdef class _TransformerGroup:
         pivot_crs_use=None,
         pivot_crs_list=None,
         grid_check=None,
+        source_epoch=None,
+        target_epoch=None,
     ):
         """
         From PROJ docs:
@@ -154,6 +171,10 @@ cdef class _TransformerGroup:
             PJ_OBJ_LIST * pj_operations = NULL
             PJ* pj_transform = NULL
             PJ* pj_transform_normalized = NULL
+            PJ* pj_source = crs_from.projobj
+            PJ* pj_target = crs_to.projobj
+            PJ* source_coordinate_metadata = NULL
+            PJ* target_coordinate_metadata = NULL
             PROJ_CRS_EXTENT_USE pj_crs_extent_use
             PROJ_GRID_AVAILABILITY_USE pj_grid_availability = PROJ_GRID_AVAILABILITY_IGNORED
             const char* c_authority = NULL
@@ -294,10 +315,20 @@ cdef class _TransformerGroup:
                     operation_factory_context,
                     pj_crs_extent_use,
                 )
+            if source_epoch is not None:
+                source_coordinate_metadata = _coordinate_metadata_create(
+                    self.context, crs_from.projobj, source_epoch, "source_epoch"
+                )
+                pj_source = source_coordinate_metadata
+            if target_epoch is not None:
+                target_coordinate_metadata = _coordinate_metadata_create(
+                    self.context, crs_to.projobj, target_epoch, "target_epoch"
+                )
+                pj_target = target_coordinate_metadata
             pj_operations = proj_create_operations(
                 self.context,
-                crs_from.projobj,
-                crs_to.projobj,
+                pj_source,
+                pj_target,
                 operation_factory_context,
             )
             num_operations = proj_list_get_count(pj_operations)
@@ -361,6 +392,10 @@ cdef class _TransformerGroup:
                 proj_operation_factory_context_destroy(operation_factory_context)
             if pj_operations != NULL:
                 proj_list_destroy(pj_operations)
+            if source_coordinate_metadata != NULL:
+                proj_destroy(source_coordinate_metadata)
+            if target_coordinate_metadata != NULL:
+                proj_destroy(target_coordinate_metadata)
             _clear_proj_error()
 
 
@@ -374,6 +409,8 @@ cdef PJ* proj_create_crs_to_crs(
     allow_ballpark,
     bint force_over,
     only_best,
+    source_epoch=None,
+    target_epoch=None,
 ) except NULL:
     """
     This is the same as proj_create_crs_to_crs in proj.h
@@ -395,6 +432,25 @@ cdef PJ* proj_create_crs_to_crs(
             "PROJ_DEBUG: proj_create_crs_to_crs: Cannot instantiate target_crs"
         )
         return NULL
+
+    cdef PJ* coordinate_metadata = NULL
+    try:
+        if source_epoch is not None:
+            coordinate_metadata = _coordinate_metadata_create(
+                ctx, source_crs, source_epoch, "source_epoch"
+            )
+            proj_destroy(source_crs)
+            source_crs = coordinate_metadata
+        if target_epoch is not None:
+            coordinate_metadata = _coordinate_metadata_create(
+                ctx, target_crs, target_epoch, "target_epoch"
+            )
+            proj_destroy(target_crs)
+            target_crs = coordinate_metadata
+    except:
+        proj_destroy(source_crs)
+        proj_destroy(target_crs)
+        raise
 
     cdef:
         const char* options[6]
@@ -628,6 +684,8 @@ cdef class _Transformer(Base):
         allow_ballpark=None,
         bint force_over=False,
         only_best=None,
+        source_epoch=None,
+        target_epoch=None,
     ):
         """
         Create a transformer from CRS objects
@@ -671,6 +729,8 @@ cdef class _Transformer(Base):
                 allow_ballpark=allow_ballpark,
                 force_over=force_over,
                 only_best=only_best,
+                source_epoch=source_epoch,
+                target_epoch=target_epoch,
             )
         finally:
             if pj_area_of_interest != NULL:
