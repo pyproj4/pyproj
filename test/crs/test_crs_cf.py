@@ -68,6 +68,29 @@ def test_cf_from_numpy_dtypes():
         }
 
 
+def test_to_cf__grad_units__converts_to_degrees():
+    crs = CRS("EPSG:27572")
+    cf_dict = crs.to_cf()
+    assert cf_dict["longitude_of_prime_meridian"] == pytest.approx(2.33722917)
+    assert cf_dict["standard_parallel"] == pytest.approx(46.8)
+
+
+def test_to_cf__grad_prime_meridian__converts_to_degrees():
+    crs = CRS("+proj=longlat +pm=paris +ellps=clrk80ign")
+    assert crs.to_cf()["longitude_of_prime_meridian"] == pytest.approx(2.33722917)
+
+
+def test_cf_round_trip__grad_units():
+    crs = CRS("EPSG:27572")
+    cf_dict = crs.to_cf()
+    cf_dict.pop("crs_wkt")
+    round_tripped = CRS.from_cf(cf_dict)
+    for param in round_tripped.coordinate_operation.params:
+        if param.name == "Latitude of natural origin":
+            assert param.unit_name == "degree"
+            assert param.value == pytest.approx(46.8)
+
+
 def test_to_cf_transverse_mercator():
     crs = CRS(
         proj="tmerc",
