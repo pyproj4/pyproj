@@ -2019,6 +2019,28 @@ def test_transformer_force_over():
     assert_almost_equal(yyy_over_inverse, -220)
 
 
+@pytest.mark.parametrize("allow_ballpark", [None, False, True])
+def test_transformer_force_over__allow_ballpark(allow_ballpark):
+    # allow_ballpark=True must not prevent force_over from reaching PROJ
+    transformer = Transformer.from_crs(
+        "EPSG:4326", "EPSG:3857", allow_ballpark=allow_ballpark, force_over=True
+    )
+    xxx_over, _ = transformer.transform(0, -220)
+    assert xxx_over < 0
+
+
+@pytest.mark.grid
+def test_transformer__only_best__allow_ballpark():
+    # allow_ballpark=True must not prevent only_best from reaching PROJ
+    transformer = Transformer.from_crs(4326, 2964, allow_ballpark=True, only_best=True)
+    if not grids_available("ca_nrc_ntv2_0.tif"):
+        with pytest.raises(
+            ProjError,
+            match=r"Grid ca_nrc_ntv2_0.tif is not available.",
+        ):
+            transformer.transform(60, -100, errcheck=True)
+
+
 def test_transformer__get_last_used_operation():
     transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857")
     with pytest.raises(

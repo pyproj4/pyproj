@@ -417,7 +417,7 @@ cdef PJ* proj_create_crs_to_crs(
     if allow_ballpark is not None:
         if not allow_ballpark:
             options[options_index] = b"ALLOW_BALLPARK=NO"
-        options_index += 1
+            options_index += 1
     if force_over:
         options[options_index] = b"FORCE_OVER=YES"
         options_index += 1
