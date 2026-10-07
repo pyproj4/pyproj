@@ -268,6 +268,7 @@
 <span class="sd">The transformer module is for performing cartographic transformations.</span>
 <span class="sd">"""</span>
 
+<span class="c1"># pylint: disable=too-many-lines</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"AreaOfInterest"</span><span class="p">,</span>
     <span class="s2">"Transformer"</span><span class="p">,</span>
@@ -294,6 +295,7 @@
     <span class="n">_Transformer</span><span class="p">,</span>
     <span class="n">_TransformerGroup</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyproj._version</span><span class="w"> </span><span class="kn">import</span> <span class="n">PROJ_VERSION</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.datadir</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_data_dir</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyproj.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CRSExtentUse</span><span class="p">,</span>
@@ -725,17 +727,21 @@
                 <span class="s2">"Transformer must be initialized using: 'from_crs' or 'from_pipeline'."</span>
             <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">TransformerLocal</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">transformer_maker</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span> <span class="o">=</span> <span class="n">transformer_maker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"_transformer_maker"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">TransformerLocal</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_original_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_transformer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -747,7 +753,13 @@
 <span class="sd">        _Transformer</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">()</span>
+            <span class="c1"># Other threads clone the original instead of searching for the</span>
+            <span class="c1"># operations again. PROJ 9.8 is the first to clone every flag.</span>
+            <span class="k">if</span> <span class="n">PROJ_VERSION</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_lock</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original</span><span class="o">.</span><span class="n">_clone</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transformer_maker</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">transformer</span>
 
     <span class="nd">@property</span>
