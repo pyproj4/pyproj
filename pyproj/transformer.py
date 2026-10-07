@@ -476,13 +476,13 @@ class Transformer:
         _Transformer
         """
         if self._local.transformer is None:
-            clone = None
             # Other threads clone the original instead of searching for the
             # operations again. PROJ 9.8 is the first to clone every flag.
             if PROJ_VERSION >= (9, 8, 0):
                 with self._original_lock:
-                    clone = self._original._clone()
-            self._local.transformer = clone or self._transformer_maker()
+                    self._local.transformer = self._original._clone()
+            else:
+                self._local.transformer = self._transformer_maker()
         return self._local.transformer
 
     @property

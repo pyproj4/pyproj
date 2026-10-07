@@ -740,16 +740,15 @@ cdef class _Transformer(Base):
 
         Returns
         -------
-        _Transformer | None:
-            The copy, or None if PROJ cannot clone the object.
+        _Transformer:
+            The copy.
         """
         cdef _Transformer transformer = _Transformer()
         transformer.context = pyproj_context_create()
         transformer._context_manager = get_context_manager()
         transformer.projobj = proj_clone(transformer.context, self.projobj)
-        _clear_proj_error()
         if transformer.projobj == NULL:
-            return None
+            raise ProjError("Error cloning Transformer.")
         transformer._initialize_from_projobj()
         return transformer
 
