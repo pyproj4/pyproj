@@ -2,6 +2,7 @@
 The transformer module is for performing cartographic transformations.
 """
 
+# pylint: disable=too-many-lines
 __all__ = [
     "AreaOfInterest",
     "Transformer",
@@ -28,6 +29,7 @@ from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     _Transformer,
     _TransformerGroup,
 )
+from pyproj._version import PROJ_VERSION
 from pyproj.datadir import get_user_data_dir
 from pyproj.enums import (
     CRSExtentUse,
@@ -448,17 +450,21 @@ class Transformer:
                 "Transformer must be initialized using: 'from_crs' or 'from_pipeline'."
             )
 
-        self._local = TransformerLocal()
-        self._local.transformer = transformer_maker()
         self._transformer_maker = transformer_maker
+        self._initialize()
 
     def __getstate__(self) -> dict[str, Any]:
         return {"_transformer_maker": self._transformer_maker}
 
     def __setstate__(self, state: dict[str, Any]):
         self.__dict__.update(state)
+        self._initialize()
+
+    def _initialize(self) -> None:
         self._local = TransformerLocal()
-        self._local.transformer = self._transformer_maker()
+        self._original = self._transformer_maker()
+        self._local.transformer = self._original
+        self._original_lock = threading.Lock()
 
     @property
     def _transformer(self):
@@ -470,7 +476,13 @@ class Transformer:
         _Transformer
         """
         if self._local.transformer is None:
-            self._local.transformer = self._transformer_maker()
+            # Other threads clone the original instead of searching for the
+            # operations again. PROJ 9.8 is the first to clone every flag.
+            if PROJ_VERSION >= (9, 8, 0):
+                with self._original_lock:
+                    self._local.transformer = self._original._clone()
+            else:
+                self._local.transformer = self._transformer_maker()
         return self._local.transformer
 
     @property

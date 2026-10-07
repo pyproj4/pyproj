@@ -733,6 +733,25 @@ cdef class _Transformer(Base):
         transformer._initialize_from_projobj()
         return transformer
 
+    def _clone(self):
+        """
+        Copy the transformer into a new context without searching
+        for its coordinate operations again.
+
+        Returns
+        -------
+        _Transformer:
+            The copy.
+        """
+        cdef _Transformer transformer = _Transformer()
+        transformer.context = pyproj_context_create()
+        transformer._context_manager = get_context_manager()
+        transformer.projobj = proj_clone(transformer.context, self.projobj)
+        if transformer.projobj == NULL:
+            raise ProjError("Error cloning Transformer.")
+        transformer._initialize_from_projobj()
+        return transformer
+
     def _set_always_xy(self):
         """
         Setup the transformer so it has the axis order always in xy order.
