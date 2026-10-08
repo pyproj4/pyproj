@@ -1,5 +1,6 @@
 Change Log
-===
+==========
+
 Latest
 ------
 - BUG: Preserve ``force_over`` and ``only_best`` in :meth:`pyproj.transformer.Transformer.from_crs` when ``allow_ballpark=True`` (issue #1647)
