@@ -277,6 +277,7 @@
 <ul class="simple">
 <li><p>BUG: Preserve <code class="docutils literal notranslate"><span class="pre">force_over</span></code> and <code class="docutils literal notranslate"><span class="pre">only_best</span></code> in <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer.from_crs" title="pyproj.transformer.Transformer.from_crs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer.from_crs()</span></code></a> when <code class="docutils literal notranslate"><span class="pre">allow_ballpark=True</span></code> (issue #1647)</p></li>
 <li><p>PERF: Clone the transformer for other threads instead of creating it again (issue #1649)</p></li>
+<li><p>BUG: Keep the CA bundle path alive for contexts made in other threads (issue #1644)</p></li>
 </ul>
 </section>
 <section id="id1">
