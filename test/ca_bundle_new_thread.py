@@ -5,6 +5,8 @@ import certifi
 import pyproj
 
 pyproj.network.set_ca_bundle_path(certifi.where())
+# Needed though unused: these fill freed memory, so if pyproj did not keep
+# the path alive, the thread below reads garbage and its download fails.
 size = len(certifi.where().encode())
 junk = [b"x" * size + bytes([n % 256]) for n in range(100_000)]
 
