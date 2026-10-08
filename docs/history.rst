@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- ENH: Added source_epoch and target_epoch kwargs to :meth:`pyproj.transformer.Transformer.from_crs` and :class:`pyproj.transformer.TransformerGroup` mirroring PROJ CLI ``cs2cs --s_epoch/--t_epoch`` (issue #1558)
 - BUG: Preserve ``force_over`` and ``only_best`` in :meth:`pyproj.transformer.Transformer.from_crs` when ``allow_ballpark=True`` (issue #1647)
 - PERF: Clone the transformer for other threads instead of creating it again (issue #1649)
 

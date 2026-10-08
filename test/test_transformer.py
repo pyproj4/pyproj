@@ -2022,6 +2022,75 @@ def test_transformer__only_best__allow_ballpark():
             transformer.transform(60, -100, errcheck=True)
 
 
+def test_transformer_from_crs__source_epoch():
+    # reference values from: cs2cs ITRF2014 GDA2020 --s_epoch 2025.0
+    transformer = Transformer.from_crs("ITRF2014", "GDA2020", source_epoch=2025.0)
+    lat, lon, _ = transformer.transform(-30, 130, 0)
+    assert_almost_equal((lat, lon), (-30.0000026655, 129.9999983712), decimal=9)
+
+
+def test_transformer_from_crs__target_epoch():
+    # reference values from: cs2cs GDA2020 ITRF2014 --t_epoch 2025.0
+    transformer = Transformer.from_crs("GDA2020", "ITRF2014", target_epoch=2025.0)
+    lat, lon, _ = transformer.transform(-30.0000026655, 129.9999983712, 0)
+    assert_almost_equal((lat, lon), (-30, 130), decimal=9)
+
+
+def test_transformer_group__source_epoch():
+    trans_group = TransformerGroup("ITRF2014", "GDA2020", source_epoch=2025.0)
+    lat, lon, _ = trans_group.transformers[0].transform(-30, 130, 0)
+    assert_almost_equal((lat, lon), (-30.0000026655, 129.9999983712), decimal=9)
+
+
+@pytest.mark.grid
+def test_transformer_from_crs__source_and_target_epoch():
+    # reference values from: cs2cs EPSG:8254 EPSG:8254 --s_epoch 2010 --t_epoch 2002
+    if not grids_available("ca_nrc_NAD83v70VG.tif"):
+        pytest.skip("Grid ca_nrc_NAD83v70VG.tif is not available.")
+    transformer = Transformer.from_crs(
+        "EPSG:8254", "EPSG:8254", source_epoch=2010, target_epoch=2002
+    )
+    lat, lon, height = transformer.transform(60.5, -79.5, 0)
+    assert_almost_equal((lat, lon), (60.5000000622, -79.5000003698), decimal=9)
+    assert_almost_equal(height, -0.0603169678, decimal=6)
+
+
+def test_transformer_from_crs__epoch_static_crs():
+    with pytest.raises(ProjError, match="Invalid source_epoch"):
+        Transformer.from_crs("EPSG:4269", "EPSG:4326", source_epoch=2010)
+    with pytest.raises(ProjError, match="Invalid target_epoch"):
+        Transformer.from_crs("EPSG:4326", "EPSG:4269", target_epoch=2010)
+
+
+def test_transformer_group__epoch_static_crs():
+    with pytest.raises(ProjError, match="Invalid source_epoch"):
+        TransformerGroup("EPSG:4269", "EPSG:4326", source_epoch=2010)
+    with pytest.raises(ProjError, match="Invalid target_epoch"):
+        TransformerGroup("EPSG:4326", "EPSG:4269", target_epoch=2010)
+
+
+@pytest.mark.parametrize(
+    "crs_from, crs_to, epoch",
+    [
+        ("ITRF2014", "GDA2020", {"source_epoch": 2025.0}),
+        ("GDA2020", "ITRF2014", {"target_epoch": 2025.0}),
+    ],
+)
+def test_transformer__epoch_always_xy(crs_from, crs_to, epoch):
+    with pytest.raises(ProjError, match="always_xy=True is not supported"):
+        Transformer.from_crs(crs_from, crs_to, always_xy=True, **epoch)
+    with pytest.raises(ProjError, match="always_xy=True is not supported"):
+        TransformerGroup(crs_from, crs_to, always_xy=True, **epoch)
+
+
+def test_transformer_from_crs__epoch_pickle():
+    transformer = Transformer.from_crs("ITRF2014", "GDA2020", source_epoch=2025)
+    unpickled = pickle.loads(pickle.dumps(transformer))
+    assert unpickled == transformer
+    assert unpickled._transformer_maker.source_epoch == 2025.0
+    assert unpickled._transformer_maker.target_epoch is None
+
+
 def test_transformer__get_last_used_operation():
     transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857")
     with pytest.raises(

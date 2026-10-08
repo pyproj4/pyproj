@@ -48,6 +48,8 @@ class _TransformerGroup:
         pivot_crs_use: IntermediateCRSUse | str | None = None,
         pivot_crs_list: tuple[str, ...] | None = None,
         grid_check: GridAvailabilityUse | str | None = None,
+        source_epoch: float | None = None,
+        target_epoch: float | None = None,
     ) -> None: ...
 
 class _Transformer(Base):
@@ -93,6 +95,8 @@ class _Transformer(Base):
         allow_ballpark: bool | None = None,
         force_over: bool = False,
         only_best: bool | None = None,
+        source_epoch: float | None = None,
+        target_epoch: float | None = None,
     ) -> _Transformer: ...
     @staticmethod
     def from_pipeline(
