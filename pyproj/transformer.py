@@ -89,7 +89,7 @@ class TransformerFromCRS(  # pylint: disable=too-many-instance-attributes
 
     .. versionadded:: 3.4.0 force_over
 
-    .. versionadded:: 4.0.0 source_epoch, target_epoch
+    .. versionadded:: 3.9.0 source_epoch, target_epoch
 
     Generates a Cython _Transformer class from input CRS data.
     """
@@ -209,6 +209,18 @@ def _normalize_pivot_crs_argument(
     return IntermediateCRSUse.ALWAYS, normalized_single
 
 
+def _check_epoch_always_xy(
+    always_xy: bool, source_epoch: float | None, target_epoch: float | None
+) -> None:
+    # Remove once PROJ keeps the epoch when normalizing axis order (OSGeo/PROJ#4890).
+    if always_xy and (source_epoch is not None or target_epoch is not None):
+        raise ProjError(
+            "always_xy=True is not supported with source_epoch or target_epoch. "
+            "PROJ drops the coordinate epoch when it normalizes the axis order "
+            "(https://github.com/OSGeo/PROJ/issues/4890)."
+        )
+
+
 class TransformerGroup(_TransformerGroup):
     """
     The TransformerGroup is a set of possible transformers from one CRS to another.
@@ -258,7 +270,7 @@ class TransformerGroup(_TransformerGroup):
         .. versionadded:: 3.4.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.6.0 allow_superseded
         .. versionadded:: 3.8.0 crs_extent_use, pivot_crs, grid_check
-        .. versionadded:: 4.0.0 source_epoch, target_epoch
+        .. versionadded:: 3.9.0 source_epoch, target_epoch
 
         Parameters
         ----------
@@ -327,11 +339,14 @@ class TransformerGroup(_TransformerGroup):
             Epoch of the coordinates in the source CRS, as decimal year
             (e.g. 2010.5). Only applies to a dynamic CRS or a CRS with a
             point motion operation. Mirrors the cs2cs ``--s_epoch`` option.
+            Not supported with ``always_xy=True``.
         target_epoch: float, optional
             Epoch of the coordinates in the target CRS, as decimal year
             (e.g. 2020.0). Only applies to a dynamic CRS or a CRS with a
             point motion operation. Mirrors the cs2cs ``--t_epoch`` option.
+            Not supported with ``always_xy=True``.
         """
+        _check_epoch_always_xy(always_xy, source_epoch, target_epoch)
         pivot_crs_use, pivot_crs_list = _normalize_pivot_crs_argument(pivot_crs)
         super().__init__(
             CRS.from_user_input(crs_from)._crs,
@@ -709,7 +724,7 @@ class Transformer:
         .. versionadded:: 3.1.0 authority, accuracy, allow_ballpark
         .. versionadded:: 3.4.0 force_over
         .. versionadded:: 3.5.0 only_best
-        .. versionadded:: 4.0.0 source_epoch, target_epoch
+        .. versionadded:: 3.9.0 source_epoch, target_epoch
 
         Parameters
         ----------
@@ -757,16 +772,19 @@ class Transformer:
             Epoch of the coordinates in the source CRS, as decimal year
             (e.g. 2010.5). Only applies to a dynamic CRS or a CRS with a
             point motion operation. Mirrors the cs2cs ``--s_epoch`` option.
+            Not supported with ``always_xy=True``.
         target_epoch: float, optional
             Epoch of the coordinates in the target CRS, as decimal year
             (e.g. 2020.0). Only applies to a dynamic CRS or a CRS with a
             point motion operation. Mirrors the cs2cs ``--t_epoch`` option.
+            Not supported with ``always_xy=True``.
 
         Returns
         -------
         Transformer
 
         """
+        _check_epoch_always_xy(always_xy, source_epoch, target_epoch)
         return Transformer(
             TransformerFromCRS(
                 cstrencode(CRS.from_user_input(crs_from).srs),

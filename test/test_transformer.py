@@ -2069,6 +2069,20 @@ def test_transformer_group__epoch_static_crs():
         TransformerGroup("EPSG:4326", "EPSG:4269", target_epoch=2010)
 
 
+@pytest.mark.parametrize(
+    "crs_from, crs_to, epoch",
+    [
+        ("ITRF2014", "GDA2020", {"source_epoch": 2025.0}),
+        ("GDA2020", "ITRF2014", {"target_epoch": 2025.0}),
+    ],
+)
+def test_transformer__epoch_always_xy(crs_from, crs_to, epoch):
+    with pytest.raises(ProjError, match="always_xy=True is not supported"):
+        Transformer.from_crs(crs_from, crs_to, always_xy=True, **epoch)
+    with pytest.raises(ProjError, match="always_xy=True is not supported"):
+        TransformerGroup(crs_from, crs_to, always_xy=True, **epoch)
+
+
 def test_transformer_from_crs__epoch_pickle():
     transformer = Transformer.from_crs("ITRF2014", "GDA2020", source_epoch=2025)
     unpickled = pickle.loads(pickle.dumps(transformer))
