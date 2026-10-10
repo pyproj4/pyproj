@@ -20,9 +20,11 @@ GitHub Repository: https://github.com/pyproj4/pyproj
    :caption: Contents:
 
    installation
+   concepts
    examples
    transformation_grids
    gotchas
+   glossary
    api/index
    cli
    advanced_examples
