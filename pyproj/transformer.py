@@ -2,6 +2,7 @@
 The transformer module is for performing cartographic transformations.
 """
 
+# pylint: disable=too-many-lines
 __all__ = [
     "AreaOfInterest",
     "Transformer",
@@ -28,6 +29,7 @@ from pyproj._transformer import (  # noqa: F401 pylint: disable=unused-import
     _Transformer,
     _TransformerGroup,
 )
+from pyproj._version import PROJ_VERSION
 from pyproj.datadir import get_user_data_dir
 from pyproj.enums import (
     CRSExtentUse,
@@ -448,17 +450,21 @@ class Transformer:
                 "Transformer must be initialized using: 'from_crs' or 'from_pipeline'."
             )
 
-        self._local = TransformerLocal()
-        self._local.transformer = transformer_maker()
         self._transformer_maker = transformer_maker
+        self._initialize()
 
     def __getstate__(self) -> dict[str, Any]:
         return {"_transformer_maker": self._transformer_maker}
 
     def __setstate__(self, state: dict[str, Any]):
         self.__dict__.update(state)
+        self._initialize()
+
+    def _initialize(self) -> None:
         self._local = TransformerLocal()
-        self._local.transformer = self._transformer_maker()
+        self._original = self._transformer_maker()
+        self._local.transformer = self._original
+        self._original_lock = threading.Lock()
 
     @property
     def _transformer(self):
@@ -470,7 +476,13 @@ class Transformer:
         _Transformer
         """
         if self._local.transformer is None:
-            self._local.transformer = self._transformer_maker()
+            # Other threads clone the original instead of searching for the
+            # operations again. PROJ 9.8 is the first to clone every flag.
+            if PROJ_VERSION >= (9, 8, 0):
+                with self._original_lock:
+                    self._local.transformer = self._original._clone()
+            else:
+                self._local.transformer = self._transformer_maker()
         return self._local.transformer
 
     @property
@@ -1223,7 +1235,7 @@ class Transformer:
         self,
         version: WktVersion | str = WktVersion.WKT2_2019,
         pretty: bool = False,
-    ) -> str:
+    ) -> str | None:
         """
         Convert the projection to a WKT string.
 
@@ -1246,12 +1258,23 @@ class Transformer:
 
         Returns
         -------
-        str:
-            The WKT string.
+        str | None:
+            The WKT string, or None if the transformer does not represent
+            a single coordinate operation (see note below).
+
+        Notes
+        -----
+        A :class:`Transformer` built from :meth:`~Transformer.from_crs`
+        may be "late-binding" and represent
+        several candidate coordinate operations rather than one, so there
+        is no single WKT representation and this returns ``None``. Passing
+        an ``area_of_interest`` narrows the candidate operations but does
+        not guarantee a single one; use :meth:`~Transformer.from_pipeline`
+        if you need a transformer for one specific operation.
         """
         return self._transformer.to_wkt(version=version, pretty=pretty)
 
-    def to_json(self, pretty: bool = False, indentation: int = 2) -> str:
+    def to_json(self, pretty: bool = False, indentation: int = 2) -> str | None:
         """
         Convert the projection to a JSON string.
 
@@ -1266,8 +1289,19 @@ class Transformer:
 
         Returns
         -------
-        str:
-            The JSON string.
+        str | None:
+            The JSON string, or None if the transformer does not represent
+            a single coordinate operation (see note below).
+
+        Notes
+        -----
+        A :class:`Transformer` built from :meth:`~Transformer.from_crs`
+        may be "late-binding" and represent
+        several candidate coordinate operations rather than one, so there
+        is no single JSON representation and this returns ``None``. Passing
+        an ``area_of_interest`` narrows the candidate operations but does
+        not guarantee a single one; use :meth:`~Transformer.from_pipeline`
+        if you need a transformer for one specific operation.
         """
         return self._transformer.to_json(pretty=pretty, indentation=indentation)
 
@@ -1281,6 +1315,18 @@ class Transformer:
         -------
         dict:
             The JSON dictionary.
+
+        Notes
+        -----
+        A :class:`Transformer` built from :meth:`~Transformer.from_crs`
+        may be "late-binding" and represent
+        several candidate coordinate operations rather than one, so there
+        is no single JSON representation to convert. In that case,
+        ``to_json()`` returns ``None`` and this raises a ``TypeError``.
+        Passing an ``area_of_interest`` narrows the candidate operations
+        but does not guarantee a single one; use
+        :meth:`~Transformer.from_pipeline` if you need a transformer for
+        one specific operation.
         """
         return self._transformer.to_json_dict()
 
