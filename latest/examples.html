@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Transformation Grids" href="transformation_grids.html"><link rel="prev" title="Installation" href="installation.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Transformation Grids" href="transformation_grids.html"><link rel="prev" title="Concepts" href="concepts.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <link rel="shortcut icon" href="_static/icon.png"><!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
@@ -197,9 +197,11 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gotchas.html">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Documentation</a><input aria-label="Toggle navigation of API Documentation" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/crs/index.html">CRS module API Documentation</a><input aria-label="Toggle navigation of CRS module API Documentation" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/crs/crs.html">CRS</a></li>
@@ -272,31 +274,57 @@
         <article role="main" id="furo-main-content">
           <section id="getting-started">
 <span id="examples"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h1>
-<p>There are examples of usage within the API documentation and tests. This
-section is to demonstrate recommended usage.</p>
+<p>This section demonstrates recommended usage of the three main classes in
+pyproj:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> describes a
+<a class="reference internal" href="glossary.html#term-Coordinate-Reference-System-CRS"><span class="xref std std-term">Coordinate Reference System (CRS)</span></a>: the model of the Earth, the
+axes, and the map projection (if any) that give meaning to a set of
+coordinates.</p></li>
+<li><p><a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> converts coordinates from one CRS
+to another.</p></li>
+<li><p><a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a> calculates distances and areas on the curved surface
+of the Earth.</p></li>
+</ul>
+<p>New to coordinate reference systems, EPSG codes, or PROJ? Read the
+<a class="reference internal" href="concepts.html#concepts"><span class="std std-ref">Concepts</span></a> page first. Unfamiliar terms are defined in the
+<a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">Glossary</span></a>. There are also more examples of usage within the API
+documentation and tests.</p>
 <p>Also see: <a class="reference internal" href="gotchas.html#gotchas"><span class="std std-ref">Gotchas/FAQ</span></a></p>
-<section id="using-coordinate-reference-systems-crs">
-<h2>Using Coordinate Reference Systems (CRS)<a class="headerlink" href="#using-coordinate-reference-systems-crs" title="Link to this heading">¶</a></h2>
-<p>For more usage examples and documentation see <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
-<section id="initializing-crs">
-<h3>Initializing CRS<a class="headerlink" href="#initializing-crs" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class can be initialized in many different ways.
-Here are some examples of initialization.</p>
+<section id="using-the-crs-class">
+<h2>Using the CRS class<a class="headerlink" href="#using-the-crs-class" title="Link to this heading">¶</a></h2>
+<p>A <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> object holds the definition of a
+<a class="reference internal" href="glossary.html#term-Coordinate-Reference-System-CRS"><span class="xref std std-term">Coordinate Reference System (CRS)</span></a>. For more usage examples and
+documentation see <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.</p>
+<section id="creating-a-crs">
+<h3>Creating a CRS<a class="headerlink" href="#creating-a-crs" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a> class can be initialized from any of the
+common ways of describing a CRS. Here are some examples; all four produce
+the same CRS, WGS 84 latitude/longitude.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="s2">"+proj=latlon"</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>  <span class="c1"># EPSG code as an integer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s2">"EPSG:4326"</span><span class="p">)</span>  <span class="c1"># authority string "AUTHORITY:CODE"</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="s2">"+proj=latlon"</span><span class="p">)</span>  <span class="c1"># PROJ string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_user_input</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>  <span class="c1"># any of the above (and more)</span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">4326</span></code> is an <a class="reference internal" href="glossary.html#term-Authority-code"><span class="xref std std-term">authority code</span></a> in the <a class="reference internal" href="glossary.html#term-EPSG"><span class="xref std std-term">EPSG</span></a> registry and
+<code class="docutils literal notranslate"><span class="pre">+proj=latlon</span></code> is a <a class="reference internal" href="glossary.html#term-PROJ-string"><span class="xref std std-term">PROJ string</span></a>; see
+<a class="reference internal" href="concepts.html#concepts"><span class="std std-ref">Concepts</span></a> for what these mean. <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS.from_user_input" title="pyproj.crs.CRS.from_user_input"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyproj.crs.CRS.from_user_input()</span></code></a>
+lists every kind of input that is accepted, including
+<a class="reference internal" href="glossary.html#term-Well-Known-Text-WKT"><span class="xref std std-term">Well-Known Text (WKT)</span></a> and PROJ JSON, and is what the <code class="docutils literal notranslate"><span class="pre">CRS(...)</span></code>
+constructor and most other pyproj functions use to interpret CRS arguments.</p>
 </section>
 <section id="converting-crs-to-a-different-format">
 <h3>Converting CRS to a different format<a class="headerlink" href="#converting-crs-to-a-different-format" title="Link to this heading">¶</a></h3>
+<p>A CRS can be exported as an <a class="reference internal" href="glossary.html#term-Authority-code"><span class="xref std std-term">authority code</span></a>,
+<a class="reference internal" href="glossary.html#term-Well-Known-Text-WKT"><span class="xref std std-term">Well-Known Text (WKT)</span></a> in several versions, a <a class="reference internal" href="glossary.html#term-PROJ-string"><span class="xref std std-term">PROJ string</span></a>,
+or a <a class="reference external" href="https://cfconventions.org/">CF</a> grid mapping dictionary.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>You will likely lose important projection
 information when converting to a PROJ string from
-another format. See: <a class="reference external" href="https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj4.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
+another format. See: <a class="reference external" href="https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems">https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems</a></p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyproj</span><span class="w"> </span><span class="kn">import</span> <span class="n">CRS</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
@@ -387,7 +415,9 @@ another format. See: <a class="reference external" href="https://proj4.org/faq.h
 <section id="extracting-attributes-from-crs">
 <h3>Extracting attributes from CRS<a class="headerlink" href="#extracting-attributes-from-crs" title="Link to this heading">¶</a></h3>
 <p>There are many attributes you can pull from the <a class="reference internal" href="api/crs/crs.html#pyproj.crs.CRS" title="pyproj.crs.CRS"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a>.
-This is just a small subset of what is available.</p>
+This is just a small subset of what is available. The example below uses an
+<a class="reference internal" href="glossary.html#term-OGC"><span class="xref std std-term">OGC</span></a> <a class="reference internal" href="glossary.html#term-URN"><span class="xref std std-term">URN</span></a> that combines two EPSG codes (a projected CRS and a
+vertical CRS) into a single <a class="reference internal" href="glossary.html#term-Compound-CRS"><span class="xref std std-term">compound CRS</span></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">(</span><span class="s2">"urn:ogc:def:crs,crs:EPSG::2393,crs:EPSG::5717"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">crs</span>
 <span class="go">&lt;Compound CRS: EPSG:3901&gt;</span>
@@ -487,6 +517,9 @@ This is just a small subset of what is available.</p>
 </section>
 <section id="transformations-from-crs-to-crs">
 <h2>Transformations from CRS to CRS<a class="headerlink" href="#transformations-from-crs-to-crs" title="Link to this heading">¶</a></h2>
+<p>A <a class="reference internal" href="api/transformer.html#pyproj.transformer.Transformer" title="pyproj.transformer.Transformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.transformer.Transformer</span></code></a> converts coordinates from one CRS
+to another, including any change of <a class="reference internal" href="glossary.html#term-Datum"><span class="xref std std-term">datum</span></a> between them. See
+<a class="reference internal" href="concepts.html#concepts"><span class="std std-ref">Concepts</span></a> for background on what happens during a transformation.</p>
 <section id="step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order">
 <h3>Step 1: Inspect CRS definition to ensure proper area of use and axis order<a class="headerlink" href="#step-1-inspect-crs-definition-to-ensure-proper-area-of-use-and-axis-order" title="Link to this heading">¶</a></h3>
 <p>For more options available for inspection, usage examples,
@@ -628,8 +661,9 @@ it is recommended to include the time in the transformation operation.</p>
 </section>
 <section id="geodesic-calculations">
 <h2>Geodesic calculations<a class="headerlink" href="#geodesic-calculations" title="Link to this heading">¶</a></h2>
-<p>This is useful if you need to calculate the distance between two
-points or the area of a geometry on Earth’s surface.</p>
+<p><a class="reference internal" href="glossary.html#term-Geodesic"><span class="xref std std-term">Geodesic</span></a> calculations are useful if you need to calculate the
+distance between two points or the area of a geometry on Earth’s surface
+without projecting it onto a plane.</p>
 <p>For more examples of usage and documentation, see <a class="reference internal" href="api/geod.html#pyproj.Geod" title="pyproj.Geod"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.Geod</span></code></a>.</p>
 <section id="creating-geod-class">
 <h3>Creating Geod class<a class="headerlink" href="#creating-geod-class" title="Link to this heading">¶</a></h3>
@@ -716,14 +750,14 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="installation.html">
+          <a class="prev-page" href="concepts.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Installation</div>
+                <div class="title">Concepts</div>
                 
               </div>
             </a>
@@ -758,8 +792,8 @@ ellipsoid name as well as deriving one using a <a class="reference internal" hre
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Getting Started</a><ul>
-<li><a class="reference internal" href="#using-coordinate-reference-systems-crs">Using Coordinate Reference Systems (CRS)</a><ul>
-<li><a class="reference internal" href="#initializing-crs">Initializing CRS</a></li>
+<li><a class="reference internal" href="#using-the-crs-class">Using the CRS class</a><ul>
+<li><a class="reference internal" href="#creating-a-crs">Creating a CRS</a></li>
 <li><a class="reference internal" href="#converting-crs-to-a-different-format">Converting CRS to a different format</a></li>
 <li><a class="reference internal" href="#extracting-attributes-from-crs">Extracting attributes from CRS</a></li>
 </ul>

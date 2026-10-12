@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API Documentation" href="api/index.html"><link rel="prev" title="Transformation Grids" href="transformation_grids.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Glossary" href="glossary.html"><link rel="prev" title="Transformation Grids" href="transformation_grids.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <link rel="shortcut icon" href="_static/icon.png"><!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
@@ -197,9 +197,11 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transformation_grids.html">Transformation Grids</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Gotchas/FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API Documentation</a><input aria-label="Toggle navigation of API Documentation" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/crs/index.html">CRS module API Documentation</a><input aria-label="Toggle navigation of CRS module API Documentation" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/crs/crs.html">CRS</a></li>
@@ -275,22 +277,24 @@
 <p>This is a page for some suggestions, gotchas, and FAQs.</p>
 <dl class="simple">
 <dt>Also see:</dt><dd><ul class="simple">
+<li><p><a class="reference internal" href="concepts.html#concepts"><span class="std std-ref">Concepts</span></a></p></li>
 <li><p><a class="reference internal" href="examples.html#examples"><span class="std std-ref">Getting Started</span></a></p></li>
-<li><p><a class="reference external" href="https://docs.xarray.dev/en/stable/get-help/faq.html#faq" title="(in xarray v2026.9.0)"><span class="xref std std-ref">PROJ FAQ</span></a></p></li>
+<li><p><a class="reference internal" href="glossary.html#glossary"><span class="std std-ref">Glossary</span></a></p></li>
+<li><p><a class="reference external" href="https://proj.org/en/stable/faq.html#faq" title="(in PROJ v9.9)"><span class="xref std std-ref">PROJ FAQ</span></a></p></li>
 </ul>
 </dd>
 </dl>
 <section id="what-are-the-best-formats-to-store-the-crs-information">
 <h2>What are the best formats to store the CRS information?<a class="headerlink" href="#what-are-the-best-formats-to-store-the-crs-information" title="Link to this heading">¶</a></h2>
-<p>In general, <a class="reference external" href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_coordinate_reference_systems">Well-Known Text (WKT)</a>
-or <a class="reference external" href="https://en.wikipedia.org/wiki/Spatial_reference_system">Spatial Reference ID
-(SRID)</a>, such as EPSG
-codes, are the preferred formats to describe a CRS.</p>
+<p>In general, <a class="reference internal" href="glossary.html#term-Well-Known-Text-WKT"><span class="xref std std-term">Well-Known Text (WKT)</span></a> or a <a class="reference external" href="https://en.wikipedia.org/wiki/Spatial_reference_system">Spatial Reference ID
+(SRID)</a>, such as
+an <a class="reference internal" href="glossary.html#term-EPSG"><span class="xref std std-term">EPSG</span></a> <a class="reference internal" href="glossary.html#term-Authority-code"><span class="xref std std-term">authority code</span></a>, are the preferred formats to describe
+a CRS.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>WKT2 is preferred over WKT1.</p>
 </div>
-<p>PROJ strings can be lossy for storing CRS information.
+<p><a class="reference internal" href="glossary.html#term-PROJ-string"><span class="xref std std-term">PROJ strings</span></a> can be lossy for storing CRS information.
 If you can avoid it, it is best to not use them.
 Additionally, PROJ strings will likely not be supported
 in future major version of PROJ for storing CRS information.</p>
@@ -540,12 +544,12 @@ are deprecated.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api/index.html">
+          <a class="next-page" href="glossary.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">API Documentation</div>
+                <div class="title">Glossary</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
