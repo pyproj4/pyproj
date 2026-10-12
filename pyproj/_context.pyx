@@ -38,7 +38,7 @@ def set_use_global_context(active=None):
                  through the duration of each python session and is closed
                  once the program terminates.
 
-    .. note:: To modify network settings see: :ref:`network`.
+    .. note:: To modify network settings see: :ref:`proj:network`.
 
     Parameters
     ----------
@@ -70,9 +70,9 @@ def get_user_data_dir(create=False):
     See: :c:func:`proj_context_get_user_writable_directory`
 
     This is where grids will be downloaded when
-    :ref:`PROJ network <network>` capabilities
+    :ref:`PROJ network <proj:network>` capabilities
     are enabled. It is also the default download location for the
-    :ref:`projsync` command line program.
+    :ref:`proj:projsync` command line program.
 
     Parameters
     ----------
