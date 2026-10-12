@@ -35,7 +35,7 @@ Creating a CRS
 
 The :class:`pyproj.crs.CRS` class can be initialized from any of the
 common ways of describing a CRS. Here are some examples; all four produce
-the same CRS, WGS 84 longitude/latitude.
+the same CRS, WGS 84 latitude/longitude.
 
 
 .. code:: python
