@@ -90,7 +90,7 @@ What grids to download?
 - Have a machine that can hold and extra 500 MB - 1 GB of data? Then downloading all grids shouldn't be an issue.
 
 - Have a machine with limited space, a great network connection, and PROJ 7+?
-  Look into `PROJ network <network>`__ capabilities. See also :ref:`network_api`.
+  Look into :ref:`PROJ network <network>` capabilities. See also :ref:`network_api`.
 
 - Have a machine with limited space and want to pre-download files?
 
