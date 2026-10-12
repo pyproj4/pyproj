@@ -108,7 +108,7 @@ string (``"EPSG:4326"``), or a tuple (``("EPSG", "4326")``).
 To find the code for a CRS you can search the PROJ database from Python with
 :func:`pyproj.database.query_crs_info` or, for UTM zones,
 :func:`pyproj.database.query_utm_crs_info`, or browse online at
-`epsg.org <https://epsg.org/>`__ or `epsg.io <https://epsg.io/>`__.
+`epsg.org <https://epsg.org/>`__.
 An authority code is the recommended way to identify a CRS when one exists
 for it, because it is short, unambiguous, and cannot lose information.
 
