@@ -2091,3 +2091,49 @@ def test_cs_to_cf__cartesian_axis__fallback_to_order():
         }
     )
     assert [cf_axis["axis"] for cf_axis in crs.cs_to_cf()] == ["X", "Y"]
+
+
+def test_cs_to_cf__cartesian_axis__vertical():
+    crs = CRS("+proj=topocentric +ellps=WGS84 +X_0=0 +Y_0=0 +Z_0=6378137")
+    assert crs.cs_to_cf()[2] == {
+        "axis": "Z",
+        "long_name": "topocentric Up",
+        "units": "metre",
+        "positive": "up",
+    }
+    assert [cf_axis["axis"] for cf_axis in crs.cs_to_cf()] == ["X", "Y", "Z"]
+
+
+def test_cs_to_cf__cartesian_axis__vertical__fallback_to_order():
+    crs = CRS.from_json_dict(
+        {
+            "type": "EngineeringCRS",
+            "name": "Ship",
+            "datum": {"type": "EngineeringDatum", "name": "Ship reference point"},
+            "coordinate_system": {
+                "subtype": "Cartesian",
+                "axis": [
+                    {
+                        "name": "Forward",
+                        "abbreviation": "x",
+                        "direction": "forward",
+                        "unit": "metre",
+                    },
+                    {
+                        "name": "Starboard",
+                        "abbreviation": "y",
+                        "direction": "starboard",
+                        "unit": "metre",
+                    },
+                    {
+                        "name": "Platform Down",
+                        "abbreviation": "z",
+                        "direction": "down",
+                        "unit": "metre",
+                    },
+                ],
+            },
+        }
+    )
+    assert [cf_axis["axis"] for cf_axis in crs.cs_to_cf()] == ["X", "Y", "Z"]
+    assert crs.cs_to_cf()[2]["positive"] == "down"

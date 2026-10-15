@@ -725,6 +725,8 @@ cdef class CoordinateSystem(_CRSParts):
                 return axis["unit"]
 
         def get_cartesian_cf_axis(axis):
+            if axis["direction"].lower() in ("up", "down"):
+                return "Z"
             # The name is checked first as the direction is not
             # east/north for some axes (e.g. polar stereographic)
             name = axis["name"].lower()
@@ -741,7 +743,8 @@ cdef class CoordinateSystem(_CRSParts):
 
         if self.name == "cartesian":
             cf_axes = [get_cartesian_cf_axis(axis) for axis in axis_list]
-            if len(cf_axes) == 2 and None in cf_axes:
+            horizontal_cf_axes = [cf_axis for cf_axis in cf_axes if cf_axis != "Z"]
+            if len(horizontal_cf_axes) == 2 and None in horizontal_cf_axes:
                 # e.g. "Forward"/"Starboard": use the remaining axis in order
                 remaining_axes = [
                     cf_axis for cf_axis in ("X", "Y") if cf_axis not in cf_axes
@@ -750,6 +753,16 @@ cdef class CoordinateSystem(_CRSParts):
                     cf_axis or remaining_axes.pop(0) for cf_axis in cf_axes
                 ]
             for axis, cf_axis in zip(axis_list, cf_axes):
+                if cf_axis == "Z":
+                    # A standard name is not set as the height reference
+                    # is not known (e.g. topocentric up axis).
+                    cf_params.append(dict(
+                        axis="Z",
+                        long_name=axis["name"],
+                        units=get_linear_unit(axis),
+                        positive=axis["direction"].lower(),
+                    ))
+                    continue
                 cf_axis = cf_axis or "Y"
                 cf_params.append(dict(
                     axis=cf_axis,
