@@ -14,6 +14,14 @@ The easiest methods for installing pyproj are:
 
   .. note:: Linux (manylinux2014) wheels require pip 19.3+
 
+  .. note:: To use the shapely geometry methods (e.g.
+            :meth:`pyproj.Geod.geometry_area_perimeter`),
+            install the optional ``shapely`` extra:
+
+            .. code-block:: bash
+
+                python -m pip install "pyproj[shapely]"
+
   .. note:: pyproj 3+ wheels do not include transformation grids.
             For migration assistance see: :ref:`transformation_grids`
 
