@@ -2054,7 +2054,14 @@ def test_milisecond_temporal_crs__coordinate_system():
         ("EPSG:2193", ["Y", "X"]),  # Northing, Easting
         ("EPSG:2046", ["X", "Y"]),  # Westing, Southing
         ("EPSG:3413", ["X", "Y"]),  # Easting, Northing both pointing south
-        ("EPSG:5800", ["Y", "X"]),  # First local axis north, second local axis west
+        pytest.param(
+            # Same axes as EPSG:5800, which is only in the PROJ database 9.6+
+            'ENGCRS["Astra Minas Grid",EDATUM["Astra Minas"],CS[Cartesian,2],'
+            'AXIS["first local axis (X)",north,ORDER[1],LENGTHUNIT["metre",1]],'
+            'AXIS["second local axis (Y)",west,ORDER[2],LENGTHUNIT["metre",1]]]',
+            ["Y", "X"],
+            id="local-axes",
+        ),
     ],
 )
 def test_cs_to_cf__cartesian_axis(crs_input, expected_axes):
