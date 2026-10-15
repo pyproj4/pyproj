@@ -724,12 +724,33 @@ cdef class CoordinateSystem(_CRSParts):
             except TypeError:
                 return axis["unit"]
 
+        def get_cartesian_cf_axis(axis):
+            # The name is checked first as the direction is not
+            # east/north for some axes (e.g. polar stereographic)
+            name = axis["name"].lower()
+            if "east" in name or "west" in name:
+                return "X"
+            if "north" in name or "south" in name:
+                return "Y"
+            direction = axis["direction"].lower()
+            if direction in ("east", "west"):
+                return "X"
+            if direction in ("north", "south"):
+                return "Y"
+            return None
+
         if self.name == "cartesian":
-            for axis in axis_list:
-                if axis["name"].lower() == "easting":
-                    cf_axis = "X"
-                else:
-                    cf_axis = "Y"
+            cf_axes = [get_cartesian_cf_axis(axis) for axis in axis_list]
+            if len(cf_axes) == 2 and None in cf_axes:
+                # e.g. "Forward"/"Starboard": use the remaining axis in order
+                remaining_axes = [
+                    cf_axis for cf_axis in ("X", "Y") if cf_axis not in cf_axes
+                ]
+                cf_axes = [
+                    cf_axis or remaining_axes.pop(0) for cf_axis in cf_axes
+                ]
+            for axis, cf_axis in zip(axis_list, cf_axes):
+                cf_axis = cf_axis or "Y"
                 cf_params.append(dict(
                     axis=cf_axis,
                     long_name=axis["name"],

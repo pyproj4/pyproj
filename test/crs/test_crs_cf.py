@@ -2045,3 +2045,49 @@ def test_milisecond_temporal_crs__coordinate_system():
             "axis": "T",
         }
     ]
+
+
+@pytest.mark.parametrize(
+    "crs_input, expected_axes",
+    [
+        ("EPSG:32631", ["X", "Y"]),  # Easting, Northing
+        ("EPSG:2193", ["Y", "X"]),  # Northing, Easting
+        ("EPSG:2046", ["X", "Y"]),  # Westing, Southing
+        ("EPSG:3413", ["X", "Y"]),  # Easting, Northing both pointing south
+        ("EPSG:5800", ["Y", "X"]),  # First local axis north, second local axis west
+    ],
+)
+def test_cs_to_cf__cartesian_axis(crs_input, expected_axes):
+    cf_axes = CRS(crs_input).cs_to_cf()
+    assert [cf_axis["axis"] for cf_axis in cf_axes] == expected_axes
+    assert [cf_axis["standard_name"] for cf_axis in cf_axes] == [
+        f"projection_{axis.lower()}_coordinate" for axis in expected_axes
+    ]
+
+
+def test_cs_to_cf__cartesian_axis__fallback_to_order():
+    crs = CRS.from_json_dict(
+        {
+            "type": "EngineeringCRS",
+            "name": "Ship",
+            "datum": {"type": "EngineeringDatum", "name": "Ship reference point"},
+            "coordinate_system": {
+                "subtype": "Cartesian",
+                "axis": [
+                    {
+                        "name": "Forward",
+                        "abbreviation": "x",
+                        "direction": "forward",
+                        "unit": "metre",
+                    },
+                    {
+                        "name": "Starboard",
+                        "abbreviation": "y",
+                        "direction": "starboard",
+                        "unit": "metre",
+                    },
+                ],
+            },
+        }
+    )
+    assert [cf_axis["axis"] for cf_axis in crs.cs_to_cf()] == ["X", "Y"]
