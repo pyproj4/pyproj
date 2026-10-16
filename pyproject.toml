@@ -49,6 +49,11 @@ dependencies = [
     "certifi",
 ]
 
+[project.optional-dependencies]
+shapely = [
+    "shapely",
+]
+
 [project.urls]
 homepage = "https://pyproj4.github.io/pyproj/"
 documentation = "https://pyproj4.github.io/pyproj/"
