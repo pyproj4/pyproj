@@ -745,7 +745,10 @@ cdef class CoordinateSystem(_CRSParts):
             cf_axes = [get_cartesian_cf_axis(axis) for axis in axis_list]
             horizontal_cf_axes = [cf_axis for cf_axis in cf_axes if cf_axis != "Z"]
             if len(horizontal_cf_axes) == 2 and None in horizontal_cf_axes:
-                # e.g. "Forward"/"Starboard": use the remaining axis in order
+                # The axes could not be identified (e.g. "Forward"/"Starboard"),
+                # so assume the unused X/Y in axis order. With exactly two
+                # horizontal axes, there is always an unused X/Y for each
+                # unidentified axis.
                 remaining_axes = [
                     cf_axis for cf_axis in ("X", "Y") if cf_axis not in cf_axes
                 ]
