@@ -175,6 +175,7 @@ jobs:
             python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
             cp -r {package}/test . &&
             python -m pytest test -v -s
+          PYPROJ_LIMITED_API: "1"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7

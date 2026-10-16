@@ -14,7 +14,7 @@ cdef inline bint _is_scalar(object value):
     return getattr(value, "ndim", -1) == 0
 
 
-IF CTE_PYTHON_IMPLEMENTATION == "CPython":
+IF CTE_USE_CYTHON_ARRAY:
     from cpython cimport array
     cdef array.array empty_array(int npts)
 
