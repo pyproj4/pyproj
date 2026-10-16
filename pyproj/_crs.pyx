@@ -743,18 +743,21 @@ cdef class CoordinateSystem(_CRSParts):
 
         if self.name == "cartesian":
             cf_axes = [get_cartesian_cf_axis(axis) for axis in axis_list]
-            horizontal_cf_axes = [cf_axis for cf_axis in cf_axes if cf_axis != "Z"]
-            if len(horizontal_cf_axes) == 2 and None in horizontal_cf_axes:
-                # The axes could not be identified (e.g. "Forward"/"Starboard"),
-                # so assume the unused X/Y in axis order. With exactly two
-                # horizontal axes, there is always an unused X/Y for each
-                # unidentified axis.
-                remaining_axes = [
-                    cf_axis for cf_axis in ("X", "Y") if cf_axis not in cf_axes
-                ]
-                cf_axes = [
-                    cf_axis or remaining_axes.pop(0) for cf_axis in cf_axes
-                ]
+            horizontal_indexes = [
+                index for index, cf_axis in enumerate(cf_axes) if cf_axis != "Z"
+            ]
+            if len(horizontal_indexes) == 2:
+                # Axes that could not be identified (e.g. "Forward"/"Starboard")
+                # are assumed to be the other horizontal axis,
+                # or X then Y in axis order if neither is identified.
+                first, second = horizontal_indexes
+                if cf_axes[first] is None and cf_axes[second] is None:
+                    cf_axes[first] = "X"
+                    cf_axes[second] = "Y"
+                elif cf_axes[first] is None:
+                    cf_axes[first] = "Y" if cf_axes[second] == "X" else "X"
+                elif cf_axes[second] is None:
+                    cf_axes[second] = "Y" if cf_axes[first] == "X" else "X"
             for axis, cf_axis in zip(axis_list, cf_axes):
                 if cf_axis == "Z":
                     # A standard name is not set as the height reference
