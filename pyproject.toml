@@ -104,6 +104,28 @@ include = ["pyproj", "pyproj.*"]
 [tool.setuptools.dynamic]
 version = {attr = "pyproj.__version__"}
 
+[tool.cibuildwheel]
+test-groups = ["test"]
+test-sources = ["test"]
+test-command = [
+    "pyproj -v",
+    '''python -c "import pyproj; pyproj.Proj(init='epsg:4269')"''',
+    "python -m pytest test -v -s",
+]
+
+[tool.cibuildwheel.config-settings]
+setup-args = "-Dallow-noblas=true"
+
+[tool.cibuildwheel.linux]
+before-all = "bash ./ci/proj-compile-wheels.sh"
+
+[tool.cibuildwheel.macos]
+before-all = "bash ./ci/proj-compile-wheels.sh"
+
+[tool.cibuildwheel.windows]
+# Rename Git's link.exe to avoid conflict with MSVC link.exe (meson issue)
+before-build = 'if exist "C:\Program Files\Git\usr\bin\link.exe" (rename "C:\Program Files\Git\usr\bin\link.exe" "link.exe.bak")'
+
 [tool.ruff]
 line-length = 88
 fix = true
