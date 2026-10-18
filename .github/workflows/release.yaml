@@ -158,10 +158,7 @@ jobs:
         if: ${{ startswith( matrix.os , 'macos' ) }}
         run: |
           echo "PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir" >> "$GITHUB_ENV"
-          echo 'CIBW_ENVIRONMENT=\
-            CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}' \
-            MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }} \
-            LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"' >> "$GITHUB_ENV"
+          echo 'CIBW_ENVIRONMENT=CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}' MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }} LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"' >> "$GITHUB_ENV"
 
       - name: Setup additional environment (windows)
         if: ${{ startswith( matrix.os , 'windows' ) }}
