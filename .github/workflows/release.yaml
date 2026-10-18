@@ -152,13 +152,13 @@ jobs:
       - name: Setup additional environment (linux)
         if: ${{ startswith( matrix.os , 'ubuntu' ) }}
         run: |
-          echo "CIBW_ENVIRONMENT=PROJ_DIR=/project/pyproj/proj_dir" >> "$GITHUB_ENV"
+          echo "PROJ_DIR=/project/pyproj/proj_dir" >> "$GITHUB_ENV"
 
       - name: Setup additional environment (macos)
         if: ${{ startswith( matrix.os , 'macos' ) }}
         run: |
+          echo "PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir" >> "$GITHUB_ENV"
           echo 'CIBW_ENVIRONMENT=\
-            PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir \
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}' \
             MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }} \
             LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"' >> "$GITHUB_ENV"
@@ -169,7 +169,7 @@ jobs:
         # see https://github.com/adang1345/delvewheel/issues/54
         shell: bash
         run: |
-          echo 'CIBW_ENVIRONMENT="PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}"' >> "$GITHUB_ENV"
+          echo 'PROJ_DIR="$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}"' >> "$GITHUB_ENV"
           echo 'CIBW_REPAIR_WHEEL_COMMAND="delvewheel repair --add-path C:/Windows/System32 --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"' >> "$GITHUB_ENV"
 
       # abi3 wheels come first so they can be safely auditted with abi3audit within a clean context
