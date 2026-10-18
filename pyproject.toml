@@ -116,6 +116,7 @@ environment-pass = [
     "PROJ_WHEEL",
     "PROJ_NETWORK",
     "PROJ_VERSION",
+    "PYPROJ_LIMITED_API",
 ]
 
 [tool.cibuildwheel.config-settings]
