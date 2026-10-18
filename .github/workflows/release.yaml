@@ -140,24 +140,18 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v4.3.1
         env:
+          PROJ_WHEEL: 'true'
+          PROJ_NETWORK: ON
+          PROJ_VERSION: ${{ env.PROJ_VERSION }}
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_ENVIRONMENT_LINUX:
-            PROJ_WHEEL=true
-            PROJ_NETWORK=ON
-            PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=/project/pyproj/proj_dir
           CIBW_ENVIRONMENT_MACOS:
-            PROJ_WHEEL=true
-            PROJ_NETWORK=ON
-            PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
             CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
             MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }}
             LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
           CIBW_ENVIRONMENT_WINDOWS:
-            PROJ_WHEEL=true
-            PROJ_NETWORK=ON
-            PROJ_VERSION=${{ env.PROJ_VERSION }}
             PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}
           # Add Windows System32 explicitly to the path https://github.com/adang1345/delvewheel/issues/54
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path C:/Windows/System32 --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"

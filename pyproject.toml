@@ -112,6 +112,11 @@ test-command = [
     '''python -c "import pyproj; pyproj.Proj(init='epsg:4269')"''',
     "python -m pytest test -v -s",
 ]
+environment-pass = [
+    "PROJ_WHEEL",
+    "PROJ_NETWORK",
+    "PROJ_VERSION",
+]
 
 [tool.cibuildwheel.config-settings]
 setup-args = "-Dallow-noblas=true"
