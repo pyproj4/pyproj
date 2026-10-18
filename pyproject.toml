@@ -113,6 +113,7 @@ test-command = [
     "python -m pytest test -v -s",
 ]
 environment-pass = [
+    "PROJ_DIR",
     "PROJ_NETWORK",
     "PROJ_VERSION",
     "PROJ_WHEEL",
