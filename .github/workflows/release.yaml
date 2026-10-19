@@ -137,44 +137,47 @@ jobs:
           mkdir -p ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj
           cp "$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}/share/proj/"* ${GITHUB_WORKSPACE}/pyproj/proj_dir/share/proj/
 
-      - name: Build wheels
+      # Part of cibuildwheel's settings are set dynamically so they cannot
+      # be moved to pyproject.toml
+      # avoid duplication between jobs by setting environment variables
+      # via GITHUB_ENV so they persist between steps
+
+      - name: Setup cibuildwheel environment (all platforms)
+        run: |
+          echo "PROJ_WHEEL='true'" >> "$GITHUB_ENV"
+          echo "PROJ_NETWORK=ON" >> "$GITHUB_ENV"
+          echo "PROJ_VERSION=${{ env.PROJ_VERSION }}" >> "$GITHUB_ENV"
+          echo "CIBW_ARCHS=${{ matrix.arch }}" >> "$GITHUB_ENV"
+
+      - name: Setup additional environment (linux)
+        if: ${{ startswith( matrix.os , 'ubuntu' ) }}
+        run: |
+          echo "PROJ_DIR=/project/pyproj/proj_dir" >> "$GITHUB_ENV"
+
+      - name: Setup additional environment (macos)
+        if: ${{ startswith( matrix.os , 'macos' ) }}
+        run: |
+          echo "PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir" >> "$GITHUB_ENV"
+          echo 'CIBW_ENVIRONMENT=CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}' MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }} LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"' >> "$GITHUB_ENV"
+
+      - name: Setup additional environment (windows)
+        if: ${{ startswith( matrix.os , 'windows' ) }}
+        # repair-wheel: add Windows System32 explicitly to the path
+        # see https://github.com/adang1345/delvewheel/issues/54
+        run: |
+          echo 'PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}' >> "$GITHUB_ENV"
+          echo 'CIBW_REPAIR_WHEEL_COMMAND="delvewheel repair --add-path C:/Windows/System32 --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"' >> "$GITHUB_ENV"
+
+      # abi3 wheels come first so they can be safely auditted with abi3audit within a clean context
+      - name: Build abi3 wheels
         uses: pypa/cibuildwheel@v4.3.1
         env:
-          CIBW_ARCHS: ${{ matrix.arch }}
-          CIBW_ENVIRONMENT_LINUX:
-            PROJ_WHEEL=true
-            PROJ_NETWORK=ON
-            PROJ_VERSION=${{ env.PROJ_VERSION }}
-            PROJ_DIR=/project/pyproj/proj_dir
-          CIBW_ENVIRONMENT_MACOS:
-            PROJ_WHEEL=true
-            PROJ_NETWORK=ON
-            PROJ_VERSION=${{ env.PROJ_VERSION }}
-            PROJ_DIR=${GITHUB_WORKSPACE}/pyproj/proj_dir
-            CMAKE_OSX_ARCHITECTURES='${{ matrix.cmake_osx_architectures }}'
-            MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }}
-            LDFLAGS="${LDFLAGS} -Wl,-rpath,${GITHUB_WORKSPACE}/pyproj/proj_dir/lib"
-          CIBW_ENVIRONMENT_WINDOWS:
-            PROJ_WHEEL=true
-            PROJ_NETWORK=ON
-            PROJ_VERSION=${{ env.PROJ_VERSION }}
-            PROJ_DIR=$VCPKG_INSTALLATION_ROOT/installed/${{ matrix.triplet }}
-          # Rename Git's link.exe to avoid conflict with MSVC link.exe (meson issue)
-          CIBW_BEFORE_BUILD_WINDOWS: >
-            python -m pip install delvewheel &&
-            if exist "C:\Program Files\Git\usr\bin\link.exe" (rename "C:\Program Files\Git\usr\bin\link.exe" "link.exe.bak")
-          # Add Windows System32 explicitly to the path https://github.com/adang1345/delvewheel/issues/54
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair --add-path C:/Windows/System32 --add-path C:/vcpkg/installed/${{ matrix.triplet }}/bin -w {dest_dir} {wheel}"
-          CIBW_BEFORE_ALL_LINUX: bash ./ci/proj-compile-wheels.sh
-          CIBW_BEFORE_ALL_MACOS: bash ./ci/proj-compile-wheels.sh
-          CIBW_TEST_REQUIRES: cython pytest numpy --config-settings=setup-args="-Dallow-noblas=true"
-          # Install numpy first so Shapely can find numpy headers during build
-          CIBW_BEFORE_TEST: python -m pip install numpy && python -m pip install shapely pandas xarray || echo "Optional requirements install failed"
-          CIBW_TEST_COMMAND: >
-            pyproj -v &&
-            python -c "import pyproj; pyproj.Proj(init='epsg:4269')"  &&
-            cp -r {package}/test . &&
-            python -m pytest test -v -s
+          # future-compatible wheels target the latest stable ABI
+          PYPROJ_LIMITED_API: '1'
+          CIBW_BUILD: 'cp315-*'
+
+      - name: Build Python version-specific wheels
+        uses: pypa/cibuildwheel@v4.3.1
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
