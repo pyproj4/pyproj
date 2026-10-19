@@ -84,10 +84,11 @@ lint = [
 test = [
     "numpy",
     "packaging",
-    "pandas;python_version<'3.15'",
+    "pandas;python_version<'3.16'",
     "pytest>3.6",
     "pytest-cov",
-    "shapely;python_version<'3.15'",
+    "shapely;python_version<'3.16'",
+    # https://github.com/pydata/xarray/issues/11710
     "xarray;python_version<'3.15'",
 ]
 typing = [
