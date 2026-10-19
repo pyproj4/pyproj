@@ -2045,3 +2045,81 @@ def test_milisecond_temporal_crs__coordinate_system():
             "axis": "T",
         }
     ]
+
+
+def _engineering_crs(*axes):
+    return {
+        "type": "EngineeringCRS",
+        "name": "Engineering CRS",
+        "datum": {"type": "EngineeringDatum", "name": "Engineering datum"},
+        "coordinate_system": {
+            "subtype": "Cartesian",
+            "axis": [
+                {
+                    "name": name,
+                    "abbreviation": name[0],
+                    "direction": direction,
+                    "unit": "metre",
+                }
+                for name, direction in axes
+            ],
+        },
+    }
+
+
+@pytest.mark.parametrize(
+    "crs_input, expected_axes",
+    [
+        ("EPSG:32631", ["X", "Y"]),  # Easting, Northing
+        ("EPSG:2193", ["Y", "X"]),  # Northing, Easting
+        ("EPSG:2046", ["X", "Y"]),  # Westing, Southing
+        ("EPSG:3413", ["X", "Y"]),  # Easting, Northing both pointing south
+        pytest.param(
+            # Same axes as EPSG:5800, which is only in the PROJ database 9.6+
+            'ENGCRS["Astra Minas Grid",EDATUM["Astra Minas"],CS[Cartesian,2],'
+            'AXIS["first local axis (X)",north,ORDER[1],LENGTHUNIT["metre",1]],'
+            'AXIS["second local axis (Y)",west,ORDER[2],LENGTHUNIT["metre",1]]]',
+            ["Y", "X"],
+            id="local-axes",
+        ),
+        pytest.param(
+            "+proj=topocentric +ellps=WGS84 +X_0=0 +Y_0=0 +Z_0=6378137",
+            ["X", "Y", "Z"],
+            id="topocentric",
+        ),
+        pytest.param(
+            _engineering_crs(("Forward", "forward"), ("Starboard", "starboard")),
+            ["X", "Y"],
+            id="unidentified-axes",
+        ),
+        pytest.param(
+            _engineering_crs(("Forward", "forward"), ("Easting", "east")),
+            ["Y", "X"],
+            id="unidentified-and-identified-axes",
+        ),
+        pytest.param(
+            _engineering_crs(
+                ("Forward", "forward"),
+                ("Starboard", "starboard"),
+                ("Platform Down", "down"),
+            ),
+            ["X", "Y", "Z"],
+            id="unidentified-axes-vertical",
+        ),
+    ],
+)
+def test_cs_to_cf__cartesian_axis(crs_input, expected_axes):
+    crs = CRS.from_user_input(crs_input)
+    cf_axes = crs.cs_to_cf()
+    assert [cf_axis["axis"] for cf_axis in cf_axes] == expected_axes
+    for axis, cf_axis in zip(crs.axis_info, cf_axes):
+        assert cf_axis["long_name"] == axis.name
+        assert cf_axis["units"] == "metre"
+        if cf_axis["axis"] == "Z":
+            assert cf_axis["positive"] == axis.direction
+            assert "standard_name" not in cf_axis
+        else:
+            assert (
+                cf_axis["standard_name"]
+                == f"projection_{cf_axis['axis'].lower()}_coordinate"
+            )
