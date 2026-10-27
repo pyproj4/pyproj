@@ -3,7 +3,7 @@ Change Log
 
 Latest
 ------
-- BUG: Fix CF axis of Cartesian axes not named "Easting" in :meth:`pyproj.crs.CRS.cs_to_cf` (e.g. Westing/Southing) and use ``Z`` for vertical axes (pull #1658)
+- BUG: Fix CF axis of Cartesian axes not named "Easting" in :meth:`pyproj.crs.CRS.cs_to_cf` (e.g. Westing/Southing), use ``Z`` for vertical axes and raise a :class:`pyproj.exceptions.CRSError` when the axis cannot be determined (e.g. geocentric) (pull #1658)
 - DEP: Add ``shapely`` as an optional dependency (``pyproj[shapely]``) (issue #1470)
 - BUG: Preserve ``force_over`` and ``only_best`` in :meth:`pyproj.transformer.Transformer.from_crs` when ``allow_ballpark=True`` (issue #1647)
 - PERF: Clone the transformer for other threads instead of creating it again (issue #1649)

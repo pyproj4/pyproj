@@ -2088,23 +2088,11 @@ def _engineering_crs(*axes):
             id="topocentric",
         ),
         pytest.param(
-            _engineering_crs(("Forward", "forward"), ("Starboard", "starboard")),
-            ["X", "Y"],
-            id="unidentified-axes",
-        ),
-        pytest.param(
-            _engineering_crs(("Forward", "forward"), ("Easting", "east")),
-            ["Y", "X"],
-            id="unidentified-and-identified-axes",
-        ),
-        pytest.param(
             _engineering_crs(
-                ("Forward", "forward"),
-                ("Starboard", "starboard"),
-                ("Platform Down", "down"),
+                ("Easting", "east"), ("Northing", "north"), ("Depth", "down")
             ),
             ["X", "Y", "Z"],
-            id="unidentified-axes-vertical",
+            id="vertical-down",
         ),
     ],
 )
@@ -2123,3 +2111,30 @@ def test_cs_to_cf__cartesian_axis(crs_input, expected_axes):
                 cf_axis["standard_name"]
                 == f"projection_{cf_axis['axis'].lower()}_coordinate"
             )
+
+
+@pytest.mark.parametrize(
+    "crs_input",
+    [
+        pytest.param(
+            _engineering_crs(("Forward", "forward"), ("Starboard", "starboard")),
+            id="unidentified-axes",
+        ),
+        pytest.param(
+            _engineering_crs(("Forward", "forward"), ("Easting", "east")),
+            id="unidentified-and-identified-axes",
+        ),
+        pytest.param(
+            _engineering_crs(
+                ("Forward", "forward"),
+                ("Starboard", "starboard"),
+                ("Platform Down", "down"),
+            ),
+            id="unidentified-axes-vertical",
+        ),
+        pytest.param("EPSG:4978", id="geocentric"),
+    ],
+)
+def test_cs_to_cf__cartesian_axis__unidentified(crs_input):
+    with pytest.raises(CRSError, match="Unable to determine the CF axis"):
+        CRS.from_user_input(crs_input).cs_to_cf()
