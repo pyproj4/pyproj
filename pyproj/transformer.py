@@ -1175,7 +1175,7 @@ class Transformer:
         top: float
             Maximum bounding coordinate of the second axis in source CRS.
             (or the target CRS if using the reverse direction).
-        densify_points: uint, default=21
+        densify_pts: uint, default=21
             Number of points to add to each edge to account for nonlinear edges
             produced by the transform process. Large numbers will produce worse
             performance.
