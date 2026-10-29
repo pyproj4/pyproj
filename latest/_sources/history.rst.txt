@@ -9,6 +9,7 @@ Latest
 - BUG: Keep the CA bundle path alive for contexts made in other threads (issue #1644)
 - DOC: Add concepts and glossary pages and make Getting Started friendlier to newcomers (issue #1507)
 - DOC: Use the ``densify_pts`` parameter name in the :meth:`pyproj.transformer.Transformer.transform_bounds` docstring
+- DOC: Link :meth:`pyproj.crs.CRS.get_geod` from the :class:`pyproj.Geod` API docs (issue #1170)
 
 3.8.0
 ------
