@@ -705,6 +705,9 @@ cdef class CoordinateSystem(_CRSParts):
         This converts a :obj:`pyproj.crs.CoordinateSystem` axis
         to a list of Climate and Forecast (CF) Version 1.8 dicts.
 
+        A :class:`pyproj.exceptions.CRSError` is raised if the CF axis (X/Y/Z)
+        of a Cartesian axis cannot be determined from its name or direction.
+
         Parameters
         ----------
         rotated_pole: bool, default=False
@@ -724,12 +727,39 @@ cdef class CoordinateSystem(_CRSParts):
             except TypeError:
                 return axis["unit"]
 
+        def get_cartesian_cf_axis(axis):
+            if axis["direction"].lower() in ("up", "down"):
+                return "Z"
+            # The name is checked first as the direction is not
+            # east/north for some axes (e.g. polar stereographic)
+            name = axis["name"].lower()
+            if "east" in name or "west" in name:
+                return "X"
+            if "north" in name or "south" in name:
+                return "Y"
+            direction = axis["direction"].lower()
+            if direction in ("east", "west"):
+                return "X"
+            if direction in ("north", "south"):
+                return "Y"
+            raise CRSError(
+                "Unable to determine the CF axis of the Cartesian axis "
+                f"{axis['name']!r} with direction {axis['direction']!r}."
+            )
+
         if self.name == "cartesian":
             for axis in axis_list:
-                if axis["name"].lower() == "easting":
-                    cf_axis = "X"
-                else:
-                    cf_axis = "Y"
+                cf_axis = get_cartesian_cf_axis(axis)
+                if cf_axis == "Z":
+                    # A standard name is not set as the height reference
+                    # is not known (e.g. topocentric up axis).
+                    cf_params.append(dict(
+                        axis="Z",
+                        long_name=axis["name"],
+                        units=get_linear_unit(axis),
+                        positive=axis["direction"].lower(),
+                    ))
+                    continue
                 cf_params.append(dict(
                     axis=cf_axis,
                     long_name=axis["name"],
