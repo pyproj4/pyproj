@@ -32,6 +32,7 @@ Latest
 - BLD: update build-time dependencies (pull #1575)
 - MNT: * Use dependency-groups (PEP 735) instead of requirements files (pull #1602)
 - DOC: Update fiona CRS compatibility for fiona 1.9+ (issue #1360)
+- BLD/RFC: use Cython templating instead of compile-time conditionals (issue #1142)
 
 3.7.2
 -----

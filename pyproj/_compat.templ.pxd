@@ -14,10 +14,10 @@ cdef inline bint _is_scalar(object value):
     return getattr(value, "ndim", -1) == 0
 
 
-IF CTE_PYTHON_IMPLEMENTATION == "CPython":
-    from cpython cimport array
-    cdef array.array empty_array(int npts)
-
-ELSE:
-    # https://github.com/pyproj4/pyproj/issues/854
-    cdef empty_array(int npts)
+### {{if IS_CPYTHON}}
+from cpython cimport array
+cdef array.array empty_array(int npts)
+### {{else}}
+# https://github.com/pyproj4/pyproj/issues/854
+cdef empty_array(int npts)
+### {{endif}}
