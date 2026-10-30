@@ -4,6 +4,13 @@ Change Log
 Latest
 ------
 - BUG: Honour the ``+R_A``, ``+R_V``, ``+R_a``, ``+R_g``, ``+R_h``, ``+R_lat_a``, ``+R_lat_g`` and ``+R_C`` spherification parameters in :class:`pyproj.Geod` (issue #1157)
+- DEP: Add ``shapely`` as an optional dependency (``pyproj[shapely]``) (issue #1470)
+- BUG: Preserve ``force_over`` and ``only_best`` in :meth:`pyproj.transformer.Transformer.from_crs` when ``allow_ballpark=True`` (issue #1647)
+- PERF: Clone the transformer for other threads instead of creating it again (issue #1649)
+- BUG: Keep the CA bundle path alive for contexts made in other threads (issue #1644)
+- DOC: Add concepts and glossary pages and make Getting Started friendlier to newcomers (issue #1507)
+- DOC: Use the ``densify_pts`` parameter name in the :meth:`pyproj.transformer.Transformer.transform_bounds` docstring
+- DOC: Link :meth:`pyproj.crs.CRS.get_geod` from the :class:`pyproj.Geod` API docs (issue #1170)
 
 3.8.0
 ------

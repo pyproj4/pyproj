@@ -6,7 +6,7 @@ Transformation Grids
 Transformation grids improve accuracy when you are performing datum transformations.
 
 More information about the data available is located under the PROJ
-:ref:`resource files <datumgrid>` documentation.
+:ref:`resource files <proj:datumgrid>` documentation.
 
 .. note:: `pyproj` API for managing the :ref:`data_directory` and :ref:`network_api`.
 
@@ -20,7 +20,7 @@ PROJ 7+
 ^^^^^^^^
 
 PROJ 7.0 has introduced, per
-:ref:`PROJ RFC 4: Remote access to grids and GeoTIFF grids <rfc4>`,
+:ref:`PROJ RFC 4: Remote access to grids and GeoTIFF grids <proj:rfc4>`,
 the capability to work with grid files that are not installed on the local machine where PROJ is executed.
 
 Available methods for download include:
@@ -53,11 +53,11 @@ Available methods for download include:
 
     wget --mirror https://cdn.proj.org/ -P ${PROJ_DOWNLOAD_DIR}
 
-- The :ref:`projsync <projsync>` command line program.
+- The :ref:`projsync <proj:projsync>` command line program.
 
 - `pyproj sync <cli.html#sync>`__ command line program (pyproj 3+; useful if you use pyproj wheels).
 
-- Enabling :ref:`PROJ network <network>` capabilities. See also :ref:`network_api`.
+- Enabling :ref:`PROJ network <proj:network>` capabilities. See also :ref:`network_api`.
 
 - Download stable from https://download.osgeo.org/proj or latest from https://github.com/OSGeo/PROJ-data
 
@@ -90,7 +90,7 @@ What grids to download?
 - Have a machine that can hold and extra 500 MB - 1 GB of data? Then downloading all grids shouldn't be an issue.
 
 - Have a machine with limited space, a great network connection, and PROJ 7+?
-  Look into `PROJ network <network>`__ capabilities. See also :ref:`network_api`.
+  Look into :ref:`PROJ network <network>` capabilities. See also :ref:`network_api`.
 
 - Have a machine with limited space and want to pre-download files?
 

@@ -417,7 +417,7 @@ cdef PJ* proj_create_crs_to_crs(
     if allow_ballpark is not None:
         if not allow_ballpark:
             options[options_index] = b"ALLOW_BALLPARK=NO"
-        options_index += 1
+            options_index += 1
     if force_over:
         options[options_index] = b"FORCE_OVER=YES"
         options_index += 1
@@ -730,6 +730,25 @@ cdef class _Transformer(Base):
             raise ProjError(f"Invalid projection {proj_pipeline}.")
         if always_xy:
             transformer._set_always_xy()
+        transformer._initialize_from_projobj()
+        return transformer
+
+    def _clone(self):
+        """
+        Copy the transformer into a new context without searching
+        for its coordinate operations again.
+
+        Returns
+        -------
+        _Transformer:
+            The copy.
+        """
+        cdef _Transformer transformer = _Transformer()
+        transformer.context = pyproj_context_create()
+        transformer._context_manager = get_context_manager()
+        transformer.projobj = proj_clone(transformer.context, self.projobj)
+        if transformer.projobj == NULL:
+            raise ProjError("Error cloning Transformer.")
         transformer._initialize_from_projobj()
         return transformer
 

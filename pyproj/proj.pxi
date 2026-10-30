@@ -152,6 +152,7 @@ cdef extern from "proj.h" nogil:
         PJ_COMP_EQUIVALENT_EXCEPT_AXIS_ORDER_GEOGCRS
 
     void proj_destroy(PJ *obj)
+    PJ *proj_clone(PJ_CONTEXT *ctx, const PJ *obj)
     int proj_is_equivalent_to_with_ctx(PJ_CONTEXT *ctx,
                                        const PJ *obj, const PJ *other,
                                        PJ_COMPARISON_CRITERION criterion)

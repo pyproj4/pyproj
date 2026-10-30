@@ -248,7 +248,7 @@ def get_transform_grid_list(
     """
     features = _load_grid_geojson(target_directory=target_directory)["features"]
     if bbox is not None:
-        if bbox.west > 180 and bbox.east > bbox.west:
+        if 180 < bbox.west < bbox.east:
             bbox.west -= 360
             bbox.east -= 360
         elif bbox.west < -180 and bbox.east > bbox.west:
