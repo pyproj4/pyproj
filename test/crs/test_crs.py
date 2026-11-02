@@ -107,7 +107,7 @@ def test_from_numpy():
     # Test with invalid EPSG code
     with pytest.raises(CRSError):
         crs_numpy = numpy.array([0])[0]
-        assert CRS.from_epsg(crs_numpy)
+        CRS.from_epsg(crs_numpy)
 
 
 def test_from_string__invalid():
@@ -1033,7 +1033,7 @@ def test_to_proj4_none_warning():
         pytest.raises(CRSError, match="CRS cannot be converted to a PROJ string"),
     ):
         crs_mock.to_proj4.return_value = None
-        assert crs.to_proj4() is None
+        crs.to_proj4()
 
 
 def test_to_json_none_warning():
@@ -1043,7 +1043,7 @@ def test_to_json_none_warning():
         pytest.raises(CRSError, match="CRS cannot be converted to a PROJ JSON string"),
     ):
         crs_mock.to_json.return_value = None
-        assert crs.to_json() is None
+        crs.to_json()
 
 
 def test_to_proj4_enum():
