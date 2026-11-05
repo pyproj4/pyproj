@@ -882,6 +882,9 @@ class CRS:
         This converts all coordinate systems (cs) in the CRS
         to a list of Climate and Forecast (CF) Version 1.8 dicts.
 
+        A :class:`pyproj.exceptions.CRSError` is raised if the CF axis (X/Y/Z)
+        of a Cartesian axis cannot be determined from its name or direction.
+
         :ref:`build_crs_cf`
 
         Returns
