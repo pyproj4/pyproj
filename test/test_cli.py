@@ -302,11 +302,13 @@ def test_sync_download__directory(
 @patch("pyproj.__main__._download_resource_file")
 @patch("pyproj.sync._load_grid_geojson")
 def test_sync_download__system_directory(
-    load_grid_geojson_mock, download_mock, parse_args_mock
+    load_grid_geojson_mock, download_mock, parse_args_mock, tmp_path
 ):
     load_grid_geojson_mock.return_value = _load_grid_geojson()
-    main()
-    datadir = get_data_dir().split(os.path.sep)[0]
+    with proj_env():
+        datadir = get_data_dir().split(os.pathsep)[0]
+        append_data_dir(str(tmp_path))
+        main()
     download_mock.assert_called_with(
         directory=datadir,
         file_url="https://cdn.proj.org/fr_ign_ntf_r93.tif",
