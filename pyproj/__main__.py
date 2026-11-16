@@ -155,7 +155,7 @@ def _parse_sync_command(args):
         raise RuntimeError("Cannot set both --target-directory and --system-directory.")
     target_directory = args.target_directory
     if args.system_directory:
-        target_directory = get_data_dir().split(os.path.sep)[0]
+        target_directory = get_data_dir().split(os.pathsep)[0]
     elif not target_directory:
         target_directory = get_user_data_dir(True)
     grids = get_transform_grid_list(
