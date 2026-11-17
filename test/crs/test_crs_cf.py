@@ -1,3 +1,5 @@
+import warnings
+
 import numpy
 import pytest
 from numpy.testing import assert_almost_equal
@@ -718,6 +720,25 @@ def test_oblique_mercator_losing_gamma():
         match="angle from rectified to skew grid parameter lost in conversion to CF",
     ):
         crs.to_cf()
+
+
+def test_lambert_conformal_conic_1sp_losing_scale_factor():
+    crs = CRS("EPSG:3200")  # LCC (1SP) with scale factor 0.9987864078
+    with pytest.warns(
+        UserWarning,
+        match="scale factor at natural origin parameter lost in conversion to CF",
+    ):
+        crs.to_cf()
+
+
+def test_lambert_conformal_conic_1sp_unit_scale_factor_no_warning():
+    crs = CRS(
+        "+proj=lcc +lat_1=32.5 +lat_0=32.5 +lon_0=45 +k_0=1 +x_0=0 +y_0=0 +datum=WGS84"
+    )
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        cf = crs.to_cf()
+    assert cf["standard_parallel"] == 32.5
 
 
 def test_cf_from_invalid():
