@@ -1460,6 +1460,24 @@ class CRS:
         return self.__class__(self._crs.to_2d(name=name))
 
     @property
+    def is_dynamic(self) -> bool:
+        """Whether any component of the CRS has a dynamic reference frame.
+
+        This property requires PROJ 9.9 or newer.
+
+        Returns
+        -------
+        bool
+            True if at least one component has a dynamic reference frame.
+
+        Raises
+        ------
+        NotImplementedError
+            If pyproj was built with a PROJ version earlier than 9.9.
+        """
+        return self._crs.is_dynamic
+
+    @property
     def is_geographic(self) -> bool:
         """
         This checks if the CRS is geographic.

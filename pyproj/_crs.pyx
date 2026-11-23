@@ -16,6 +16,21 @@ from pyproj.geod import pj_ellps
 from pyproj.utils import NumpyEncoder
 
 
+cdef extern from *:
+    """
+    #include <proj.h>
+
+    static int pyproj_crs_is_dynamic(PJ_CONTEXT *ctx, const PJ *crs) {
+    #if PROJ_VERSION_MAJOR > 9 || (PROJ_VERSION_MAJOR == 9 && PROJ_VERSION_MINOR >= 9)
+        return proj_crs_is_dynamic(ctx, crs);
+    #else
+        return -1;
+    #endif
+    }
+    """
+    int pyproj_crs_is_dynamic(PJ_CONTEXT *ctx, const PJ *crs)
+
+
 # This is for looking up the ellipsoid parameters
 # based on the long name
 cdef dict _PJ_ELLPS_NAME_MAP = {
@@ -3025,6 +3040,14 @@ cdef class _CRS(Base):
         else:
             is_property = self._type in property_types
         return is_property
+
+    @property
+    def is_dynamic(self):
+        """Whether any component has a dynamic reference frame."""
+        result = pyproj_crs_is_dynamic(self.context, self.projobj)
+        if result < 0:
+            raise NotImplementedError("CRS.is_dynamic requires PROJ 9.9 or newer")
+        return result == 1
 
     @property
     def is_geographic(self):
