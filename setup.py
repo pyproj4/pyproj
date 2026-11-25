@@ -4,6 +4,7 @@ import re
 import shutil
 import subprocess
 import sys
+from functools import partial
 from pathlib import Path
 
 from setuptools import Extension, setup
@@ -69,27 +70,28 @@ def get_proj_dir() -> Path:
     This function finds the base PROJ directory.
     """
     proj_dir_environ = os.environ.get("PROJ_DIR")
-    proj_dir: Path | None = None
+    log = partial(print, file=sys.stderr)
     if proj_dir_environ is not None:
         proj_dir = Path(proj_dir_environ)
-    if proj_dir is None and INTERNAL_PROJ_DIR.exists():
+        log(f"Using proj specified by environment variable PROJ_DIR {proj_dir}")
+    elif INTERNAL_PROJ_DIR.exists():
         proj_dir = INTERNAL_PROJ_DIR
-        print(f"Internally compiled directory being used {INTERNAL_PROJ_DIR}.")
-    elif proj_dir is None and not INTERNAL_PROJ_DIR.exists():
-        proj = shutil.which("proj", path=sys.prefix)
-        if proj is None:
-            proj = shutil.which("proj")
+        log(f"Using proj from internal compiled directory {proj_dir}")
+    else:
+        proj = shutil.which("proj", path=sys.prefix) or shutil.which("proj")
         if proj is None:
             raise SystemExit(
                 "proj executable not found. Please set the PROJ_DIR variable. "
                 "For more information see: "
                 "https://pyproj4.github.io/pyproj/stable/installation.html"
             )
-        proj_dir = Path(proj).parent.parent
-    elif proj_dir is not None and proj_dir.exists():
-        print("PROJ_DIR is set, using existing PROJ installation..\n")
-    else:
-        raise SystemExit(f"ERROR: Invalid path for PROJ_DIR {proj_dir}")
+        proj_dir = Path(proj).parents[1]
+        log(f"Using proj auto-discovered executable {proj_dir}")
+
+    if not proj_dir.exists():
+        raise SystemExit(f"ERROR: not such file or directory {proj_dir}")
+    if not proj_dir.is_dir():
+        raise SystemExit(f"ERROR: {proj_dir} exists but is not a directory")
     return proj_dir
 
 
