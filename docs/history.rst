@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- BUG: Warn in :meth:`pyproj.crs.CRS.to_cf` when the scale factor of a Lambert Conic Conformal (1SP) projection cannot be written (issue #1674)
 - DEP: Add ``shapely`` as an optional dependency (``pyproj[shapely]``) (issue #1470)
 - BUG: Download to the PROJ data directory with ``pyproj sync --system-directory`` (issue #1672)
 - BUG: Preserve ``force_over`` and ``only_best`` in :meth:`pyproj.transformer.Transformer.from_crs` when ``allow_ballpark=True`` (issue #1647)

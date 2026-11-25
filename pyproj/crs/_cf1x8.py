@@ -458,6 +458,10 @@ def _lambert_conformal_conic__to_cf(conversion):
             "false_easting": params["easting_at_false_origin"],
             "false_northing": params["northing_at_false_origin"],
         }
+    if params["scale_factor_at_natural_origin"] != 1:
+        warnings.warn(
+            "scale factor at natural origin parameter lost in conversion to CF"
+        )
     return {
         "grid_mapping_name": "lambert_conformal_conic",
         "standard_parallel": params["latitude_of_natural_origin"],
