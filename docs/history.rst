@@ -3,6 +3,7 @@ Change Log
 
 Latest
 ------
+- BUG: Honour the ``+R_A``, ``+R_V``, ``+R_a``, ``+R_g``, ``+R_h``, ``+R_lat_a``, ``+R_lat_g`` and ``+R_C`` spherification parameters in :class:`pyproj.Geod` (issue #1157)
 - DEP: Add ``shapely`` as an optional dependency (``pyproj[shapely]``) (issue #1470)
 - BUG: Download to the PROJ data directory with ``pyproj sync --system-directory`` (issue #1672)
 - BUG: Preserve ``force_over`` and ``only_best`` in :meth:`pyproj.transformer.Transformer.from_crs` when ``allow_ballpark=True`` (issue #1647)
